@@ -111,5 +111,6 @@ void free_environ(t_environ_list *environ);
 t_environ_list *init_environ(char **envp);
 t_environ_list *empty_environ(t_environ_list *environ);
 t_shell *init_shell(char **env);
-
+char *clean_rl_copy(char *rl_copy);
+bool check_quote_syntax(const char input);
 #endif
