@@ -20,4 +20,8 @@ int main(int ac, char **av, char **env)
     (void)ac;
     (void)av;
     signal_setup(PARENT);
+
+    shell = init_shell(env);
+    if (!shell)
+        return (1);
 }

@@ -14,6 +14,9 @@
 #define MINISHELL_H
 
 #include <stdbool.h>
+# include <limits.h>
+#include <stdio.h>
+# include "../libft/libft.h"
 
 # define PARENT 1
 # define CHILD  2
@@ -43,14 +46,16 @@ typedef struct s_environ_node
 
 typedef enum s_token
 {
-	EMPTY	= 0,
-	COMMAND	= 1,
-	ARG		= 2,
-	APPEND	= 3, // >>
-	INPUT	= 4, // <
-	TRUNC	= 5, // >
-	HEREDOC	= 6, // <<
-	PIPE	= 7, // |
+	EMPTY		= 0,
+	COMMAND		= 1,
+	ARG			= 2,
+	APPEND		= 3, // >>
+	INPUT		= 4, // <
+	TRUNC		= 5, // >
+	HEREDOC		= 6, // <<
+	PIPE		= 7, // |
+	SINGLE_Q	= 8,
+ 	DOUBLE_Q	= 9,
 }           t_token;
 
 typedef struct s_lexer_list
@@ -101,4 +106,12 @@ typedef struct s_lexer_list
 //     pid_t                   *pids;
 // }   t_info;
  
+
+t_environ_node *create_environ_node(char *var);
+t_environ_node *add_back_environ_node(t_environ_list *environ, t_environ_node *node);
+void free_environ(t_environ_list *environ);
+t_environ_list *init_environ(char **envp);
+t_environ_list *empty_environ(t_environ_list *environ);
+t_shell *init_shell(char **env);
+
 #endif
