@@ -49,10 +49,10 @@ typedef enum s_token
 	EMPTY	= 0,
 	COMMAND	= 1,
 	ARG		= 2,
-	APPEND	= 3, // >>
-	INPUT	= 4, // <
-	TRUNC	= 5, // >
-	HEREDOC	= 6, // <<
+	REDERECT_IN,
+	REDERECT_OUT,
+	APPEND,
+	HEREDOC,
 	PIPE	= 7, // |
 }           t_token;
 
