@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:22:47 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/16 14:17:06 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/16 14:36:11 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	handle_sigint_parent(int sig)
 
 void	signal_setup(int process)
 {
-	struct sigaction	sa_int;
+	struct sigaction	sa_int;    
 	struct sigaction	sa_quit;
 
 	sigemptyset(&sa_int.sa_mask);
