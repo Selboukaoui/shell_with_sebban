@@ -46,16 +46,14 @@ typedef struct s_environ_node
 
 typedef enum s_token
 {
-	EMPTY		= 0,
-	COMMAND		= 1,
-	ARG			= 2,
-	APPEND		= 3, // >>
-	INPUT		= 4, // <
-	TRUNC		= 5, // >
-	HEREDOC		= 6, // <<
-	PIPE		= 7, // |
-	SINGLE_Q	= 8,
- 	DOUBLE_Q	= 9,
+	EMPTY	= 0,
+	COMMAND	= 1,
+	ARG		= 2,
+	APPEND	= 3, // >>
+	INPUT	= 4, // <
+	TRUNC	= 5, // >
+	HEREDOC	= 6, // <<
+	PIPE	= 7, // |
 }           t_token;
 
 typedef struct s_lexer_list
