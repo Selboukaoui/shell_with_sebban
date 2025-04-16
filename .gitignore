@@ -1,2 +1,2 @@
-git rm --cached .vscode/
-git rm --cached *.o
+.vscode/
+*.o

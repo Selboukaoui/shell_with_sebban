@@ -16,6 +16,7 @@
 #include <stdbool.h>
 # include <limits.h>
 #include <stdio.h>
+#include <signal.h>
 # include "../libft/libft.h"
 
 # define PARENT 1

@@ -1,0 +1,10 @@
+// handle signals                                : Working on
+// initialisation du shell                       : done
+// clean read_line space around                  : Working on
+
+
+
+Signal	  Default     Action	  Desired Action
+SIGINT	  Terminate   New         prompt on new line
+SIGQUIT	  Core        dump	      Ignore
+EOF	      Terminate	  Exit        shell gracefully 

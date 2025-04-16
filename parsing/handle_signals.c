@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_quote.c                                      :+:      :+:    :+:   */
+/*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/16 18:35:17 by selbouka         ###   ########.fr       */
+/*   Created: 2025/04/16 18:34:48 by selbouka          #+#    #+#             */
+/*   Updated: 2025/04/16 19:26:01 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-bool check_quote_syntax(const char input)
+// Create main function of signals
+// Create handling functions of ^\ and ^C
+
+
+
+
+
+
+
+void    setup_signals(void)
 {
     
 }
