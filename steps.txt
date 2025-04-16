@@ -1,2 +1,2 @@
-// handle signals
-// initialisation du shell
+// handle signals                                : Working on
+// initialisation du shell                       : Working on
