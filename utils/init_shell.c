@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:42:18 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/16 15:16:04 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/17 20:54:36 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_shell *init_shell(char **env)
 
     shell = (t_shell *)ft_calloc(1, sizeof(t_shell));
     if (!shell)
-        return (NULL);
+        return (NULL /*alloc failed*/);
     shell->environ = init_environ(env);
     if (!shell->environ)
     {

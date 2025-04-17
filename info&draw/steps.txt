@@ -7,4 +7,4 @@
 Signal	  Default     Action	  Desired Action
 SIGINT	  Terminate   New         prompt on new line
 SIGQUIT	  Core        dump	      Ignore
-EOF	      Terminate	  Exit        shell gracefully 
+EOF	      Terminate	  Exit        shell gracefully  vvv

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 14:02:47 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/16 14:02:47 by asebban          ###   ########.fr       */
+/*   Created: 2025/04/17 20:07:22 by selbouka          #+#    #+#             */
+/*   Updated: 2025/04/17 20:07:22 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_environ_node
 typedef enum s_token
 {
 	EMPTY	= 0,
-	COMMAND	= 1,
+	CMD	= 1,
 	REDERECT_IN = 2, // <
 	REDERECT_OUT = 3, // >
 	APPEND = 4, // >>
@@ -69,7 +69,7 @@ typedef struct s_lexer_list
     struct s_lexer_list *prev;
     struct s_lexer_list *next;
 }   t_lexer_list;
- 
+
 typedef struct s_executor
 {
     int                 id;
@@ -109,7 +109,7 @@ typedef struct s_executor
 //     int                     stdin_copy;
 //     pid_t                   *pids;
 // }   t_info;
- 
+
 
 t_environ_node *create_environ_node(char *var);
 t_environ_node *add_back_environ_node(t_environ_list *environ, t_environ_node *node);
@@ -118,7 +118,7 @@ t_environ_list *init_environ(char **envp);
 t_environ_list *empty_environ(t_environ_list *environ);
 t_shell *init_shell(char **env);
 char *clean_rl_copy(char *rl_copy);
-bool check_quote_syntax(const char input);
+int check_quote_syntax(const char *input);
 bool    parser(t_shell *shell);
 t_lexer_list *tokenize(t_shell *shell);
 char	**ft_newsplit(const char *s);
@@ -130,4 +130,49 @@ t_environ_node *get_node(t_environ_list *environ, char *key);
 
 
 int ft_strcmp(char *s1, char *s2);
+
+// syntax checking functions
+void    signal_setup(int mode);
+int check_parenthesis(char *input);
+int check_redirect_out(char *input);
+int check_redirect_in(char *input);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:35:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/17 16:04:11 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/17 20:57:39 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static t_token which_type(char *s)
         return (HEREDOC);
     else if (ft_strcmp(s, ">>") == 0)
         return (APPEND);
-    return (COMMAND);
+    return (CMD);
 }
 
 static t_lexer_list *create_lexer_list(char **input_array)
