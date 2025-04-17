@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_quote.c                                      :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/17 17:10:01 by selbouka         ###   ########.fr       */
+/*   Created: 2025/04/17 17:06:26 by selbouka          #+#    #+#             */
+/*   Updated: 2025/04/17 17:07:23 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-bool check_quote_syntax(const char input)
+
+int ft_strcmp(char *s1, char *s2)
 {
-    
+    return 1;
 }

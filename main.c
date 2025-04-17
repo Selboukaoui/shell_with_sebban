@@ -19,7 +19,7 @@ int main(int ac, char **av, char **env)
 
     (void)ac;
     (void)av;
-    signal_setup(PARENT);
+    // signal_setup(PARENT);
 
     shell = init_shell(env);
     if (!shell)
@@ -34,18 +34,26 @@ int main(int ac, char **av, char **env)
 		}
         if (*shell->rl_input)
             add_history(shell->rl_input);
-        shell->rl_copy = clean_rl_copy(shell);
-        if (!check_quote_syntax(shell->rl_copy))
-        {
-            // ft_putstr error for invalid syntax
-            // exit code is : '258' I geuss
-        }
+        shell->rl_copy = clean_rl_copy(shell->rl_input);
+        // if (!check_quote_syntax(shell->rl_copy))
+        // {
+        //     // ft_putstr error for invalid syntax
+        //     // exit code is : '258' I geuss
+        // }
         //check syntax like ">>>"
         if (!parser(shell))
         {
             // if input is null or mybe error 
             // parrsing input
         }
+
+        t_shell *tst = shell;
+        while (tst->lex_head)
+        {
+            printf ("str ----> %s\n type -----> %u\n", tst->lex_head->str, tst->lex_head->type);
+            tst->lex_head = tst->lex_head->next;
+        }
+
         // executor(shell);
         // and clean for next loop
     }

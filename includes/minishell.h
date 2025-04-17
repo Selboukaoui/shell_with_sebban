@@ -19,6 +19,8 @@
 #include <fcntl.h>
 #include <signal.h>
 # include "../libft/libft.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 # define FAILED     102
 # define OK         100
@@ -126,4 +128,6 @@ t_executor *fill_executor_list(t_shell *shell, t_executor *list);
 void set_path_executor(t_executor *list, t_environ_list *environ);
 t_environ_node *get_node(t_environ_list *environ, char *key);
 
+
+int ft_strcmp(char *s1, char *s2);
 #endif

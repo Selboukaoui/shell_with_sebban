@@ -5,15 +5,17 @@
 
 void    parent_handler(int signum)
 {
-    rl_replace_line("", 0);
-
-    printf ("***********\n");
+    write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void    setup_signals(int mode)
 {
     struct sigaction sg;
 
+    sigemptyset(&sg.sa_mask);
     if (mode == 1) // parent
     {
         sg.sa_handler = parent_handler;
@@ -33,11 +35,11 @@ void    setup_signals(int mode)
 }
 
 
-int main()
-{
-    while (true)
-    {
-        setup_signals(1);
-        pause();
-    }
-}
+// int main()
+// {
+//     setup_signals(1);
+//     while (true)
+//     {
+//         readline("samir: ");
+//     }
+// }

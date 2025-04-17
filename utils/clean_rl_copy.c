@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   clean_rl_copy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:45:15 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/16 15:46:54 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:10:12 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static int ft_isspace(int c)
 {

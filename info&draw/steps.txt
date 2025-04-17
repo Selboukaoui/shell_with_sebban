@@ -1,4 +1,4 @@
-// handle signals                                : Working on
+// handle signals                                : Done
 // initialisation du shell                       : done
 // clean read_line space around                  : Working on
 
