@@ -49,12 +49,11 @@ typedef enum s_token
 {
 	EMPTY	= 0,
 	COMMAND	= 1,
-	ARG		= 2,
-	REDERECT_IN = 3,
-	REDERECT_OUT = 4,
-	APPEND = 5,
-	HEREDOC = 6,
-	PIPE	= 7, // |
+	REDERECT_IN = 2,
+	REDERECT_OUT = 3,
+	APPEND = 4,
+	HEREDOC = 5, 
+	PIPE	= 6, // |
 }           t_token;
 
 typedef struct s_lexer_list
