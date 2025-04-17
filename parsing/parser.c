@@ -6,13 +6,13 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:27:05 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/17 12:34:30 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:07:45 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_lexer_list    *lexer(t_shell *shell)
+static t_lexer_list    *lexer(t_shell *shell)
 {
     //clean
     // if (shell->lex_head)
@@ -44,4 +44,7 @@ bool    parser(t_shell *shell)
     //     shell->executor = NULL;
     // }
     shell->lex_head = lexer(shell);
+    if (!shell->lex_head)
+        return (false);
+    shell->executor = prepare_executor(shell);
 }

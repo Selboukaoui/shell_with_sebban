@@ -6,13 +6,13 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:35:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/17 15:17:58 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:04:11 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token which_type(char *s)
+static t_token which_type(char *s)
 {
     if (!s)
         return (EMPTY);
@@ -30,7 +30,7 @@ t_token which_type(char *s)
     return (COMMAND);
 }
 
-t_lexer_list *create_lexer_list(char **input_array)
+static t_lexer_list *create_lexer_list(char **input_array)
 {
     t_lexer_list    *head;
     t_lexer_list    *current;
@@ -83,7 +83,7 @@ t_lexer_list *create_lexer_list(char **input_array)
     return (head);
 }
 
-t_lexer_list *fill_lexer_list(char **input_array)
+static t_lexer_list *fill_lexer_list(char **input_array)
 {
     t_lexer_list    *head;
     t_lexer_list    *current;

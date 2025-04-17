@@ -6,13 +6,13 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:59 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/17 15:02:52 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:04:41 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_operator_len(const char *s)
+static int	ft_operator_len(const char *s)
 {
 	if ((s[0] == '>' && s[1] == '>') || (s[0] == '<' && s[1] == '<'))
 		return (2);

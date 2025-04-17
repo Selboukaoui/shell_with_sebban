@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:02:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/16 15:03:42 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:49:01 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,21 @@ t_environ_node *add_back_environ_node(t_environ_list *environ, t_environ_node *n
     current->next = node;
     environ->size++;
     return (node);
+}
+
+t_environ_node *get_node(t_environ_list *environ, char *key)
+{
+    t_environ_node *current;
+
+    if (!environ || !key)
+        return (NULL);
+
+    current = environ->head;
+    while (current)
+    {
+        if (ft_strcmp(current->key, key) == 0)
+            return (current);
+        current = current->next;
+    }
+    return (NULL);
 }

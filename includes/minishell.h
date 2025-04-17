@@ -16,8 +16,12 @@
 #include <stdbool.h>
 # include <limits.h>
 #include <stdio.h>
+#include <fcntl.h>
 #include <signal.h>
 # include "../libft/libft.h"
+
+# define FAILED     102
+# define OK         100
 
 # define PARENT 1
 # define CHILD  2
@@ -49,10 +53,10 @@ typedef enum s_token
 {
 	EMPTY	= 0,
 	COMMAND	= 1,
-	REDERECT_IN = 2,
-	REDERECT_OUT = 3,
-	APPEND = 4,
-	HEREDOC = 5, 
+	REDERECT_IN = 2, // <
+	REDERECT_OUT = 3, // >
+	APPEND = 4, // >>
+	HEREDOC = 5, // <<
 	PIPE	= 6, // |
 }           t_token;
 
@@ -64,21 +68,21 @@ typedef struct s_lexer_list
     struct s_lexer_list *next;
 }   t_lexer_list;
  
-// typedef struct s_executor
-// {
-//     int                 id;
-//     int                 size;
-//     int                 fd_in;
-//     int                 fd_out;
-//     bool                truncate;
-//     bool                append;
-//     bool                redirect_input;
-//     bool                heredoc;
-//     char                **path;
-//     char                **execs;
-//     struct s_executor   *prev;
-//     struct s_executor   *next;
-// }               t_executor;
+typedef struct s_executor
+{
+    int                 id;
+    int                 size;
+    int                 fd_in;
+    int                 fd_out;
+    bool                REDERECT_OUT;
+    bool                append;
+    bool                redirect_input;
+    bool                heredoc;
+    char                **path;
+    char                **execs;
+    struct s_executor   *prev;
+    struct s_executor   *next;
+}               t_executor;
  
 // typedef struct s_expander
 // {
@@ -113,4 +117,13 @@ t_environ_list *empty_environ(t_environ_list *environ);
 t_shell *init_shell(char **env);
 char *clean_rl_copy(char *rl_copy);
 bool check_quote_syntax(const char input);
+bool    parser(t_shell *shell);
+t_lexer_list *tokenize(t_shell *shell);
+char	**ft_newsplit(const char *s);
+char *free_str_arr(char **arr);
+t_executor *prepare_executor(t_shell *shell);
+t_executor *fill_executor_list(t_shell *shell, t_executor *list);
+void set_path_executor(t_executor *list, t_environ_list *environ);
+t_environ_node *get_node(t_environ_list *environ, char *key);
+
 #endif

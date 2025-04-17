@@ -40,12 +40,13 @@ int main(int ac, char **av, char **env)
             // ft_putstr error for invalid syntax
             // exit code is : '258' I geuss
         }
+        //check syntax like ">>>"
         if (!parser(shell))
         {
             // if input is null or mybe error 
             // parrsing input
         }
-        executor(shell);
+        // executor(shell);
         // and clean for next loop
     }
     // clean 
