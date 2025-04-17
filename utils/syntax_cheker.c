@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/17 21:09:10 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/17 21:53:37 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,11 @@ int check_redirect_in(char *input)
             }
             if (j > 2)
                 return (ft_putstr_fd("Error\nra 2 {<} ashbi\n synatx checker line 58\n", 2),0);
-            while(!ft_isprint(*input) && *input)
-                input++;
-            printf ("\n ** %c ** \n", *input);
-            if (!ft_isalpha(*input) && *input)
-                return (ft_putstr_fd("Error\nchi 7aja tma\nsynatx checker line 58\n", 2),0);
+            while((*input == ' ' || *input == '\t') && *input) // !ft_isprint(*input) // expace mkytskipach
+                input++; 
+            // printf ("\n ** %c ** \n", *input);
+            if (!ft_isalpha(*input))
+                return (ft_putstr_fd("*Error\nchi 7aja tma\nsynatx checker line 58*\n", 2),0);
             j = 0;
         }
         input++;
