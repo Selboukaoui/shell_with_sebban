@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/18 17:35:38 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:44:25 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int check_redirect_out(char *input)
             if (ft_special(*input))
                 return (0);
             j = 0;
+            --input;
+
         }
         input++;
     }
@@ -114,6 +116,8 @@ int check_redirect_in(char *input)
             if (j > 2 || ft_special(*input))
                 return (0);
             j = 0;
+            --input;
+
         }
         input++;
     }
@@ -141,6 +145,7 @@ int check_pipe(char *input)
             if (j > 1 || ft_special(*input))
                 return (0);
             j = 0;
+            --input;
         }
         input++;
     }
