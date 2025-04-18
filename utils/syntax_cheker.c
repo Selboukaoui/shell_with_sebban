@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/18 14:13:30 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:22:56 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,26 @@ int check_redirect_in(char *input)
 
 int check_pipe(char *input)
 {
+    int j;
     
+    j = 0;
+    while (*input)
+    {
+        if (*input == '|')
+        {
+            while (*input == '|' || *input == ' ' || *input == '\t')
+            {
+                if (*input  == '|')
+                    j++;
+                input++;
+            }
+            if (j > 1)
+                return (0);
+            j = 0;
+            if (!ft_isalpha(*input))
+                return (0);
+        }
+        input++;
+    }
+    return (1);
 }

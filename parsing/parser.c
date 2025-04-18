@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:27:05 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/18 14:10:36 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:24:26 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int check_syntax(t_shell *input)
         return (ft_putstr_fd("syntax error near unexpected token`(parent)'\n", 2), 1);
     if (!check_redirect_in(input->rl_copy) || !check_redirect_out(input->rl_copy))
         return (ft_putstr_fd("syntax error near unexpected token`(redirect)'\n", 2), 1);
-    
+    if (!check_pipe(input->rl_copy))
+        return (ft_putstr_fd("syntax error near unexpected token`(|)'\n", 2), 1);
     return (1);
     
 }
