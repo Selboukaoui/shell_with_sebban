@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_newsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:59 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/18 11:10:47 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/18 17:28:05 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ static int	count_tokens(const char *s)
 
 static char	*parse_token(const char *s, int *i)
 {
-	int start = *i;
+	// int start = *i;
 	char *res = malloc(1);
 	if (!res)
 		return NULL;

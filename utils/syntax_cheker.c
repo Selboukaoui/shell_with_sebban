@@ -6,11 +6,19 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/18 14:22:56 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:35:38 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+
+int ft_special(char x)
+{
+    if (x  == '>' || x == '<' || x == '|')
+        return (1);
+    return (0);
+}
 
 int check_quote_syntax(const char *input)
 {
@@ -67,13 +75,15 @@ int check_redirect_out(char *input)
             while (*input == '>')
             {
                 input++;
+                if (*input == '\0')
+                    return (0);
                 j++;
             }
             if (j > 2)
                 return (0);
             while((*input == ' ' || *input == '\t') && *input)
                 input++;
-            if (!ft_isalpha(*input))
+            if (ft_special(*input))
                 return (0);
             j = 0;
         }
@@ -86,7 +96,7 @@ int check_redirect_out(char *input)
 int check_redirect_in(char *input)
 {
     int j;
-    
+
     j = 0;
     while (*input)
     {
@@ -95,13 +105,13 @@ int check_redirect_in(char *input)
             while (*input == '<')
             {
                 input++;
+                if (*input == '\0')
+                    return (0);
                 j++;
             }
-            if (j > 2)
-                return (0);
-            while((*input == ' ' || *input == '\t') && *input) // !ft_isprint(*input) // expace mkytskipach
+            while((*input == ' ' || *input == '\t') && *input) // !ft_isprint(*input) // space mkytskipach
                 input++; 
-            if (!ft_isalpha(*input))
+            if (j > 2 || ft_special(*input))
                 return (0);
             j = 0;
         }
@@ -120,17 +130,17 @@ int check_pipe(char *input)
     {
         if (*input == '|')
         {
-            while (*input == '|' || *input == ' ' || *input == '\t')
+            while ((*input == '|' || *input == ' ' || *input == '\t') && *input)
             {
                 if (*input  == '|')
                     j++;
                 input++;
+                if (*input == '\0')
+                    return (0);
             }
-            if (j > 1)
+            if (j > 1 || ft_special(*input))
                 return (0);
             j = 0;
-            if (!ft_isalpha(*input))
-                return (0);
         }
         input++;
     }

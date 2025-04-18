@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:34:48 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/17 19:54:08 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:29:15 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 void    parent_handler(int signum)
 {
+    (void) signum;
     write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
