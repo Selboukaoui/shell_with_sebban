@@ -137,11 +137,11 @@ int check_parenthesis(char *input);
 int check_redirect_out(char *input);
 int check_redirect_in(char *input);
 
+char *ft_strcpy(char *dest, const char *src);
 
+t_lexer_list *tokenize_and_split(t_shell *shell);
 
-
-
-
+t_token which_type(char *s);
 
 
 

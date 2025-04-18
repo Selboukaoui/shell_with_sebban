@@ -1,0 +1,11 @@
+Makefile
+a.out
+includes
+info&draw
+libft
+ls
+main.c
+parsing
+test.txt
+utils
+ztesting

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:35:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/17 20:57:39 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/18 10:38:11 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static t_token which_type(char *s)
+t_token which_type(char *s)
 {
     if (!s)
         return (EMPTY);
