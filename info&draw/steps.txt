@@ -2,7 +2,7 @@
 // initialisation du shell                       : done
 // clean read_line space around                  : Working on
 // handle syntax error                           :
-
+// strcmp                                        : strcmp
 
 
 

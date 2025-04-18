@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/17 21:53:37 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:13:30 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ int check_redirect_out(char *input)
                 j++;
             }
             if (j > 2)
-                return (ft_putstr_fd("Error\nra 2 {>>} ashbi\n synatx checker line 58\n", 2),0);
-            while(!ft_isprint(*input))
+                return (0);
+            while((*input == ' ' || *input == '\t') && *input)
                 input++;
             if (!ft_isalpha(*input))
-                return (ft_putstr_fd("Error\nchi 7aja tma\nsynatx checker line 58\n", 2),0);
+                return (0);
             j = 0;
         }
         input++;
@@ -98,12 +98,11 @@ int check_redirect_in(char *input)
                 j++;
             }
             if (j > 2)
-                return (ft_putstr_fd("Error\nra 2 {<} ashbi\n synatx checker line 58\n", 2),0);
+                return (0);
             while((*input == ' ' || *input == '\t') && *input) // !ft_isprint(*input) // expace mkytskipach
                 input++; 
-            // printf ("\n ** %c ** \n", *input);
             if (!ft_isalpha(*input))
-                return (ft_putstr_fd("*Error\nchi 7aja tma\nsynatx checker line 58*\n", 2),0);
+                return (0);
             j = 0;
         }
         input++;
@@ -112,3 +111,7 @@ int check_redirect_in(char *input)
 }
 
 
+int check_pipe(char *input)
+{
+    
+}
