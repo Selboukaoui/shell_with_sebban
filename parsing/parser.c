@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:27:05 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/18 11:35:06 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/18 12:18:07 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ static t_lexer_list    *lexer(t_shell *shell)
     // }
     return (shell->lex_head);
 }
-
-
-
-
-
 
 
 int check_syntax(t_shell *input)
