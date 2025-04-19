@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_newsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:59 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/18 17:28:05 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:40:34 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ char *ft_strncat(char *dest, const char *src, size_t n)
 	return dest;
 }
 
-#include <stdlib.h>
-
 char *ft_dup_token(const char *str, int len)
 {
     char *s;
@@ -76,9 +74,6 @@ char *ft_dup_token(const char *str, int len)
     s[i] = '\0';
     return (s);
 }
-
-
-#include "../includes/minishell.h"
 
 static int	ft_operator_len(const char *s)
 {
@@ -149,11 +144,11 @@ static char	*parse_token(const char *s, int *i)
 
 			char *quoted = ft_dup_token(&s[sub_start], len);
 			char *tmp = res;
-			res = malloc(strlen(tmp) + len + 1);
+			res = malloc(ft_strlen(tmp) + len + 1);
 			if (!res)
 				return NULL;
-			strcpy(res, tmp);
-			strncat(res, quoted, len);
+			ft_strcpy(res, tmp);
+			ft_strncat(res, quoted, len);
 			free(tmp);
 			free(quoted);
 
@@ -168,11 +163,11 @@ static char	*parse_token(const char *s, int *i)
 			int len = *i - start_sub;
 			char *literal = ft_dup_token(&s[start_sub], len);
 			char *tmp = res;
-			res = malloc(strlen(tmp) + len + 1);
+			res = malloc(ft_strlen(tmp) + len + 1);
 			if (!res)
 				return NULL;
-			strcpy(res, tmp);
-			strncat(res, literal, len);
+			ft_strcpy(res, tmp);
+			ft_strncat(res, literal, len);
 			free(tmp);
 			free(literal);
 		}
