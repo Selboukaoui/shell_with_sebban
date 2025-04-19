@@ -21,6 +21,7 @@
 # include "../libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/wait.h>
 
 # define FAILED     102
 # define OK         100
