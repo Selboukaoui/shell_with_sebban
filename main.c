@@ -51,7 +51,7 @@ int main(int ac, char **av, char **env)
             tst->lex_head = tst->lex_head->next;
         }
 
-        // executor(shell);
+        executor(shell);
         // and clean for next loop
     }
     // clean 

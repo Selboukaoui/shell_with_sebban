@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:27:05 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/18 14:24:26 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/19 10:59:16 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ bool    parser(t_shell *shell)
 {
 
     
-    if (!check_syntax(shell))
-        return (0);
+    // if (!check_syntax(shell))
+    //     return (0);
     
     // clean excutor list
     // if (shell->executor)
@@ -68,6 +68,6 @@ bool    parser(t_shell *shell)
     if (!shell->lex_head)
         return (false);
     
-    // shell->executor = prepare_executor(shell);
+    shell->executor = prepare_executor(shell);
     return (true);
 }

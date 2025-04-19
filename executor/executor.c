@@ -6,16 +6,17 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:42:43 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/18 12:12:54 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/19 11:13:22 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-void    handle_single(t_shell *shell)
+static void    handle_single(t_shell *shell)
 {
     t_executor *current = shell->executor;
+    // printf ("current->ex[1] : %s\n",current->execs[0]);
     if (!current->execs || !current->execs[0])
     {
         //exit code
@@ -52,7 +53,8 @@ void executor(t_shell *shell)
     t_executor *current = shell->executor;
     if (!current)
         return;
-    if (current->size = 1)
+    printf ("size ---> %d\n", current->size);
+    if (current->size == 1)
     {
         handle_single(shell);
     }
