@@ -48,12 +48,12 @@ int main(int ac, char **av, char **env)
             // parrsing input
         }
 
-        t_shell *tst = shell;
-        while (tst->lex_head)
-        {
-            printf ("str ----> %s\n type -----> %u\n", tst->lex_head->str, tst->lex_head->type);
-            tst->lex_head = tst->lex_head->next;
-        }
+        // t_shell *tst = shell;
+        // while (tst->lex_head)
+        // {
+        //     printf ("str ----> %s\n type -----> %u\n", tst->lex_head->str, tst->lex_head->type);
+        //     tst->lex_head = tst->lex_head->next;
+        // }
 
         executor(shell);
         // and clean for next loop

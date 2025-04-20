@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:42:43 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 13:23:31 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/20 14:33:28 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void executor(t_shell *shell)
     t_executor *current = shell->executor;
     if (!current)
         return;
-    printf ("size ---> %d\n", current->size);
+    // printf ("size ---> %d\n", current->size);
     if (current->size == 1)
     {
         handle_single(shell);

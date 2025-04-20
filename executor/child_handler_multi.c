@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_handler_multi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 14:22:36 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/20 14:33:50 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ static int execute_other(t_executor *current, t_info *info)
 
     path = execute_other_helper(current);
     // path = get_path(info->shell, true);
-    printf("%s\n",path);
+    // printf("%s\n",path);
     // if (!path)
     // {
     //     ft_putstr_fd("minishell: ", STDERR_FILENO);
