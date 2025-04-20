@@ -22,6 +22,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/wait.h>
+#include <linux/limits.h>
+
 
 # define FAILED     102
 # define OK         100

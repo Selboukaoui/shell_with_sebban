@@ -7,8 +7,9 @@
 // clean read_line space around                  : Working on               sebban
 
 // Ctrl + c                                      : Working on               samir
-// \ls  + l\s llsls \\\lska                      : Working on               samir
-// cd  + pwd ;                                   : 
+// Ctrl + d                                      : Working on               samir
+
+// cd  + pwd + echo (-n);                                   : 
 
 
 Your shell must implement the following builtins:

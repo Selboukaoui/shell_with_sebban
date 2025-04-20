@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_executor_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 15:09:06 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/20 15:51:57 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ static int create_heredoc(char *delimiter)
 
 static int process_in_heredoc(t_executor *current, t_lexer_list *lexer)
 {
-    if (!lexer->next || lexer->next->type != EMPTY)
-    {
-        ft_putstr_fd("minishell: syntax error near unexpected token\n", STDERR_FILENO);
-        return (FAILED);
-    }
+    // if (!lexer->next || lexer->next->type != EMPTY)
+    // {
+    //     ft_putstr_fd("minishell: syntax error near unexpected token\n", STDERR_FILENO);
+    //     return (FAILED);
+    // }
     
     if (lexer->type == HEREDOC)
     {
