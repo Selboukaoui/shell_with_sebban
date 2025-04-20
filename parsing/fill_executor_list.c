@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/19 11:15:36 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/20 15:09:06 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ static bool open_outputfile(t_executor *current, t_lexer_list *lexer)
         current->fd_out = open(lexer->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
     else
         current->fd_out = open(lexer->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    
     if (current->fd_out == -1)
     {
-        // ft_putstr_fd("minishell: ", STDERR_FILENO);
+        ft_putstr_fd("minishell: ", STDERR_FILENO);
         // perror(lexer->str);
         // return (false);
     }
@@ -30,15 +29,14 @@ static bool open_outputfile(t_executor *current, t_lexer_list *lexer)
 
 static int process_out_append(t_executor *current, t_lexer_list *lexer)
 {
-    if (!lexer->next || lexer->next->type != EMPTY)
-    {
-        // ft_putstr_fd("minishell: syntax error near unexpected token\n", STDERR_FILENO);
-        return (FAILED);
-    }
+    // if (!lexer->next || lexer->next->type != EMPTY)
+    // {
+    //     // ft_putstr_fd("minishell: syntax error near unexpected token\n", STDERR_FILENO);
+    //     return (FAILED);
+    // }
     
     current->append = (lexer->type == APPEND);
     current->REDERECT_OUT = (lexer->type == REDERECT_OUT);
-    
     if (!open_outputfile(current, lexer->next))
         return (FAILED);
     

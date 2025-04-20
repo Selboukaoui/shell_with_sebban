@@ -163,7 +163,7 @@ t_executor *free_executor_list(t_executor *list);
 void executor(t_shell *shell);
 
 
-
+bool handle_redirections_single_child(t_shell *shell);
 
 
 

@@ -3,19 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   single_child_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:02:46 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 09:24:21 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/20 15:41:07 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// bool handle_redirections_single_child(t_shell *shell)
-// {
-    
-// }
+bool handle_redirections_single_child(t_shell *shell)
+{
+    if (shell->executor->fd_in != STDIN_FILENO)
+    {
+        if (dup2(shell->executor->fd_in, STDIN_FILENO) == -1)
+        {
+            //error
+        }
+        close(shell->executor->fd_in);
+    }
+    if (shell->executor->fd_out != STDOUT_FILENO)
+    {
+        if (dup2(shell->executor->fd_out, STDOUT_FILENO) == -1)
+        {
+            //error
+        }
+        close(shell->executor->fd_out);
+    }
+    return (true);
+}
 
 static char *get_env_value(t_shell *shell, const char *key)
 {

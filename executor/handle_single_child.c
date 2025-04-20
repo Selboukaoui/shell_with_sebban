@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 12:13:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/19 10:45:09 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/20 15:41:18 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void    handle_single_child(t_shell *shell)
 
     saved_stdin = dup(STDIN_FILENO);
     saved_stdout = dup(STDOUT_FILENO);
-    // if (!handle_redirections_single_child(shell))
-    //     exit(EXIT_FAILURE);
+    if (!handle_redirections_single_child(shell))
+        exit(EXIT_FAILURE);
     path = get_path(shell, true);
         if(!path)
             exit(127); //command not found;
