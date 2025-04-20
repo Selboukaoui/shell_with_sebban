@@ -78,8 +78,6 @@ static void set_executor_defaults(t_executor *node)
     node->heredoc = false;
     node->execs = NULL;
     node->path = NULL;
-    node->next = NULL;
-    node->prev = NULL;
 }
 
 static t_executor *init_executor_list(int size)
