@@ -26,6 +26,12 @@
 # define FAILED     102
 # define OK         100
 
+//  handle_multi()
+# define FAIL_SYSCALL       -1
+# define OKAY               0
+# define FAIL_SYSCALL_PARENT    1
+# define FAIL_SYSCALL_CHILD  2
+
 # define PARENT 1
 # define CHILD  2
 # define IGNORE 3
@@ -104,15 +110,15 @@ typedef struct s_executor
 //     int         flag;
 // }               t_expander;
  
-// typedef struct s_info
-// {
-//     int                     wstatus;
-//     t_shell                 *shell;
-//     int                     stdin_copy;
-//     pid_t                   *pids;
-// }   t_info;
+typedef struct s_info
+{
+    int                     wstatus;
+    t_shell                 *shell;
+    int                     stdin_copy;
+    pid_t                   *pids;
+}   t_info;
 
-
+void wait_pipeline(t_info *info, int number);
 t_environ_node *create_environ_node(char *var);
 t_environ_node *add_back_environ_node(t_environ_list *env, t_environ_node *node);
 void free_environ(t_environ_list *env);
@@ -129,10 +135,11 @@ t_executor *prepare_executor(t_shell *shell);
 t_executor *fill_executor_list(t_shell *shell, t_executor *list);
 void set_path_executor(t_executor *list, t_environ_list *env);
 t_environ_node *get_node(t_environ_list *env, char *key);
-
-
+t_info *init_info(t_shell *shell);
+int child_handler_multi(int *fildes, t_executor *current, t_info *info);
+void handle_multi(t_info *info, t_executor *current);
 int ft_strcmp(char *s1, char *s2);
-
+t_info *init_info(t_shell *shell);
 // syntax checking functions
 void    signal_setup(int mode);
 int check_parenthesis(char *input);

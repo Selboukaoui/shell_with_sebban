@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:42:43 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/19 11:35:09 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/20 13:23:31 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,22 @@ void executor(t_shell *shell)
     if (current->size == 1)
     {
         handle_single(shell);
+    }
+    else
+    {
+        t_info *info = init_info(shell);
+        if (!info)
+        {
+            //not forgot here to return
+        }
+        while (current)
+        {
+            handle_multi(info, current);
+            current = current->next;
+        }
+
+        wait_pipeline(info, shell->executor->size);
+        // free(info->pids);
+        // free(info);
     }
 }
