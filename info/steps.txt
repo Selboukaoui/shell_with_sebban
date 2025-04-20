@@ -1,28 +1,11 @@
-// handle signals                                : Done
-// initialisation du shell                       : done
-// clean read_line space around                  : Working on
-// handle syntax error                           :
-// strcmp                                        : strcmp
+// handle signals                                : Done                 samir
+// initialisation du shell                       : done                    sebban
+// strcmp                                        : done                    samir
+// handle syntax error                           : mostly done             samir
 
 
-// Ctrl + c -----> 
-// \ls  + l\s llsls \\\lska
-// cd  + pwd ;
+// clean read_line space around                  : Working on               sebban
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Signal	  Default     Action	  Desired Action
-SIGINT	  Terminate   New         prompt on new line
-SIGQUIT	  Core        dump	      Ignore
-EOF	      Terminate	  Exit        shell gracefully  vvv
+// Ctrl + c                                      : Working on               samir
+// \ls  + l\s llsls \\\lska                      : Working on               samir
+// cd  + pwd ;                                   : 
