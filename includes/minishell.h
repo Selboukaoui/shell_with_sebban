@@ -34,7 +34,7 @@ typedef struct s_shell
 {
     char                    *rl_input;
     char                    *rl_copy;
-    struct s_environ_list   *environ;
+    struct s_environ_list   *env;
     struct s_lexer_list     *lex_head;
     struct s_executor       *executor;
 }               t_shell;
@@ -61,6 +61,7 @@ typedef enum s_token
 	APPEND = 4, // >>
 	HEREDOC = 5, // <<
 	PIPE	= 6, // |
+    ARG     = 7,
 }           t_token;
 
 typedef struct s_lexer_list
@@ -113,10 +114,10 @@ typedef struct s_executor
 
 
 t_environ_node *create_environ_node(char *var);
-t_environ_node *add_back_environ_node(t_environ_list *environ, t_environ_node *node);
-void free_environ(t_environ_list *environ);
+t_environ_node *add_back_environ_node(t_environ_list *env, t_environ_node *node);
+void free_environ(t_environ_list *env);
 t_environ_list *init_environ(char **envp);
-t_environ_list *empty_environ(t_environ_list *environ);
+t_environ_list *empty_environ(t_environ_list *env);
 t_shell *init_shell(char **env);
 char *clean_rl_copy(char *rl_copy);
 int check_quote_syntax(const char *input);
@@ -126,8 +127,8 @@ char	**ft_newsplit(const char *s);
 char *free_str_arr(char **arr);
 t_executor *prepare_executor(t_shell *shell);
 t_executor *fill_executor_list(t_shell *shell, t_executor *list);
-void set_path_executor(t_executor *list, t_environ_list *environ);
-t_environ_node *get_node(t_environ_list *environ, char *key);
+void set_path_executor(t_executor *list, t_environ_list *env);
+t_environ_node *get_node(t_environ_list *env, char *key);
 
 
 int ft_strcmp(char *s1, char *s2);

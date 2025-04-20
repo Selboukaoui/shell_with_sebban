@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_child_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:02:46 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/19 10:50:32 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/20 09:24:21 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static char *get_env_value(t_shell *shell, const char *key)
     t_environ_node *env;
     size_t key_len;
 
-    if (!shell || !shell->environ || !key)
+    if (!shell || !shell->env || !key)
         return (NULL);
 
     key_len = ft_strlen(key);
-    env = shell->environ->head;
+    env = shell->env->head;
     while (env)
     {
         if (ft_strncmp(env->key, key, key_len) == 0 && env->key[key_len] == '\0')

@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   set_path_executor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:47:57 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/17 16:48:30 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/20 09:24:21 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char **get_path_array(t_environ_list *environ)
+static char **get_path_array(t_environ_list *env)
 {
     t_environ_node *path_node;
     char **path_array;
     char *path_value;
 
-    path_node = get_node(environ, "PATH");
+    path_node = get_node(env, "PATH");
     if (!path_node || !path_node->value)
         return (NULL);
 
@@ -34,12 +34,12 @@ static char **get_path_array(t_environ_list *environ)
     return (path_array);
 }
 
-void set_path_executor(t_executor *list, t_environ_list *environ)
+void set_path_executor(t_executor *list, t_environ_list *env)
 {
     char **path_array;
     t_executor *current;
 
-    path_array = get_path_array(environ);
+    path_array = get_path_array(env);
     current = list;
     while (current)
     {

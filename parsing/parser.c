@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:27:05 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/19 10:59:16 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/19 15:04:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int check_syntax(t_shell *input)
         return (ft_putstr_fd("syntax error near unexpected token`(redirect)'\n", 2), 1);
     if (!check_pipe(input->rl_copy))
         return (ft_putstr_fd("syntax error near unexpected token`(|)'\n", 2), 1);
+    // if (!skip())
     return (1);
     
 }
@@ -54,8 +55,8 @@ bool    parser(t_shell *shell)
 {
 
     
-    // if (!check_syntax(shell))
-    //     return (0);
+    if (!check_syntax(shell))
+        return (0);
     
     // clean excutor list
     // if (shell->executor)

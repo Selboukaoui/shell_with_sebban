@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_child_util_2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:12 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/19 10:49:53 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/20 09:24:21 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ static int get_size_environ(t_environ_node *current)
     return (size);
 }
 
-static char **create_environ_array(t_environ_list *environ)
+static char **create_environ_array(t_environ_list *env)
 {
     char    **environ_array;
     int     size;
 
-    if (!environ || !environ->head)
+    if (!env || !env->head)
         return (NULL);
     
-    size = get_size_environ(environ->head);
+    size = get_size_environ(env->head);
     environ_array = (char **)ft_calloc(size + 1, sizeof(char *));
     if (!environ_array)
         return (NULL);
@@ -93,10 +93,10 @@ char **transform_environ_array(t_shell *shell)
     char            **environ_array;
     t_environ_node  *current;
 
-    if (!shell || !shell->environ)
+    if (!shell || !shell->env)
         return (NULL);
-    current = shell->environ->head;
-    environ_array = create_environ_array(shell->environ);
+    current = shell->env->head;
+    environ_array = create_environ_array(shell->env);
     transform_helper(current, environ_array);
     if (!environ_array[0])
     {

@@ -5,8 +5,9 @@
 // strcmp                                        : strcmp
 
 
-
-
+// Ctrl + c -----> 
+// \ls  + l\s llsls \\\lska
+// cd  + pwd ;
 
 
 

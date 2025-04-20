@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/18 17:44:25 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/19 15:09:47 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ int check_quote_syntax(const char *input)
     d = 0;
     while (*input)
     {
+        // if (*input == '\\')
+        // {
+            
+        // }
         if (*input == '\'')
             s++;
         else if (*input == '\"')

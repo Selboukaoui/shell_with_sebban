@@ -35,7 +35,11 @@ int main(int ac, char **av, char **env)
         if (*shell->rl_input)
             add_history(shell->rl_input);
         shell->rl_copy = clean_rl_copy(shell->rl_input);
-
+        if (!ft_strcmp(shell->rl_input, "\\"))
+        {
+            ft_putstr_fd("syntax error near unexpected token`(quote)'\n", 2);
+            //clean
+        }
 
         //check syntax like ">>>"
         if (!parser(shell))

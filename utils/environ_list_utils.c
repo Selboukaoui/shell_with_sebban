@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environ_list_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:02:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/17 16:49:01 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/20 09:24:21 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,37 +50,37 @@ t_environ_node *create_environ_node(char *var)
     return (new_node);
 }
 
-t_environ_node *add_back_environ_node(t_environ_list *environ, t_environ_node *node)
+t_environ_node *add_back_environ_node(t_environ_list *env, t_environ_node *node)
 {
     t_environ_node *current;
 
-    if (!environ || !node)
+    if (!env || !node)
         return (NULL);
 
-    if (!environ->head)
+    if (!env->head)
     {
-        environ->head = node;
-        environ->size = 1;
+        env->head = node;
+        env->size = 1;
         return (node);
     }
 
-    current = environ->head;
+    current = env->head;
     while (current->next)
         current = current->next;
 
     current->next = node;
-    environ->size++;
+    env->size++;
     return (node);
 }
 
-t_environ_node *get_node(t_environ_list *environ, char *key)
+t_environ_node *get_node(t_environ_list *env, char *key)
 {
     t_environ_node *current;
 
-    if (!environ || !key)
+    if (!env || !key)
         return (NULL);
 
-    current = environ->head;
+    current = env->head;
     while (current)
     {
         if (ft_strcmp(current->key, key) == 0)

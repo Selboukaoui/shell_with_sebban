@@ -117,6 +117,6 @@ t_executor *prepare_executor(t_shell *shell)
     list = fill_executor_list(shell, list);
     if (!list)
         return (NULL);
-    set_path_executor(list, shell->environ);
+    set_path_executor(list, shell->env);
     return (list);
 }

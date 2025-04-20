@@ -6,13 +6,13 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:42:18 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/17 20:54:36 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/20 09:24:21 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_environ_list *empty_environ(t_environ_list *environ)
+t_environ_list *empty_environ(t_environ_list *env)
 {
     char    cwd[PATH_MAX];
     char    *pwd;
@@ -27,8 +27,8 @@ t_environ_list *empty_environ(t_environ_list *environ)
     pwd = ft_strjoin("PWD=", cwd);
     shlvl = ft_strdup("SHLVL=1");
 
-    if (!pwd || !shlvl || !add_back_environ_node(environ, create_environ_node(pwd)) ||
-        !add_back_environ_node(environ, create_environ_node(shlvl)))
+    if (!pwd || !shlvl || !add_back_environ_node(env, create_environ_node(pwd)) ||
+        !add_back_environ_node(env, create_environ_node(shlvl)))
     {
         free(pwd);
         free(shlvl);
@@ -37,41 +37,41 @@ t_environ_list *empty_environ(t_environ_list *environ)
 
     free(pwd);
     free(shlvl);
-    return (environ);
+    return (env);
 }
 
 t_environ_list *init_environ(char **envp)
 {
-    t_environ_list  *environ;
+    t_environ_list  *env;
     t_environ_node  *node;
     char            *env_var;
 
-    environ = (t_environ_list *)ft_calloc(1, sizeof(t_environ_list));
-    if (!environ)
+    env = (t_environ_list *)ft_calloc(1, sizeof(t_environ_list));
+    if (!env)
         return (NULL);
 
     if (!*envp)
-        return (empty_environ(environ));
+        return (empty_environ(env));
 
     while (*envp)
     {
         env_var = ft_strdup(*envp);
         if (!env_var)
         {
-            free_environ(environ);
+            free_environ(env);
             return (NULL);
         }
         node = create_environ_node(env_var);
         if (!node)
         {
             free(env_var);
-            free_environ(environ);
+            free_environ(env);
             return (NULL);
         }
-        add_back_environ_node(environ, node);
+        add_back_environ_node(env, node);
         envp++;
     }
-    return (environ);
+    return (env);
 }
 
 
@@ -82,8 +82,8 @@ t_shell *init_shell(char **env)
     shell = (t_shell *)ft_calloc(1, sizeof(t_shell));
     if (!shell)
         return (NULL /*alloc failed*/);
-    shell->environ = init_environ(env);
-    if (!shell->environ)
+    shell->env = init_environ(env);
+    if (!shell->env)
     {
         free(shell);
         return (NULL);
