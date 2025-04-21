@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:47:57 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 09:24:21 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char **get_path_array(t_environ_list *env)
         return (NULL);
 
     path_array = ft_split(path_value, ':');
-    free(path_value);
+    //free(path_value);
     if (!path_array)
         return (NULL);
 

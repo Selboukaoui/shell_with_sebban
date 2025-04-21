@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:45:15 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/21 12:23:02 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char *replace_with_clean(char *rl_copy, size_t start, size_t end)
         new_str[i++] = rl_copy[start++];
     new_str[i] = '\0';
     
-    free(rl_copy);
+    //free(rl_copy);
     return (new_str);
 }
 
@@ -58,7 +58,7 @@ char *clean_rl_copy(char *rl_copy)
     
     if (start == len)
     {
-        free(rl_copy);
+        //free(rl_copy);
         return (ft_strdup(""));
     }
 

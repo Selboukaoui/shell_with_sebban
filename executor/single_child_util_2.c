@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:12 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 09:24:21 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ static void transform_error(char **environ_array)
     i = 0;
     while (environ_array[i])
     {
-        free(environ_array[i]);
+        // //free(environ_array[i]);
         i++;
     }
-    free(environ_array);
+    // //free(environ_array);
 }
 
 
@@ -74,7 +74,7 @@ static void transform_helper(t_environ_node *current, char **environ_array)
             return;
         }
         env_str = ft_strjoin(temp, current->value);
-        free(temp);
+        // //free(temp);
         if (!env_str)
         {
             transform_error(environ_array);
@@ -100,7 +100,7 @@ char **transform_environ_array(t_shell *shell)
     transform_helper(current, environ_array);
     if (!environ_array[0])
     {
-        free(environ_array);
+        // //free(environ_array);
         return (NULL);
     }
     return (environ_array);

@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:34:48 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/18 17:29:15 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:38:20 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void    signal_setup(int mode)
     sigemptyset(&sg.sa_mask);
     if (mode == 1) // parent
     {
+        printf ("ana hna \n");
         sg.sa_handler = parent_handler;
         sg.sa_flags = SA_RESTART;
         sigaction(SIGINT, &sg, NULL);

@@ -6,19 +6,29 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/21 13:58:25 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:31:28 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
+int up_old(t_shell *shell, char *old )
+{
+    
+}
+
+int 	env_var_update (t_shell *shell, char *old, char *new)
+{
+    
+}
+
 int cd_no_args(void)
 {
     char    *home;
 
     if (!(home = getenv("HOME")))
-        return(ft_putstr_fd("Home dir not set\n", 2), FAILED);
+        return(ft_putstr_fd("cd: HOME not set\n", 2), FAILED);
     if (!chdir(home))
         return(ft_putstr_fd("Chdir failed\n", 2), FAILED);
     return (OK);
@@ -33,7 +43,8 @@ int 	cd (t_shell *shell, char **arg)
     int     res;
 
     (void)shell;
-    old_pwd = getcwd(NULL, 0);
+    if (!(old_pwd = getcwd(NULL, 0)))
+        return (0);
     new_pwd = NULL;
     res = FAILED;
     if (!arg[1])
@@ -50,6 +61,6 @@ int 	cd (t_shell *shell, char **arg)
     if (!new_pwd)
         return (free(old_pwd),ft_putstr_fd("Path not found\n", 2) ,FAILED);
     
-    return (0);
+    return ();
 
 }

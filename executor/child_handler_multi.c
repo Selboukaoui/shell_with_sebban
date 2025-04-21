@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 14:33:50 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static char *path_join(const char *dir, const char *file)
 
     // (dir + "/") + file
     full = ft_strjoin(tmp, file);
-    free(tmp);
+    // //free(tmp);
     return full;
 }
 
@@ -114,7 +114,7 @@ static char *path_join(const char *dir, const char *file)
     //         return (NULL);
     //     if (access(full_path, F_OK | X_OK) == 0)
     //         return (full_path);
-    //     free(full_path);
+    //     //free(full_path);
     //     i++;
     // }
     i = 0;
@@ -125,7 +125,7 @@ static char *path_join(const char *dir, const char *file)
                 return NULL;
             if (access(full_path, F_OK | X_OK) == 0)
                 return full_path;
-            free(full_path);
+            // //free(full_path);
             i++;
         }
     // printf("here\n");
@@ -177,13 +177,13 @@ static int execute_other(t_executor *current, t_info *info)
     env_array = transform_environ_array(info->shell);
     // if (!env_array)
     // {
-    //     free(path);
+    //     //free(path);
     //     free_heap(info->shell);
     //     exit(126);
     // }
 
     execve(path, current->execs, env_array);
-    // free(path);
+    // //free(path);
     // free_str_arr(env_array);
     // free_heap(info->shell);
     // ft_putstr_fd("minishell: ", STDERR_FILENO);

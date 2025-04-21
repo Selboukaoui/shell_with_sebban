@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_child_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:02:46 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 17:38:36 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char *get_absolute_path(t_shell *shell)
         if (!temp)
             return (free_str_arr(path_dirs),NULL);
         full_path = ft_strjoin(temp, shell->executor->execs[0]);
-        free(temp);
+        // //free(temp);
         if (!full_path)
             return (free_str_arr(path_dirs),NULL);
         if (access(full_path, F_OK) == 0)
@@ -85,7 +85,7 @@ static char *get_absolute_path(t_shell *shell)
             free_str_arr(path_dirs);
             return (full_path);
         }
-        free(full_path);
+        // //free(full_path);
         i++;
     }
     free_str_arr(path_dirs);

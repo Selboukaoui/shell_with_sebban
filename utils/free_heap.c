@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:13:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 09:24:21 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_executor *free_executor_list(t_executor *list)
             close(current->fd_out);
         free_str_arr(current->path);
         free_str_arr(current->execs);
-        free(current);
+        //free(current);
         current = next;
     }
     return (NULL);
@@ -46,10 +46,10 @@ char *free_str_arr(char **arr)
     i = 0;
     while (arr[i])
     {
-        free(arr[i]);
+        //free(arr[i]);
         i++;
     }
-    free(arr);
+    //free(arr);
     return (NULL);
 }
 
@@ -65,9 +65,9 @@ void free_environ(t_environ_list *env)
     while (current)
     {
         next = current->next;
-        free(current->key);
-        free(current->value);
-        free(current);
+        //free(current->key);
+        //free(current->value);
+        //free(current);
         current = next;
     }
     env->head = NULL;

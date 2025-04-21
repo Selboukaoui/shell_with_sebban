@@ -19,11 +19,11 @@ int main(int ac, char **av, char **env)
 
     (void)ac;
     (void)av;
-    signal_setup(PARENT);
-
     shell = init_shell(env);
+    signal_setup(PARENT);
+    
     if (!shell)
-        return (1);
+    return (1);
     while (1)
     {
         shell->rl_input = readline("minishell-1.0$~ ");
@@ -43,11 +43,8 @@ int main(int ac, char **av, char **env)
         //     ft_putstr_fd("syntax error near unexpected token`(xx)'\n", 2);
         //     //clean
         // }
-        if (!parser(shell))
-        {
-            // if input is null or mybe error 
-            // parrsing input
-        }
+        if (parser(shell) == false)
+            continue ;
 
         // t_shell *tst = shell;
         // while (tst->lex_head)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_multi.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:31:19 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/21 09:51:19 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/21 15:24:26 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_info *init_info(t_shell *shell)
     info->pids = (pid_t *)ft_calloc(shell->executor->size, sizeof(pid_t));
     if (!info->pids)
     {
-        free(info);
+        // free(info);
         return (NULL);
     }
     return (info);
@@ -51,8 +51,8 @@ void wait_pipeline(t_info *info, int number)
         dup2(info->stdin_copy, STDIN_FILENO);
         close(info->stdin_copy);
     }
-    free(info->pids);
-    free(info);
+    // free(info->pids);
+    // free(info);
 }
 void handle_multi(t_info *info, t_executor *current)
 {
@@ -63,8 +63,8 @@ void handle_multi(t_info *info, t_executor *current)
         if (pipe(fildes) == -1)
         {
             perror("minishell: pipe");
-            free(info->pids);
-            free(info);
+            // free(info->pids);
+            // free(info);
             //exit_code
             return;
         }
@@ -84,8 +84,8 @@ void handle_multi(t_info *info, t_executor *current)
     if (info->pids[current->id] == -1)
     {
         perror("minishell: fork");
-        free(info->pids);
-        free(info);
+        // free(info->pids);
+        // free(info);
         // exit_code = 1;
         return;
     }

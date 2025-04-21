@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:35:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/21 12:22:54 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static t_lexer_list *create_lexer_list(char **input_array)
             while (head)
             {
                 current = head->next;
-                free(head);
+                // //free(head);
                 head = current;
             }
             return (NULL);
@@ -104,8 +104,8 @@ static t_lexer_list *fill_lexer_list(char **input_array)
             while (head)
             {
                 current = head->next;
-                free(head->str);
-                free(head);
+                // //free(head->str);
+                // //free(head);
                 head = current;
             }
             return (NULL);

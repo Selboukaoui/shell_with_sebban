@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/21 10:54:59 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ static int create_heredoc(char *delimiter)
         line = readline("> ");
         if (!line || ft_strcmp(line, delimiter) == 0)
         {
-            free(line);
+            // //free(line);
             break;
         }
         write(fd[1], line, ft_strlen(line));
         write(fd[1], "\n", 1);
-        free(line);
+        // //free(line);
     }
     close(fd[1]);
     return (fd[0]);

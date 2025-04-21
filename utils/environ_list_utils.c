@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:02:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 09:24:21 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ t_environ_node *create_environ_node(char *var)
 
     if (!new_node->key || (equal_sign && !new_node->value))
     {
-        free(new_node->key);
-        free(new_node->value);
-        free(new_node);
+        //free(new_node->key);
+        //free(new_node->value);
+        //free(new_node);
         return (NULL);
     }
 

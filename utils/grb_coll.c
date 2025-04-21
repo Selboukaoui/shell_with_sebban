@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:03:00 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/21 12:24:26 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:36:14 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	free_all(t_collect **head)
 	while (current)
 	{
 		next = current->next;
-		free(current->data);
-		free(current);
+		//free(current->data);
+		//free(current);
 		current = next;
 	}
 	*head = NULL;

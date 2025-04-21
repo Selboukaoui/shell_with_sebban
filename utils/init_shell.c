@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:42:18 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/21 12:11:48 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ t_environ_list *empty_environ(t_environ_list *env)
     if (!pwd || !shlvl || !add_back_environ_node(env, create_environ_node(pwd)) ||
         !add_back_environ_node(env, create_environ_node(shlvl)))
     {
-        free(pwd);
-        free(shlvl);
+        //free(pwd);
+        //free(shlvl);
         return (NULL);
     }
 
-    free(pwd);
-    free(shlvl);
+    //free(pwd);
+    //free(shlvl);
     return (env);
 }
 
@@ -64,7 +64,7 @@ t_environ_list *init_environ(char **envp)
         node = create_environ_node(env_var);
         if (!node)
         {
-            free(env_var);
+            //free(env_var);
             free_environ(env);
             return (NULL);
         }
@@ -85,7 +85,7 @@ t_shell *init_shell(char **env)
     shell->env = init_environ(env);
     if (!shell->env)
     {
-        free(shell);
+        //free(shell);
         return (NULL);
     }
     shell->lex_head = NULL;

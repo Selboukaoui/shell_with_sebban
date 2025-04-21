@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:59 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/21 12:24:07 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,8 @@ static char	*parse_token(const char *s, int *i)
 				return NULL;
 			ft_strcpy(res, tmp);
 			ft_strncat(res, quoted, len);
-			free(tmp);
-			free(quoted);
+			//free(tmp);
+			//free(quoted);
 
 			if (s[*i] == quote)
 				(*i)++;
@@ -168,8 +168,8 @@ static char	*parse_token(const char *s, int *i)
 				return NULL;
 			ft_strcpy(res, tmp);
 			ft_strncat(res, literal, len);
-			free(tmp);
-			free(literal);
+			//free(tmp);
+			//free(literal);
 		}
 	}
 	return res;
@@ -259,8 +259,8 @@ char	**ft_newsplit(const char *s)
 //             if (!res) return NULL;
 //             strcpy(res, tmp);
 //             strcat(res, quoted);
-//             free(tmp);
-//             free(quoted);
+//             //free(tmp);
+//             //free(quoted);
 
 //             if (s[*i] == quote)
 //                 (*i)++;
@@ -279,8 +279,8 @@ char	**ft_newsplit(const char *s)
 //             if (!res) return NULL;
 //             strcpy(res, tmp);
 //             strcat(res, literal);
-//             free(tmp);
-//             free(literal);
+//             //free(tmp);
+//             //free(literal);
 //         }
 //     }
 //     return res;

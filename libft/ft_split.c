@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 20:55:45 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/21 12:21:54 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ static char	*myfree(char **array, int i)
 	j = 0;
 	while (*array[j])
 	{
-		free(array[j]);
+		// //free(array[j]);
 		i++;
 	}
-	free (array);
+	// //free (array);
 	return (NULL);
 }
 
