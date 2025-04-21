@@ -183,7 +183,7 @@ int 	cd (t_shell *shell, char **arg);
 
 void	*ft_malloc(size_t size, int mode);
 
-
+int env(t_shell *shell);
 
 
 
