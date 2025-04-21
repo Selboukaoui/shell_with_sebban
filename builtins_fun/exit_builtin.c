@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 11:42:05 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/21 14:06:38 by asebban          ###   ########.fr       */
+/*   Created: 2025/04/21 14:11:51 by asebban           #+#    #+#             */
+/*   Updated: 2025/04/21 14:20:16 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-void	*ft_calloc(size_t n, size_t size)
+static void clean_exit(t_shell *shell, int exit_code)
 {
-	void	*p;
+    //clean
+    exit(exit_code);
+}
 
-	if (size && n && (n * size) / size != n)
-		return (NULL);
-	p = ft_malloc(n * size, 1);
-	if (!p)
-		return (NULL);
-	ft_bzero(p, n * size);
-	return (p);
+int exit_builtin(t_shell *shell, char **args, bool in_child)
+{
+    int exit_code;
+    int arg_count;
+
+    arg_count = 0;
+    while (args[arg_count])
+        arg_count++;
+    if (arg_count == 0)
+        clean_exit(shell, exit_code);
 }
