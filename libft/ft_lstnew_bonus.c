@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 17:35:54 by selbouka          #+#    #+#             */
-/*   Updated: 2024/11/15 16:52:06 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:21:36 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*p;
 
-	p = malloc(sizeof(t_list));
+	p = ft_malloc(sizeof(t_list), 1);
 	if (!p)
 		return (NULL);
 	p->content = content;

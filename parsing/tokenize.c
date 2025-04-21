@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:35:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/18 10:38:11 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/21 12:22:54 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_lexer_list *create_lexer_list(char **input_array)
         return (NULL);
     
     // Allocate first node
-    head = (t_lexer_list *)malloc(sizeof(t_lexer_list));
+    head = (t_lexer_list *)ft_malloc(sizeof(t_lexer_list), 1);
     if (!head)
         return (NULL);
     head->prev = NULL;
@@ -60,7 +60,7 @@ static t_lexer_list *create_lexer_list(char **input_array)
     i = 1;
     while (i < size)
     {
-        current = (t_lexer_list *)malloc(sizeof(t_lexer_list));
+        current = (t_lexer_list *)ft_malloc(sizeof(t_lexer_list), 1);
         if (!current)
         {
             // Cleanup on allocation failure

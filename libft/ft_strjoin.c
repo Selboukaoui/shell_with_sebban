@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 17:10:19 by selbouka          #+#    #+#             */
-/*   Updated: 2024/11/10 17:29:33 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:23:37 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	*join(char const *s1, char const *s2, int len)
 	int		i;
 	int		n;
 
-	p = malloc(sizeof(char) * (len + 1));
+	p = ft_malloc(sizeof(char) * (len + 1), 1);
 	if (!p)
 		return (NULL);
 	i = 0;

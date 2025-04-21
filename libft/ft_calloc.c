@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 11:42:05 by selbouka          #+#    #+#             */
-/*   Updated: 2024/11/15 16:50:35 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:21:36 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_calloc(size_t n, size_t size)
 
 	if (size && n && (n * size) / size != n)
 		return (NULL);
-	p = malloc(n * size);
+	p = ft_malloc(n * size, 1);
 	if (!p)
 		return (NULL);
 	ft_bzero(p, n * size);

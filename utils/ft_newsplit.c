@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_newsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:59 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/19 14:40:34 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/21 12:24:07 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char *ft_dup_token(const char *str, int len)
     if (!str || len <= 0)
         return (NULL);
 
-    s = (char *)malloc(len + 1);
+    s = (char *)ft_malloc(len + 1, 1);
     if (!s)
         return (NULL);
 
@@ -127,7 +127,7 @@ static int	count_tokens(const char *s)
 static char	*parse_token(const char *s, int *i)
 {
 	// int start = *i;
-	char *res = malloc(1);
+	char *res = ft_malloc(1, 1);
 	if (!res)
 		return NULL;
 	res[0] = '\0';
@@ -144,7 +144,7 @@ static char	*parse_token(const char *s, int *i)
 
 			char *quoted = ft_dup_token(&s[sub_start], len);
 			char *tmp = res;
-			res = malloc(ft_strlen(tmp) + len + 1);
+			res = ft_malloc(ft_strlen(tmp) + len + 1, 1);
 			if (!res)
 				return NULL;
 			ft_strcpy(res, tmp);
@@ -163,7 +163,7 @@ static char	*parse_token(const char *s, int *i)
 			int len = *i - start_sub;
 			char *literal = ft_dup_token(&s[start_sub], len);
 			char *tmp = res;
-			res = malloc(ft_strlen(tmp) + len + 1);
+			res = ft_malloc(ft_strlen(tmp) + len + 1, 1);
 			if (!res)
 				return NULL;
 			ft_strcpy(res, tmp);
@@ -181,7 +181,7 @@ char	**ft_newsplit(const char *s)
 		return NULL;
 
 	int total = count_tokens(s);
-	char **tokens = malloc(sizeof(char *) * (total + 1));
+	char **tokens = ft_malloc(sizeof(char *) * (total + 1), 1);
 	if (!tokens)
 		return NULL;
 
@@ -222,7 +222,7 @@ char	**ft_newsplit(const char *s)
 
 // static char *ft_dup_token(const char *str, int len)
 // {
-//     char *s = (char *)malloc(len + 1);
+//     char *s = (char *)ft_malloc(len + 1, 1);
 //     if (!s)
 //         return NULL;
 
@@ -236,7 +236,7 @@ char	**ft_newsplit(const char *s)
 // static char *parse_token(const char *s, int *i)
 // {
 //     int start = *i;
-//     char *res = malloc(1);
+//     char *res = ft_malloc(1);
 //     if (!res)
 //         return NULL;
 //     res[0] = '\0';
@@ -255,7 +255,7 @@ char	**ft_newsplit(const char *s)
 //             if (!quoted) return NULL;
 
 //             char *tmp = res;
-//             res = malloc(strlen(tmp) + len + 1);
+//             res = ft_malloc(strlen(tmp) + len + 1);
 //             if (!res) return NULL;
 //             strcpy(res, tmp);
 //             strcat(res, quoted);
@@ -275,7 +275,7 @@ char	**ft_newsplit(const char *s)
 //             if (!literal) return NULL;
 
 //             char *tmp = res;
-//             res = malloc(strlen(tmp) + len + 1);
+//             res = ft_malloc(strlen(tmp) + len + 1);
 //             if (!res) return NULL;
 //             strcpy(res, tmp);
 //             strcat(res, literal);
@@ -338,7 +338,7 @@ char	**ft_newsplit(const char *s)
 //         return NULL;
 
 //     int total = count_tokens(s); // Assuming count_tokens is correct
-//     char **tokens = malloc(sizeof(char *) * (total + 1));
+//     char **tokens = ft_malloc(sizeof(char *) * (total + 1));
 //     if (!tokens)
 //         return NULL;
 

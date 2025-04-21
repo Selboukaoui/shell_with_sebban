@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 09:48:09 by selbouka          #+#    #+#             */
-/*   Updated: 2024/11/15 19:16:10 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:22:24 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		j--;
 	if ((j - i + 1) < 0)
 		return (ft_strdup(""));
-	ptr = malloc((j - i + 1) * sizeof(char));
+	ptr = ft_malloc((j - i + 1) * sizeof(char), 1);
 	if (!ptr)
 		return (NULL);
 	while (i < j)

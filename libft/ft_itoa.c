@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 14:53:02 by selbouka          #+#    #+#             */
-/*   Updated: 2024/11/14 15:07:50 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:21:36 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_itoa(int nb)
 	nbr = nb;
 	if (nbr == 0)
 		return (ft_strdup("0"));
-	str = malloc (ln + 1);
+	str = ft_malloc (ln + 1, 1);
 	if (!str)
 		return (NULL);
 	str[ln--] = '\0';

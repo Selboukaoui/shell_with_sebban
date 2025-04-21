@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   grb_coll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:03:00 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/21 12:06:48 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/21 12:24:26 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@
 
 
 #include "../includes/minishell.h"
+
+void	err(int c)
+{
+	c = 1;
+	return ;
+}
 
 void	free_all(t_collect **head)
 {
