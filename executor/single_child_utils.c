@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:02:46 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 15:41:07 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/20 17:38:36 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static char *get_absolute_path(t_shell *shell)
 static void get_path_error(char *str)
 {
     ft_putstr_fd("minishell: ", STDERR_FILENO);
-    // ft_putstr_fd(str, STDERR_FILENO);
+    ft_putstr_fd(str, STDERR_FILENO);
     ft_putstr_fd(": command not found\n", STDERR_FILENO);
     // errno = 127;
 }

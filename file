@@ -1,6 +1,6 @@
 a.out
 asjd
-builtins_functions
+builtins_fun
 executor
 file
 includes
@@ -10,5 +10,6 @@ libft
 main.c
 Makefile
 parsing
+samir
 utils
 ztesting

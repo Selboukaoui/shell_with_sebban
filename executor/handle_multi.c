@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:31:19 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 13:54:23 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/21 09:51:19 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,17 @@ void handle_multi(t_info *info, t_executor *current)
             //exit_code
             return;
         }
-        current->fd_out = fildes[1];
-        current->next->fd_in = fildes[0];
+        // current->fd_out = fildes[1];
+        // current->next->fd_in = fildes[0];
+        if (current->fd_out == STDOUT_FILENO) // respect redirection
+            current->fd_out = fildes[1];
+        else
+            close(fildes[1]); // we won't use this pipe write-end
+
+        if (current->next->fd_in == STDIN_FILENO) // respect heredoc or <
+            current->next->fd_in = fildes[0];
+        else
+            close(fildes[0]); // we won't use this pipe read-end
     }
     info->pids[current->id] = fork();
     if (info->pids[current->id] == -1)
