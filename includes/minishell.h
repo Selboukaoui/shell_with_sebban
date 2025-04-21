@@ -77,7 +77,7 @@ typedef struct s_lexer_list
     char                *str;
     t_token             type;
     struct s_lexer_list *prev;
-    struct s_lexer_list *next;
+    struct s_lexer_list *next; 
 }   t_lexer_list;
 
 typedef struct s_executor
