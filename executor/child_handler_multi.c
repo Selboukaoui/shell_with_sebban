@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_handler_multi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:44:30 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,22 +165,22 @@ static int execute_other(t_executor *current, t_info *info)
     path = execute_other_helper(current);
     // path = get_path(info->shell, true);
     // printf("%s\n",path);
-    // if (!path)
-    // {
-    //     ft_putstr_fd("minishell: ", STDERR_FILENO);
-    //     ft_putstr_fd(current->execs[0], STDERR_FILENO);
-    //     ft_putstr_fd(": command not found\n", STDERR_FILENO);
-    //     free_heap(info->shell);
-    //     exit(127);
-    // }
+    if (!path)
+    {
+        ft_putstr_fd("minishell: ", STDERR_FILENO);
+        ft_putstr_fd(current->execs[0], STDERR_FILENO);
+        ft_putstr_fd(": command not found\n", STDERR_FILENO);
+        // free_heap(info->shell);
+        exit(127);
+    }
 
     env_array = transform_environ_array(info->shell);
-    // if (!env_array)
-    // {
-    //     //free(path);
-    //     free_heap(info->shell);
-    //     exit(126);
-    // }
+    if (!env_array)
+    {
+        //free(path);
+        // free_heap(info->shell);
+        exit(126);
+    }
 
     execve(path, current->execs, env_array);
     // //free(path);

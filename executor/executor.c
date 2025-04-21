@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:42:43 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/21 15:24:31 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 20:59:17 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ static void    handle_single(t_shell *shell)
     // printf ("current->ex[1] : %s\n",current->execs[0]);
     if (!current->execs || !current->execs[0])
     {
-        //exit code
+        exit_status(EXIT_SET, 0);// Empty command, no error
         return;
     }
     if (is_builtin(current->execs[0]))
     {
         if (handle_single_builtin(shell) == EXIT_FAILURE)
         {
-            //exit_code
+            exit_status(EXIT_SET, 1); // Failed builtin (e.g., invalid cd)
         }
-        //else
-            //exit_code       
+        else
+            exit_status(EXIT_SET, 0); // Success
     }
     else
     {
@@ -37,7 +37,7 @@ static void    handle_single(t_shell *shell)
         if (pid == -1)
         {
             perror("minishell");
-            //exit_code
+            exit_status(EXIT_SET, 1);
             return;
         }
         else if (pid == 0)
@@ -48,6 +48,13 @@ static void    handle_single(t_shell *shell)
         {
             int status;
             waitpid(pid, &status, 0);
+            
+            if (WIFEXITED(status))
+                exit_status(EXIT_SET, WEXITSTATUS(status));
+            else if (WIFSIGNALED(status))
+                exit_status(EXIT_SET, (128 + WTERMSIG(status)));
+            else
+                exit_status(EXIT_SET, 1);
             // check_exitcode(status, &(bool){true});
         }
     }

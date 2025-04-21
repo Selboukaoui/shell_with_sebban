@@ -28,6 +28,10 @@
 # define FAILED     102
 # define OK         100
 
+//exit
+#define EXIT_GET 0
+#define EXIT_SET 1
+
 //  handle_multi()
 # define FAIL_SYSCALL       -1
 # define OKAY               0
@@ -184,12 +188,10 @@ void	*ft_malloc(size_t size, int mode);
 
 int env(t_shell *shell);
 
+int exit_status(int action, int value);
 
 
-
-
-
-
+char *replace_vars(char *input);
 
 
 

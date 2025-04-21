@@ -31,12 +31,14 @@ int main(int ac, char **av, char **env)
 		{
 			write(1, "exit\n", 5);
             ft_malloc(0, 0);
-			break ;
+			break; // command not found in ctr + d handle it
 		}
         if (*shell->rl_input)
             add_history(shell->rl_input);
+
+        // handle history cmd here
         shell->rl_copy = clean_rl_copy(shell->rl_input);
-        
+        shell->rl_copy = replace_vars(shell->rl_input);
         //check syntax like ">>>"
         // if (!ft_strcmp(shell->rl_input, "\\"))
         // {
@@ -56,6 +58,6 @@ int main(int ac, char **av, char **env)
         executor(shell);
         // and clean for next loop
     }
-    // clean 
+    // clean
     return(0);// return exit_code
 }
