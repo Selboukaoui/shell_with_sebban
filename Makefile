@@ -17,8 +17,6 @@ OBJS = $(SRCM:.c=.o)
 
 all: $(LIBFT) $(NAME)
 
-# $(NAME) : $(OBJS) 
-
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
