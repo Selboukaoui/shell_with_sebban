@@ -10,7 +10,7 @@
 // Ctrl + d                                      : Working on               samir
 
 // cd  + pwd + echo (-n);                        : Working on               samir  
-
+// Makefile                                      :  DOOOONE                 SAMIIR
 
 Your shell must implement the following builtins:
 ◦ echo with option -n
