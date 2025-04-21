@@ -175,9 +175,9 @@ void executor(t_shell *shell);
 
 bool handle_redirections_single_child(t_shell *shell);
 
+int handle_single_builtin(t_shell *shell);
 
-
-
+bool    is_builtin(char *exec);
 
 
 

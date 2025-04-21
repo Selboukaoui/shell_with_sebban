@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:42:43 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/20 14:33:28 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 11:46:46 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,15 @@ static void    handle_single(t_shell *shell)
         //exit code
         return;
     }
-    // if (is_builtin(current->execs[0]))
-    // {
-        
-    // }
+    if (is_builtin(current->execs[0]))
+    {
+        if (handle_single_builtin(shell) == EXIT_FAILURE)
+        {
+            //exit_code
+        }
+        //else
+            //exit_code       
+    }
     else
     {
         pid_t pid = fork();
