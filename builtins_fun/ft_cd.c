@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/21 12:28:25 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 13:58:25 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int 	cd (t_shell *shell, char **arg)
     }
     else
     {
-        if (!chdir(arg[1]))
+        if (chdir(arg[1]))
             return (free(old_pwd),ft_putstr_fd("Chdir failed\n", 2) ,FAILED);
     }
     new_pwd = getcwd(NULL, 0);

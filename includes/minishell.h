@@ -69,7 +69,6 @@ typedef enum s_token
 	APPEND = 4, // >>
 	HEREDOC = 5, // <<
 	PIPE	= 6, // |
-    ARG     = 7,
 }           t_token;
 
 typedef struct s_lexer_list
