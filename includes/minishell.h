@@ -120,6 +120,14 @@ typedef struct s_info
     pid_t                   *pids;
 }   t_info;
 
+
+typedef struct garbage_c
+{
+	void				*data;
+	struct garbage_c	*next;
+}	t_collect;
+
+
 void wait_pipeline(t_info *info, int number);
 t_environ_node *create_environ_node(char *var);
 t_environ_node *add_back_environ_node(t_environ_list *env, t_environ_node *node);
