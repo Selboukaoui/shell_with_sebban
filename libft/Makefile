@@ -10,13 +10,13 @@ SRCB = ft_lstnew_bonus.c ft_lstlast_bonus.c ft_lstadd_front_bonus.c  ft_lstadd_b
 OBJS = $(SRCM:.c=.o)
 OBJB = $(SRCB:.c=.o)
 
-all: $(NAME)
+all: $(NAME) $(OBJB)
 
 $(NAME) : $(OBJS) 
 
 %.o: %.c libft.h
-	$(CC) $(CFLAGS) -c $<
-	ar -r $(NAME) $@
+	@$(CC) $(CFLAGS) -c $<
+	@ar -r $(NAME) $@
 
 bonus : $(OBJB)
 
