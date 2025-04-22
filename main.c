@@ -38,7 +38,7 @@ int main(int ac, char **av, char **env)
 
         // handle history cmd here
         shell->rl_copy = clean_rl_copy(shell->rl_input);
-        shell->rl_copy = replace_vars(shell->rl_input);
+        shell->rl_copy = replace_vars(shell->rl_input, shell);
         //check syntax like ">>>"
         // if (!ft_strcmp(shell->rl_input, "\\"))
         // {

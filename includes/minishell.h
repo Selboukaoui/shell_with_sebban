@@ -191,7 +191,7 @@ int env(t_shell *shell);
 int exit_status(int action, int value);
 
 
-char *replace_vars(char *input);
+char *replace_vars(char *input, t_shell *shell);
 
 
 
