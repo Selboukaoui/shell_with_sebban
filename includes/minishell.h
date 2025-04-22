@@ -130,7 +130,7 @@ typedef struct garbage_c
 	struct garbage_c	*next;
 }	t_collect;
 
-
+int	unset(t_shell *shell, char **args);
 void wait_pipeline(t_info *info, int number);
 t_environ_node *create_environ_node(char *var);
 t_environ_node *add_back_environ_node(t_environ_list *env, t_environ_node *node);
