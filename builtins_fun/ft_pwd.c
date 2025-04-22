@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:13:33 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:59:29 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int 	pwd (void)
     // if (getcwd(buf, 4096) == NULL)
     //     return (perror("getcwd failed \n"), 0);
     
-    printf ("%s\ndyalii\n", getcwd(NULL, 0));
+    printf ("%s\n", getcwd(NULL, 0));
     // //free (buf);
     return 0;
 }

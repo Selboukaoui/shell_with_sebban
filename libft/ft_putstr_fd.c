@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:26:02 by selbouka          #+#    #+#             */
-/*   Updated: 2024/11/11 09:29:18 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/22 15:29:02 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_putstr_fd(char *s, int fd)
 	if (!s || fd < 0)
 		return ;
 	i = 0;
-	while (s[i])
+	while (s[i] != '\0')
 	{
 		write (fd, &s[i], 1);
 		i++;
