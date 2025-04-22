@@ -194,7 +194,7 @@ int exit_status(int action, int value);
 char *replace_vars(char *input, t_shell *shell);
 
 
-
+int export(t_shell *shell, char **args);
 
 
 #endif

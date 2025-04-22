@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 12:13:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/21 21:50:22 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/22 11:24:10 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void    handle_single_child(t_shell *shell)
         // //free(path);
         exit(126); // Cannot create environment
     }
-    execve(path, shell->executor->execs, env_array);
+    execve(path, shell->executor->execs, env_array);//exit
         // Only reached if execve fails
         ///in fails:
     perror("minishell"); 

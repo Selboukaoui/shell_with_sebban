@@ -23,7 +23,7 @@ int main(int ac, char **av, char **env)
     signal_setup(PARENT);
     
     if (!shell)
-    return (1);
+        return (1);
     while (1)
     {
         shell->rl_input = readline("minishell-1.0$~ ");

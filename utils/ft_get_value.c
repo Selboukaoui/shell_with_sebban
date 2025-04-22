@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:33:32 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/22 10:23:08 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/22 10:51:12 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char *replace_vars(char *input, t_shell *shell)
     j = 0;
     k = 0;
     len = ft_strlen(input);
-    output = malloc(PATH_MAX + 1); // replace with ft_malloc
+    output = ft_malloc(PATH_MAX + 1, 1); // replace with ft_malloc
     if (!output)
         return NULL;
 
