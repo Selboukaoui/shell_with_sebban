@@ -59,3 +59,13 @@ hello
 minishell-1.0$~ 
 exit
 (all bultin redirection)
+
+
+[only spaces] and run sahm lfo9 for check history
+
+command :
+command !
+
+add_builtin func in multiple pipe
+
+syntax error is not like bash

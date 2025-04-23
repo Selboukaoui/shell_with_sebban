@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 12:13:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/22 11:24:10 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/23 15:06:51 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void    handle_single_child(t_shell *shell)
     execve(path, shell->executor->execs, env_array);//exit
         // Only reached if execve fails
         ///in fails:
-    perror("minishell"); 
+    // perror("minishell"); 
     // check_errno(shell, path);
     // //free(path);
     // free_str_arr(env_array);

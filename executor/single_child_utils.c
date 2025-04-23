@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_child_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:02:46 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:14:42 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char *get_path(t_shell *shell, bool printerror)
         if (!path)
             return (NULL);
         if (access(path, F_OK) == -1 && printerror)
-            get_path_error(shell->executor->execs[0]);
+            return(get_path_error(shell->executor->execs[0]), NULL);
         return (path);
     }
     // otherwise searrch PATH
@@ -121,7 +121,7 @@ char *get_path(t_shell *shell, bool printerror)
     if (!path)
         return (NULL);
     if (access(path, F_OK) == -1 && printerror)
-        get_path_error(shell->executor->execs[0]);
+        return(get_path_error(shell->executor->execs[0]), NULL);
     
     return (path);
 }
