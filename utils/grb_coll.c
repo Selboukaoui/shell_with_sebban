@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:03:00 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/21 14:36:14 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:59:53 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
 
 #include "../includes/minishell.h"
 
-void	err(int c)
+int	err(int c)
 {
 	c = 1;
-	return ;
+	return c ;
 }
 
 void	free_all(t_collect **head)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:32:39 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/22 15:13:36 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:03:01 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,11 @@ int	unset(t_shell *shell, char **args)
 		unset_arg(shell, args[i], &c);
 		i++;
 	}
-    if(c)
+    if (c)
+	{
         return(EXIT_FAILURE);
+		
+	}
+	
 	return (EXIT_SUCCESS);
 }

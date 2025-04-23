@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/22 15:29:32 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:50:48 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int 	cd (t_shell *shell, char **arg)
     }
     if (!getcwd(old_pwd, sizeof(old_pwd)))
     {
-        ft_putstr_fd("cd: error retrieving current directory\n", 2);
+        ft_putstr_fd("cd: error retrieving current directory|xx|\n", 2);// will be handle here
             return (FAILED);
     }
     if (!arg[1])

@@ -181,7 +181,7 @@ bool handle_redirections_single_child(t_shell *shell);
 int handle_single_builtin(t_shell *shell);
 
 bool    is_builtin(char *exec);
-int 	pwd (void);
+int 	pwd (t_environ_list *env);
 int 	cd (t_shell *shell, char **arg);
 
 void	*ft_malloc(size_t size, int mode);
@@ -196,5 +196,8 @@ char *replace_vars(char *input, t_shell *shell);
 
 int export(t_shell *shell, char **args);
 
+
+
+t_environ_node   *ft_getenv(t_environ_list *env, char *key);
 
 #endif

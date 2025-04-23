@@ -6,24 +6,26 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:13:33 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/21 19:59:29 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:51:52 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int 	pwd (void)
+int 	pwd (t_environ_list *env)
 {
-    // char *buf;
+    char *buf;
+    t_environ_node  *node;
     
-    // if (!(buf = (char *)ft_malloc(4096)))
-    //     return (perror("allocation failed \n"), 0);
-    // if (getcwd(buf, 4096) == NULL)
-    //     return (perror("getcwd failed \n"), 0);
-    
-    printf ("%s\n", getcwd(NULL, 0));
-    // //free (buf);
+    buf = ft_malloc(4096 , 0);
+    getcwd(buf, 4096);
+    if (!buf)
+    {
+        node = ft_getenv(env, "PWD");
+        printf ("%s\n",node->value);
+    }
+    else
+        printf ("%s\n", buf);
     return 0;
 }
 
-// int main (){pwd();}
