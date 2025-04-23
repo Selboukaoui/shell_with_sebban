@@ -43,7 +43,7 @@ static void execute_builtin(t_shell *shell)
     
     exit_code = 0;
     if (ft_strcmp(args[0], "pwd") == 0)
-        exit_code = pwd(shell->env);
+        exit_code = pwd(shell->env, 0);
     if (ft_strcmp(args[0], "cd") == 0)
         exit_code = cd(shell, args);
     else if (ft_strcmp(args[0], "env") == 0)

@@ -181,7 +181,7 @@ bool handle_redirections_single_child(t_shell *shell);
 int handle_single_builtin(t_shell *shell);
 
 bool    is_builtin(char *exec);
-int 	pwd (t_environ_list *env);
+int 	pwd (t_environ_list *env, int t);
 int 	cd (t_shell *shell, char **arg);
 
 void	*ft_malloc(size_t size, int mode);

@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int 	pwd (t_environ_list *env)
+int 	pwd (t_environ_list *env, int t)
 {
     char *buf;
     t_environ_node  *node;
@@ -25,7 +25,14 @@ int 	pwd (t_environ_list *env)
         printf ("%s\n",node->value);
     }
     else
+    {
         printf ("%s\n", buf);
+        while (t > 0)
+        {
+            printf ("../");
+            t--;
+        }
+    }
     return 0;
 }
 

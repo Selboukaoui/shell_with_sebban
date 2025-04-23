@@ -12,11 +12,18 @@
 
 #include "../includes/minishell.h"
 
-
-int ft_special(char x)
+int ft_special(char x, int her)
 {
-    if (x  == '>' || x == '<' || x == '|')
-        return (1);
+    if (her == 69)
+    {
+        if (x  == '>' || x == '<' || x == '|')
+            return (1);
+    }
+    else
+    {
+        if (x  == '>' || x == '|')
+            return (1);
+    }
     return (0);
 }
 
@@ -87,7 +94,7 @@ int check_redirect_out(char *input)
                 return (0);
             while((*input == ' ' || *input == '\t') && *input)
                 input++;
-            if (ft_special(*input))
+            if (ft_special(*input, 69))
                 return (0);
             j = 0;
             --input;
@@ -117,7 +124,7 @@ int check_redirect_in(char *input)
             }
             while((*input == ' ' || *input == '\t') && *input) // !ft_isprint(*input) // space mkytskipach
                 input++; 
-            if (j > 2 || ft_special(*input))
+            if (j > 2 || ft_special(*input, 69))
                 return (0);
             j = 0;
             --input;
@@ -146,7 +153,7 @@ int check_pipe(char *input)
                 if (*input == '\0')
                     return (0);
             }
-            if (j > 1 || ft_special(*input))
+            if (j > 1 || ft_special(*input, 123))
                 return (0);
             j = 0;
             --input;
