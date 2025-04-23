@@ -39,3 +39,23 @@ makfile;
 env -i 2 fois 
 ctrl d
 export parssing like export a="a b c" & export a=$a
+
+minishell-1.0$~ echo '<<'
+[1]    1344550 segmentation fault (core dumped)  ./minishell
+
+<< end1 cat | << 'end2' cat
+
+asebban@e1r10p15:~/Desktop/minishell$ << end1 cat | << 'end2' cat
+> ls
+> ctrl+d
+bash: warning: here-document at line 1 delimited by end-of-file (wanted `end1')
+> ctrl+d
+bash: warning: here-document at line 2 delimited by end-of-file (wanted `end2')
+
+➜  shell_with_selbouka git:(main) ✗ ./minishell
+minishell-1.0$~ echo hello > ajhsg
+➜  shell_with_selbouka git:(main) ✗ cat ajhsg 
+hello
+minishell-1.0$~ 
+exit
+(all bultin redirection)

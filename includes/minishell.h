@@ -151,7 +151,7 @@ t_environ_node *get_node(t_environ_list *env, char *key);
 t_info *init_info(t_shell *shell);
 int child_handler_multi(int *fildes, t_executor *current, t_info *info);
 void handle_multi(t_info *info, t_executor *current);
-int ft_strcmp(char *s1, char *s2);
+int ft_strcmp(const char *s1, const char *s2);
 t_info *init_info(t_shell *shell);
 // syntax checking functions
 void    signal_setup(int mode);
@@ -163,7 +163,8 @@ char *ft_strcpy(char *dest, const char *src);
 int	echo(char **args);
 // t_lexer_list *tokenize_and_split(t_shell *shell);
 
-t_token which_type(char *s);
+t_token which_type(char *s, int inside);
+
 int check_pipe(char *input);
 char **transform_environ_array(t_shell *shell);
 
