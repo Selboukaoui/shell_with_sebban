@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/23 10:55:59 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/23 12:38:20 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,12 @@ static int create_heredoc(char *delimiter, t_shell *shell, int heredoc_index)
         line = readline("> ");
         if (!line || ft_strcmp(line, real_delim) == 0)
         {
+            if (!line)
+            {
+                ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `",2);
+                ft_putstr_fd(delimiter,2);
+                ft_putstr_fd("\')\n", 2);
+            }
             free(line);
             break;
         }
