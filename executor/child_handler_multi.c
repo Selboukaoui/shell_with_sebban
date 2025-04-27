@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/23 15:04:58 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/27 10:32:53 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,40 @@ static int execute_other(t_executor *current, t_info *info)
     exit(126);
 }
 
+// static void execute_builtin_child(t_info *info)
+// {
+//     int exit_code;
+//     exit_code = handle_single_builtin(info->shell);
+//     // free_heap(info->shell);
+//     exit(exit_code);
+// }
+
+// old:
+// static void execute_builtin_child(t_info *info)
+// {
+//     int exit_code;
+//     exit_code = handle_single_builtin(info->shell);
+//     exit(exit_code);
+// }
+
+// new:
+static void execute_builtin_child(t_info *info, t_executor *cur)
+{
+    int exit_code = 0;
+    char **args = cur->execs;
+
+    if      (ft_strcmp(args[0], "echo")   == 0) exit_code = echo(args);
+    else if (ft_strcmp(args[0], "cd")     == 0) exit_code = cd(info->shell, args);
+    else if (ft_strcmp(args[0], "pwd")    == 0) exit_code = pwd(info->shell->env, 0);
+    else if (ft_strcmp(args[0], "export") == 0) exit_code = export(info->shell, args);
+    else if (ft_strcmp(args[0], "unset")  == 0) exit_code = unset(info->shell, args);
+    else if (ft_strcmp(args[0], "env")    == 0) exit_code = env(info->shell);
+    // else if (ft_strcmp(args[0], "exit")   == 0) exit_code = exit_builtin(info->shell, args, true);
+
+    exit(exit_code);
+}
+
+
 int child_handler_multi(int *fildes, t_executor *current, t_info *info)
 {
     // if (handle_redirections_pipeline(fildes, current, info) == FAIL_SYSCALL)
@@ -201,8 +235,8 @@ int child_handler_multi(int *fildes, t_executor *current, t_info *info)
     if (handle_redirections_pipeline(fildes, current) == FAIL_SYSCALL)
         exit(FAIL_SYSCALL_CHILD);
 
-    // if (is_builtin(current->execs[0]))
-    //     execute_builtin_child(current, info)
+    if (is_builtin(current->execs[0]))
+        execute_builtin_child(info, current);
     //else
     // if (current->fd_in != STDIN_FILENO)
     // {
@@ -214,6 +248,7 @@ int child_handler_multi(int *fildes, t_executor *current, t_info *info)
     //     dup2(current->fd_out, STDOUT_FILENO);
     //     close(current->fd_out);
     // }
-    execute_other(current, info);
+    else
+        execute_other(current, info);
     return (FAIL_SYSCALL_CHILD); // Should never reach here
 }
