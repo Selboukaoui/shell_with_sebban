@@ -1,0 +1,21 @@
+[que des tabulation] ////
+! ////
+les error in > >> << < .... etc ////
+history ////
+minishell ////
+"" ////
+~ ////
+echo my shit terminal is [$TERM4 ////
+ echo $UID ////
+echo $HOME9 //// (double \n)
+echo $9HOME ////
+echo $USER$var\$USER$USER\$USERtest$USER ////
+echo -nnnn $hola ////
+|echo -n hola
+echo $* ////
+echo "$""" ////
+echo '$''' ////
+echo "$"HOME ////
+echo "$"=HOME ////
+
+201//

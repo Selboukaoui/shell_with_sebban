@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/27 10:32:53 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/28 12:36:29 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,39 +157,74 @@ static char *path_join(const char *dir, const char *file)
 //     return (path);
 // }
 
+
 static int execute_other(t_executor *current, t_info *info)
 {
     char    *path;
     char    **env_array;
+    struct stat path_stat;
 
     path = execute_other_helper(current);
-    // path = get_path(info->shell, true);
-    // printf("%s\n",path);
     if (!path)
     {
         ft_putstr_fd("minishell: ", STDERR_FILENO);
         ft_putstr_fd(current->execs[0], STDERR_FILENO);
         ft_putstr_fd(": command not found\n", STDERR_FILENO);
-        // free_heap(info->shell);
-        exit(127);
+        exit(127); // Command not found
+    }
+
+    // Check if path is a directory
+    if (stat(path, &path_stat) == 0) {
+        if ((path_stat.st_mode & S_IFDIR) == S_IFDIR) {
+            ft_putstr_fd("minishell: ", STDERR_FILENO);
+            ft_putstr_fd(path, STDERR_FILENO);
+            ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
+            exit(126); // Path is a directory, not executable
+        }
     }
 
     env_array = transform_environ_array(info->shell);
     if (!env_array)
     {
-        //free(path);
-        // free_heap(info->shell);
-        exit(126);
+        exit(126); // Cannot create environment
     }
 
     execve(path, current->execs, env_array);
-    // //free(path);
-    // free_str_arr(env_array);
-    // free_heap(info->shell);
-    // ft_putstr_fd("minishell: ", STDERR_FILENO);
-    // perror(current->execs[0]);
-    exit(126);
+    exit(126); // Execution failed
 }
+// static int execute_other(t_executor *current, t_info *info)
+// {
+//     char    *path;
+//     char    **env_array;
+
+//     path = execute_other_helper(current);
+//     // path = get_path(info->shell, true);
+//     // printf("%s\n",path);
+//     if (!path)
+//     {
+//         ft_putstr_fd("minishell: ", STDERR_FILENO);
+//         ft_putstr_fd(current->execs[0], STDERR_FILENO);
+//         ft_putstr_fd(": command not found\n", STDERR_FILENO);
+//         // free_heap(info->shell);
+//         exit(127);
+//     }
+
+//     env_array = transform_environ_array(info->shell);
+//     if (!env_array)
+//     {
+//         //free(path);
+//         // free_heap(info->shell);
+//         exit(126);
+//     }
+
+//     execve(path, current->execs, env_array);
+//     // //free(path);
+//     // free_str_arr(env_array);
+//     // free_heap(info->shell);
+//     // ft_putstr_fd("minishell: ", STDERR_FILENO);
+//     // perror(current->execs[0]);
+//     exit(126);
+// }
 
 // static void execute_builtin_child(t_info *info)
 // {
@@ -219,7 +254,7 @@ static void execute_builtin_child(t_info *info, t_executor *cur)
     else if (ft_strcmp(args[0], "export") == 0) exit_code = export(info->shell, args);
     else if (ft_strcmp(args[0], "unset")  == 0) exit_code = unset(info->shell, args);
     else if (ft_strcmp(args[0], "env")    == 0) exit_code = env(info->shell);
-    // else if (ft_strcmp(args[0], "exit")   == 0) exit_code = exit_builtin(info->shell, args, true);
+    else if (ft_strcmp(args[0], "exit")   == 0) exit_code = exit_builtin(info->shell, args); //// if in shild not print exit
 
     exit(exit_code);
 }
