@@ -54,6 +54,7 @@ typedef struct s_shell
 typedef struct s_environ_list
 {
     struct s_environ_node       *head;
+    // bool                        IS_NUUL;
     int                         size;
 }               t_environ_list;
 

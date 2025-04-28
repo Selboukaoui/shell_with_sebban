@@ -12,6 +12,62 @@
 
 #include "./includes/minishell.h"
 
+static char *handle_dollar_quotes(const char *input)
+{
+    int len = ft_strlen(input);
+    char *result = malloc(len + 1); // Allocate enough (final string will be smaller or same)
+    if (!result)
+        return NULL;
+
+    int i = 0, j = 0;
+    while (i < len)
+    {
+        if (input[i] == '$')
+        {
+            int dollar_count = 0;
+            int k = i;
+
+            // Count how many dollars
+            while (k < len && input[k] == '$')
+            {
+                dollar_count++;
+                k++;
+            }
+
+            // Check if next character is a quote
+            if (k < len && (input[k] == '\'' || input[k] == '"'))
+            {
+                if (dollar_count % 2 == 0)
+                {
+                    // Even number of dollars, copy all
+                    while (dollar_count--)
+                        result[j++] = '$';
+                }
+                else
+                {
+                    // Odd number, remove one dollar
+                    dollar_count--;
+                    while (dollar_count--)
+                        result[j++] = '$';
+                }
+            }
+            else
+            {
+                // No quote after, copy all dollars
+                while (dollar_count--)
+                    result[j++] = '$';
+            }
+            i = k;
+        }
+        else
+        {
+            result[j++] = input[i++];
+        }
+    }
+
+    result[j] = '\0';
+    return result;
+}
 
 int main(int ac, char **av, char **env)
 {
@@ -37,6 +93,7 @@ int main(int ac, char **av, char **env)
             add_history(shell->rl_input);
 
         // handle history cmd here
+        shell->rl_input = handle_dollar_quotes(shell->rl_input);
         shell->rl_copy = clean_rl_copy(shell->rl_input);
         shell->rl_copy = replace_vars(shell->rl_input, shell);
         //check syntax like ">>>"

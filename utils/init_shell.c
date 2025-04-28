@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:42:18 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/21 14:35:55 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/28 10:39:38 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_environ_list *empty_environ(t_environ_list *env)
     char    cwd[PATH_MAX];
     char    *pwd;
     char    *shlvl;
+    char *PATH;
+    char *mini;
 
     if (!getcwd(cwd, PATH_MAX))
     {
@@ -26,15 +28,17 @@ t_environ_list *empty_environ(t_environ_list *env)
 
     pwd = ft_strjoin("PWD=", cwd);
     shlvl = ft_strdup("SHLVL=1");
-
-    if (!pwd || !shlvl || !add_back_environ_node(env, create_environ_node(pwd)) ||
-        !add_back_environ_node(env, create_environ_node(shlvl)))
+    PATH = ft_strdup("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+    mini = ft_strdup("_=/home/asebban/Desktop/shell_with_selbouka/./minishell");
+    if (!pwd || !shlvl || !PATH || !mini || !add_back_environ_node(env, create_environ_node(pwd)) ||
+        !add_back_environ_node(env, create_environ_node(shlvl)) ||
+    !add_back_environ_node(env, create_environ_node(mini)) || !add_back_environ_node(env, create_environ_node(PATH)))
     {
         //free(pwd);
         //free(shlvl);
         return (NULL);
     }
-
+    // env->IS_NUUL = true;
     //free(pwd);
     //free(shlvl);
     return (env);
@@ -71,6 +75,7 @@ t_environ_list *init_environ(char **envp)
         add_back_environ_node(env, node);
         envp++;
     }
+    // env->IS_NUUL= false;
     return (env);
 }
 
