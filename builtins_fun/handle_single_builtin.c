@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:45:27 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/27 10:26:31 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/28 10:07:54 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static void execute_builtin(t_shell *shell)
         exit_code = env(shell);
     else if (ft_strcmp(args[0], "echo") == 0)
         exit_code = echo(args);
-    // else if (ft_strcmp(args[0], "exit") == 0)
-    //     exit_code = exit_builtin(shell, args, false);
+    else if (ft_strcmp(args[0], "exit") == 0)
+        exit_code = exit_builtin(shell, args);
     else if (ft_strcmp(args[0], "export") == 0)
         exit_code = export(shell, args);
     else if (ft_strcmp(args[0], "unset") == 0)

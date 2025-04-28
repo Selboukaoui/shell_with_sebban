@@ -200,5 +200,6 @@ int export(t_shell *shell, char **args);
 
 
 t_environ_node   *ft_getenv(t_environ_list *env, char *key);
+int exit_builtin(t_shell *shell, char **args);
 
 #endif
