@@ -160,6 +160,8 @@ int main(int ac, char **av, char **env)
         //     ft_putstr_fd("syntax error near unexpected token`(xx)'\n", 2);
         //     //clean
         // }
+
+        // printf ("%s-->\n", shell->rl_copy);
         if (parser(shell) == false)
             continue ;
 

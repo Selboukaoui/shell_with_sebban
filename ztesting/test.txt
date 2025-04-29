@@ -63,7 +63,4 @@ export HOLA=bonjour$HOME
 $> export $HOLA=bonjour
 $> env
 
-minishell-1.0$~ export HOLA="cat Makefile | grep NAME"
-minishell-1.0$~ echo $HOLA
-
 //300
