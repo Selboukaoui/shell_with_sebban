@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:34:48 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/21 20:00:57 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/29 21:34:35 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void    parent_handler(int signum)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+    exit_status(EXIT_SET,130);
 }
 
 void    signal_setup(int mode)
@@ -34,6 +35,7 @@ void    signal_setup(int mode)
         sigaction(SIGINT, &sg, NULL);
         sg.sa_handler = SIG_IGN;
         sigaction(SIGQUIT, &sg, NULL);
+        exit_status(EXIT_SET,130);
     }
     else
     {
@@ -42,5 +44,7 @@ void    signal_setup(int mode)
         sigaction(SIGINT, &sg, NULL);
         sg.sa_handler = SIG_IGN;
         sigaction(SIGQUIT, &sg, NULL);
+        exit_status(EXIT_SET,130);
     }
+    
 }
