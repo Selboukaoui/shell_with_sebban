@@ -40,9 +40,6 @@ env -i 2 fois
 ctrl d
 export parssing like export a="a b c" & export a=$a
 
-minishell-1.0$~ echo '<<'
-[1]    1344550 segmentation fault (core dumped)  ./minishell
-
 << end1 cat | << 'end2' cat
 
 asebban@e1r10p15:~/Desktop/minishell$ << end1 cat | << 'end2' cat
@@ -65,7 +62,5 @@ exit
 
 command :
 command !
-
-add_builtin func in multiple pipe
 
 syntax error is not like bash
