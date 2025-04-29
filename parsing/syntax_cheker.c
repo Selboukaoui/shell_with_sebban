@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_cheker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/28 18:14:31 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:28:28 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int check_parenthesis(char *input)
         //     break ;
         input++;
     }
+    
     // if (open < close)
     // {
     //     ft_putstr_fd("syntax error near unexpected token `('\n", 2);
