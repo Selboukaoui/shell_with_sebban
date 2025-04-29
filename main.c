@@ -15,7 +15,7 @@
 static char *handle_dollar_quotes(const char *input)
 {
     int len = ft_strlen(input);
-    char *result = malloc(len + 1); // Allocate enough (final string will be smaller or same)
+    char *result = malloc(len + 1);
     if (!result)
         return NULL;
 
@@ -26,26 +26,26 @@ static char *handle_dollar_quotes(const char *input)
         {
             int dollar_count = 0;
             int k = i;
-
-            // Count how many dollars
             while (k < len && input[k] == '$')
-            {
-                dollar_count++;
-                k++;
-            }
+                dollar_count++, k++;
 
-            // Check if next character is a quote
+            /* if next char is a quote, apply special rules */
             if (k < len && (input[k] == '\'' || input[k] == '"'))
             {
-                if (dollar_count % 2 == 0)
+                if (dollar_count == 1)
                 {
-                    // Even number of dollars, copy all
+                    /* single $ → preserve it */
+                    result[j++] = '$';
+                }
+                else if (dollar_count % 2 == 0)
+                {
+                    /* even → copy them all */
                     while (dollar_count--)
                         result[j++] = '$';
                 }
                 else
                 {
-                    // Odd number, remove one dollar
+                    /* odd >1 → drop one, copy the rest */
                     dollar_count--;
                     while (dollar_count--)
                         result[j++] = '$';
@@ -53,7 +53,7 @@ static char *handle_dollar_quotes(const char *input)
             }
             else
             {
-                // No quote after, copy all dollars
+                /* no quote after → copy every $ */
                 while (dollar_count--)
                     result[j++] = '$';
             }
@@ -64,10 +64,67 @@ static char *handle_dollar_quotes(const char *input)
             result[j++] = input[i++];
         }
     }
-
     result[j] = '\0';
     return result;
 }
+
+
+// static char *handle_dollar_quotes(const char *input)
+// {
+//     int len = ft_strlen(input);
+//     char *result = malloc(len + 1); // Allocate enough (final string will be smaller or same)
+//     if (!result)
+//         return NULL;
+
+//     int i = 0, j = 0;
+//     while (i < len)
+//     {
+//         if (input[i] == '$')
+//         {
+//             int dollar_count = 0;
+//             int k = i;
+
+//             // Count how many dollars
+//             while (k < len && input[k] == '$')
+//             {
+//                 dollar_count++;
+//                 k++;
+//             }
+
+//             // Check if next character is a quote
+//             if (k < len && (input[k] == '\'' || input[k] == '"'))
+//             {
+//                 if (dollar_count % 2 == 0)
+//                 {
+//                     // Even number of dollars, copy all
+//                     while (dollar_count--)
+//                         result[j++] = '$';
+//                 }
+//                 else
+//                 {
+//                     // Odd number, remove one dollar
+//                     dollar_count--;
+//                     while (dollar_count--)
+//                         result[j++] = '$';
+//                 }
+//             }
+//             else
+//             {
+//                 // No quote after, copy all dollars
+//                 while (dollar_count--)
+//                     result[j++] = '$';
+//             }
+//             i = k;
+//         }
+//         else
+//         {
+//             result[j++] = input[i++];
+//         }
+//     }
+
+//     result[j] = '\0';
+//     return result;
+// }
 
 int main(int ac, char **av, char **env)
 {
@@ -95,6 +152,7 @@ int main(int ac, char **av, char **env)
         // handle history cmd here
         shell->rl_input = handle_dollar_quotes(shell->rl_input);
         shell->rl_copy = clean_rl_copy(shell->rl_input);
+        // printf ("rl->copy : %s\n",shell->rl_copy);
         shell->rl_copy = replace_vars(shell->rl_input, shell);
         //check syntax like ">>>"
         // if (!ft_strcmp(shell->rl_input, "\\"))

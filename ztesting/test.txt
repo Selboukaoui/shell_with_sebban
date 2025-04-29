@@ -2,20 +2,36 @@
 ! ////
 les error in > >> << < .... etc ////
 history ////
-minishell ////
 "" ////
 ~ ////
-echo my shit terminal is [$TERM4 ////
  echo $UID ////
-echo $HOME9 //// (double \n)
-echo $9HOME ////
-echo $USER$var\$USER$USER\$USERtest$USER ////
-echo -nnnn $hola ////
 |echo -n hola
 echo $* ////
-echo "$""" ////
-echo '$''' ////
-echo "$"HOME ////
-echo "$"=HOME ////
 
-201//
+➜  shell_with_selbouka git:(main) ✗ ./minishell 
+minishell-1.0$~ ^C
+minishell-1.0$~ ^C
+minishell-1.0$~ ^C
+minishell-1.0$~ ^C
+minishell-1.0$~ ^C
+minishell-1.0$~ echo $?
+0
+minishell-1.0$~ bash
+asebban@e2r13p2:~/Desktop/shell_with_selbouka$ ^C
+asebban@e2r13p2:~/Desktop/shell_with_selbouka$ ^C
+asebban@e2r13p2:~/Desktop/shell_with_selbouka$ ^C
+asebban@e2r13p2:~/Desktop/shell_with_selbouka$ ^C
+asebban@e2r13p2:~/Desktop/shell_with_selbouka$ ^C
+asebban@e2r13p2:~/Desktop/shell_with_selbouka$ ^C
+asebban@e2r13p2:~/Desktop/shell_with_selbouka$ echo $?
+130
+
+
+ctr+z \\\\
+
+
+asebban@e2r13p2:~/Desktop/shell_with_selbouka$ sleep 3 | sleep 3 | sleep 3
+^\Quit (core dumped)
+
+asebban@e2r13p2:~/Desktop/shell_with_selbouka$ env | grep _=
+_=/usr/bin/env

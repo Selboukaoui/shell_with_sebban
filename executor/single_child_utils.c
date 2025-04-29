@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:02:46 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/23 15:14:42 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/29 10:07:26 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,44 +52,98 @@ static char *get_env_value(t_shell *shell, const char *key)
     return (NULL);
 }
 
+// static char *get_absolute_path(t_shell *shell)
+// {
+//     char    *path_var;
+//     char    **path_dirs;
+//     char    *full_path;
+//     int     i;
+
+//     if (!shell->executor->execs || !shell->executor->execs[0])
+//         return (NULL);
+//     path_var = get_env_value(shell, "PATH");
+//     if (!path_var)
+//         return (ft_strdup(shell->executor->execs[0]));
+//     path_dirs = ft_split(path_var, ':');
+//     if (!path_dirs)
+//         return (ft_strdup(shell->executor->execs[0]));
+//     i = 0;
+//     while (path_dirs[i])
+//     {
+//         // full_path = ft_strjoin3(path_dirs[i], "/", shell->executor->execs[0]);
+//         char *temp;
+
+//         temp = ft_strjoin(path_dirs[i], "/");
+//         if (!temp)
+//             return (free_str_arr(path_dirs),NULL);
+//         full_path = ft_strjoin(temp, shell->executor->execs[0]);
+//         // //free(temp);
+//         if (!full_path)
+//             return (free_str_arr(path_dirs),NULL);
+//         if (access(full_path, F_OK) == 0)
+//         {
+//             free_str_arr(path_dirs);
+//             return (full_path);
+//         }
+//         // //free(full_path);
+//         i++;
+//     }
+//     free_str_arr(path_dirs);
+//     return (ft_strdup(shell->executor->execs[0]));
+// }
+
 static char *get_absolute_path(t_shell *shell)
 {
-    char    *path_var;
-    char    **path_dirs;
-    char    *full_path;
-    int     i;
+    char  *path_var;
+    char **path_dirs;
+    char  *full_path;
+    char  *tmp;
+    int    i;
 
-    if (!shell->executor->execs || !shell->executor->execs[0])
-        return (NULL);
+    if (!shell->executor->execs[0])
+        return NULL;
+
     path_var = get_env_value(shell, "PATH");
     if (!path_var)
-        return (ft_strdup(shell->executor->execs[0]));
+        return NULL;
+
     path_dirs = ft_split(path_var, ':');
     if (!path_dirs)
-        return (ft_strdup(shell->executor->execs[0]));
+        return NULL;
+
     i = 0;
     while (path_dirs[i])
     {
-        // full_path = ft_strjoin3(path_dirs[i], "/", shell->executor->execs[0]);
-        char *temp;
+        /* skip empty or "." entries */
+        if (path_dirs[i][0] == '\0'
+         || (path_dirs[i][0] == '.' && path_dirs[i][1] == '\0'))
+        {
+            i++;
+            continue;
+        }
 
-        temp = ft_strjoin(path_dirs[i], "/");
-        if (!temp)
-            return (free_str_arr(path_dirs),NULL);
-        full_path = ft_strjoin(temp, shell->executor->execs[0]);
-        // //free(temp);
+        /* build "<dir>/<cmd>" */
+        tmp = ft_strjoin(path_dirs[i], "/");
+        if (!tmp)
+            break;
+        full_path = ft_strjoin(tmp, shell->executor->execs[0]);
+        free(tmp);
         if (!full_path)
-            return (free_str_arr(path_dirs),NULL);
-        if (access(full_path, F_OK) == 0)
+            break;
+
+        /* check existence and executability */
+        if (access(full_path, X_OK) == 0)
         {
             free_str_arr(path_dirs);
-            return (full_path);
+            return full_path;
         }
-        // //free(full_path);
+
+        free(full_path);
         i++;
     }
+
     free_str_arr(path_dirs);
-    return (ft_strdup(shell->executor->execs[0]));
+    return NULL;
 }
 
 static void get_path_error(char *str)
