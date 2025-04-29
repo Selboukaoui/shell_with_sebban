@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/28 15:47:28 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:28:22 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,29 +83,35 @@ int 	cd (t_shell *shell, char **arg)
         // printf ("Ana dkhelt \n");
         if (!ft_strcmp("..", arg[1]))
         {
-            env_var_update(shell->env, "OLDPWD", ft_strjoin(new_pwd, x));
+            env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x));
             x = ft_strjoin(x, "/..");
-            env_var_update(shell->env, "PWD", ft_strjoin(new_pwd, x));
+            env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x));
         }
         else if (!ft_strcmp(".", arg[1]))
         {
-            env_var_update(shell->env, "OLDPWD", ft_strjoin(new_pwd, x));
+            env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x));
             x = ft_strjoin(x, "/.");
-            env_var_update(shell->env, "PWD", ft_strjoin(new_pwd, x));
+            env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x));
         }
         // free (x);
         chdir(arg[1]);
         if (getcwd(old_pwd, sizeof(old_pwd)))
         {
-            env_var_update(shell->env, "PWD", new_pwd);
+            env_var_update(shell->env, "PWD", old_pwd);  
             // env_var_update(shell->env, "OLDPWD", old_pwd);
         }
         ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
             return (FAILED);
     }
+    // if (x)
+    // {
+    //     ft_bzero (x, ft_strlen(x));
+    //     free(x);
+    // }
     // printf ("ana khrejt\n\n");
     // env_var_update(shell->env, "PWD", new_pwd);
     // env_var_update(shell->env, "OLDPWD", old_pwd);
+    // problem ta secound time 
     if (!arg[1])
     {
         if (cd_no_args(shell) == FAILED)

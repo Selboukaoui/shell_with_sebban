@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:48:47 by selbouka          #+#    #+#             */
-/*   Updated: 2024/11/15 17:16:32 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:06:37 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	ft_bzero(void *s, size_t n)
 {
-	ft_memset(s, 0, n);
+	ft_memset(s, '\0', n);
 }

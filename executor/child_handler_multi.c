@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_handler_multi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/28 12:36:29 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:56:44 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ static void execute_builtin_child(t_info *info, t_executor *cur)
 
     if      (ft_strcmp(args[0], "echo")   == 0) exit_code = echo(args);
     else if (ft_strcmp(args[0], "cd")     == 0) exit_code = cd(info->shell, args);
-    else if (ft_strcmp(args[0], "pwd")    == 0) exit_code = pwd(info->shell->env, 0);
+    else if (ft_strcmp(args[0], "pwd")    == 0) exit_code = pwd(info->shell->env);
     else if (ft_strcmp(args[0], "export") == 0) exit_code = export(info->shell, args);
     else if (ft_strcmp(args[0], "unset")  == 0) exit_code = unset(info->shell, args);
     else if (ft_strcmp(args[0], "env")    == 0) exit_code = env(info->shell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_single_builtin.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:45:27 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/28 12:19:47 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:55:04 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void execute_builtin(t_shell *shell)
     
     exit_code = 0;
     if (ft_strcmp(args[0], "pwd") == 0)
-        exit_code = pwd(shell->env, 0);
+        exit_code = pwd(shell->env);
     else if (ft_strcmp(args[0], "cd") == 0)
         exit_code = cd(shell, args);
     else if (ft_strcmp(args[0], ":") == 0)
