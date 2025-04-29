@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:27:05 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/21 21:41:07 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/28 17:13:52 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,24 @@ int check_syntax(t_shell *input)
 {
     if (!check_quote_syntax(input->rl_copy))
     {
-        ft_putstr_fd("syntax error near unexpected token `(quote)'\n", 2);
+        ft_putstr_fd("minishell:  syntax error near unexpected token `(quote)'\n", 2);
         exit_status(EXIT_SET, 2);
         return (0);
     }
     if (!check_parenthesis(input->rl_copy))
     {
-        ft_putstr_fd("syntax error near unexpected token `(parent)'\n", 2);
         exit_status(EXIT_SET, 2);
         return (0);
     }
     if (!check_redirect_in(input->rl_copy) || !check_redirect_out(input->rl_copy))
     {
-        ft_putstr_fd("syntax error near unexpected token `(redirect)'\n", 2);
+        ft_putstr_fd("\nx\n", 2);
         exit_status(EXIT_SET, 2);
         return (0);
     }
     if (!check_pipe(input->rl_copy))
     {
-        ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+        ft_putstr_fd("minishell:  syntax error near unexpected token `|'\n", 2);
         exit_status(EXIT_SET, 2);
         return (0);
     }

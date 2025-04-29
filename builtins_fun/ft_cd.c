@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/04/22 18:50:48 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:47:28 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,24 +70,48 @@ int 	cd (t_shell *shell, char **arg)
 {
     char    old_pwd[PATH_MAX];
     char    new_pwd[PATH_MAX];
-
+    static char     *x;
+    
     (void)shell;
     if (arg[2])
     {
         ft_putstr_fd("bash: cd: too many arguments\n", 2);
-        return (FAILED);
+            return (FAILED);
     }
     if (!getcwd(old_pwd, sizeof(old_pwd)))
     {
-        ft_putstr_fd("cd: error retrieving current directory|xx|\n", 2);// will be handle here
+        // printf ("Ana dkhelt \n");
+        if (!ft_strcmp("..", arg[1]))
+        {
+            env_var_update(shell->env, "OLDPWD", ft_strjoin(new_pwd, x));
+            x = ft_strjoin(x, "/..");
+            env_var_update(shell->env, "PWD", ft_strjoin(new_pwd, x));
+        }
+        else if (!ft_strcmp(".", arg[1]))
+        {
+            env_var_update(shell->env, "OLDPWD", ft_strjoin(new_pwd, x));
+            x = ft_strjoin(x, "/.");
+            env_var_update(shell->env, "PWD", ft_strjoin(new_pwd, x));
+        }
+        // free (x);
+        chdir(arg[1]);
+        if (getcwd(old_pwd, sizeof(old_pwd)))
+        {
+            env_var_update(shell->env, "PWD", new_pwd);
+            // env_var_update(shell->env, "OLDPWD", old_pwd);
+        }
+        ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
             return (FAILED);
     }
+    // printf ("ana khrejt\n\n");
+    // env_var_update(shell->env, "PWD", new_pwd);
+    // env_var_update(shell->env, "OLDPWD", old_pwd);
     if (!arg[1])
     {
         if (cd_no_args(shell) == FAILED)
             return (FAILED);
         return (OK);
-    } 
+    }
     else if (chdir(arg[1]) != 0)
     {
         ft_putstr_fd("minishell: cd: ",2);
@@ -102,7 +126,5 @@ int 	cd (t_shell *shell, char **arg)
     }
     env_var_update(shell->env, "PWD", new_pwd);
     env_var_update(shell->env, "OLDPWD", old_pwd);
-    
     return (OK);
-    
 }
