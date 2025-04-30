@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:33:32 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/29 12:38:21 by asebban          ###   ########.fr       */
+/*   Updated: 2025/04/30 10:11:38 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -942,6 +942,135 @@ char *get_env_value(t_environ_list *env_list, char *key)
 // }
 
 
+// char *replace_vars(char *input, t_shell *shell)
+// {
+//     size_t  i = 0, j = 0, len = ft_strlen(input);
+//     char    *output;
+//     int     in_single_quote   = 0;
+//     int     in_double_quote   = 0;
+//     int     seen_export       = 0;
+//     int     in_export_assign  = 0;
+
+//     /* ——— detect leading “export …” ——— */
+//     {
+//         size_t p = 0;
+//         while (p < len && ft_isspace(input[p])) p++;
+//         if (p + 6 <= len
+//             && ft_strncmp(&input[p], "export", 6) == 0
+//             && (p + 6 == len || ft_isspace(input[p + 6])))
+//         {
+//             seen_export = 1;
+//         }
+//     }
+
+//     /* ——— detect leading “echo …” and remember where it ends ——— */
+//     int  seen_echo = 0;
+//     size_t echo_end = 0;
+//     {
+//         size_t p = 0;
+//         while (p < len && ft_isspace(input[p])) p++;
+//         if (p + 4 <= len
+//             && ft_strncmp(&input[p], "echo", 4) == 0
+//             && (p + 4 == len || ft_isspace(input[p + 4])))
+//         {
+//             seen_echo = 1;
+//             echo_end  = p + 4;           // index just after “echo”
+//         }
+//     }
+
+//     int passed_echo = 0;  // will flip to 1 once i >= echo_end
+
+//     output = ft_malloc(PATH_MAX + 1, 1);
+//     if (!output) return NULL;
+
+//     while (i < len)
+//     {
+//         /* mark once we’ve copied past “echo” */
+//         if (seen_echo && !passed_echo && i >= echo_end)
+//             passed_echo = 1;
+
+//         /* —— export-assignment logic (unchanged) —— */
+//         if (seen_export && !in_export_assign
+//             && !in_single_quote && !in_double_quote
+//             && input[i] == '=')
+//         {
+//             in_export_assign = 1;
+//             output[j++]     = input[i++];
+//             continue;
+//         }
+//         if (in_export_assign && !in_single_quote && !in_double_quote
+//             && (ft_isspace(input[i]) || input[i] == '|'))
+//         {
+//             in_export_assign = 0;
+//             output[j++]      = input[i++];
+//             continue;
+//         }
+
+//         /* —— quote toggling —— */
+//         if (input[i] == '\'' && !in_double_quote)
+//             in_single_quote = !in_single_quote,
+//             output[j++]    = input[i++];
+//         else if (input[i] == '"' && !in_single_quote)
+//             in_double_quote = !in_double_quote,
+//             output[j++]     = input[i++];
+
+//         /* —— variable expansion —— */
+//         else if (input[i] == '$' && !in_single_quote)
+//         {
+//             int wrap = (seen_echo && passed_echo && !in_double_quote);
+
+//             if (wrap) output[j++] = '"';
+
+//             /* handle special cases… */
+//             if (input[i+1] == '?')
+//             {
+//                 int status = exit_status(0, 0);
+//                 char buf[12]; int k = 0;
+//                 int_to_str(status, buf);
+//                 while (buf[k]) output[j++] = buf[k++];
+//                 i += 2;
+//             }
+//             else if (ft_isdigit(input[i+1]))
+//             {
+//                 i += 2;
+//             }
+//             else if (ft_isalpha(input[i+1]) || input[i+1] == '_')
+//             {
+//                 int vs = i+1, vl = 0;
+//                 while (ft_isalnum(input[vs+vl]) || input[vs+vl] == '_')
+//                     vl++;
+//                 char name[256];
+//                 ft_strncpy(name, &input[vs], vl);
+//                 name[vl] = '\0';
+
+//                 char *val = get_env_value(shell->env, name);
+//                 if (val)
+//                     for (int k = 0; val[k]; k++)
+//                         output[j++] = val[k];
+
+//                 i += 1 + vl;
+//             }
+//             else
+//             {
+//                 /* literal `$` */
+//                 output[j++] = '$';
+//                 i++;
+//             }
+
+//             if (wrap) output[j++] = '"';
+//             continue;
+//         }
+
+//         /* —— everything else —— */
+//         else
+//         {
+//             output[j++] = input[i++];
+//         }
+//     }
+
+//     output[j] = '\0';
+//     return output;
+// }
 char *replace_vars(char *input, t_shell *shell)
 {
     size_t  i = 0, j = 0, len = ft_strlen(input);
@@ -951,7 +1080,14 @@ char *replace_vars(char *input, t_shell *shell)
     int     seen_export       = 0;
     int     in_export_assign  = 0;
 
-    /* ——— detect leading “export …” ——— */
+    /* here-doc state */
+    int     in_heredoc        = 0;
+    int     delim_quoted      = 0;
+    char    heredoc_delim[256] = {0};
+    size_t  heredoc_delim_len = 0;
+    char    heredoc_quote     = 0;
+
+    /* —— detect leading “export …” —— */
     {
         size_t p = 0;
         while (p < len && ft_isspace(input[p])) p++;
@@ -963,7 +1099,7 @@ char *replace_vars(char *input, t_shell *shell)
         }
     }
 
-    /* ——— detect leading “echo …” and remember where it ends ——— */
+    /* —— detect leading “echo …” —— */
     int  seen_echo = 0;
     size_t echo_end = 0;
     {
@@ -974,22 +1110,75 @@ char *replace_vars(char *input, t_shell *shell)
             && (p + 4 == len || ft_isspace(input[p + 4])))
         {
             seen_echo = 1;
-            echo_end  = p + 4;           // index just after “echo”
+            echo_end  = p + 4;
         }
     }
-
-    int passed_echo = 0;  // will flip to 1 once i >= echo_end
+    int passed_echo = 0;
 
     output = ft_malloc(PATH_MAX + 1, 1);
     if (!output) return NULL;
 
     while (i < len)
     {
-        /* mark once we’ve copied past “echo” */
         if (seen_echo && !passed_echo && i >= echo_end)
             passed_echo = 1;
 
-        /* —— export-assignment logic (unchanged) —— */
+        if (!in_single_quote && !in_double_quote
+            && input[i] == '<' && input[i + 1] == '<')
+        {
+            i += 2;
+            while (i < len && ft_isspace(input[i]))
+                i++;
+
+            if (input[i] == '\'' || input[i] == '"')
+            {
+                delim_quoted = 1;
+                heredoc_quote = input[i++];
+                heredoc_delim_len = 0;
+                while (i < len && input[i] != heredoc_quote && heredoc_delim_len < sizeof(heredoc_delim)-1)
+                    heredoc_delim[heredoc_delim_len++] = input[i++];
+                heredoc_delim[heredoc_delim_len] = '\0';
+                if (i < len && input[i] == heredoc_quote)
+                    i++;
+            }
+            else
+            {
+                delim_quoted = 0;
+                heredoc_quote = 0;
+                heredoc_delim_len = 0;
+                while (i < len && !ft_isspace(input[i]) && heredoc_delim_len < sizeof(heredoc_delim)-1)
+                    heredoc_delim[heredoc_delim_len++] = input[i++];
+                heredoc_delim[heredoc_delim_len] = '\0';
+            }
+
+            in_heredoc = 1;
+            strcpy(&output[j], "<<"); j += 2;
+            if (delim_quoted)
+                output[j++] = heredoc_quote;
+            memcpy(&output[j], heredoc_delim, heredoc_delim_len);
+            j += heredoc_delim_len;
+            if (delim_quoted)
+                output[j++] = heredoc_quote;
+            continue;
+        }
+
+        if (in_heredoc && (i == 0 || input[i-1] == '\n'))
+        {
+            size_t dlen = strlen(heredoc_delim);
+            if (dlen > 0 && strncmp(&input[i], heredoc_delim, dlen) == 0
+                && (input[i + dlen] == '\n' || input[i + dlen] == '\0'))
+            {
+                in_heredoc = 0;
+                delim_quoted = 0;
+            }
+        }
+
+        if (in_heredoc && delim_quoted)
+        {
+            output[j++] = input[i++];
+            continue;
+        }
+
         if (seen_export && !in_export_assign
             && !in_single_quote && !in_double_quote
             && input[i] == '=')
@@ -1006,7 +1195,6 @@ char *replace_vars(char *input, t_shell *shell)
             continue;
         }
 
-        /* —— quote toggling —— */
         if (input[i] == '\'' && !in_double_quote)
             in_single_quote = !in_single_quote,
             output[j++]    = input[i++];
@@ -1014,18 +1202,16 @@ char *replace_vars(char *input, t_shell *shell)
             in_double_quote = !in_double_quote,
             output[j++]     = input[i++];
 
-        /* —— variable expansion —— */
         else if (input[i] == '$' && !in_single_quote)
         {
             int wrap = (seen_echo && passed_echo && !in_double_quote);
-
             if (wrap) output[j++] = '"';
 
-            /* handle special cases… */
             if (input[i+1] == '?')
             {
                 int status = exit_status(0, 0);
-                char buf[12]; int k = 0;
+                char buf[12];
+                int k = 0;
                 int_to_str(status, buf);
                 while (buf[k]) output[j++] = buf[k++];
                 i += 2;
@@ -1037,8 +1223,7 @@ char *replace_vars(char *input, t_shell *shell)
             else if (ft_isalpha(input[i+1]) || input[i+1] == '_')
             {
                 int vs = i+1, vl = 0;
-                while (ft_isalnum(input[vs+vl]) || input[vs+vl] == '_')
-                    vl++;
+                while (ft_isalnum(input[vs+vl]) || input[vs+vl] == '_') vl++;
                 char name[256];
                 ft_strncpy(name, &input[vs], vl);
                 name[vl] = '\0';
@@ -1052,7 +1237,6 @@ char *replace_vars(char *input, t_shell *shell)
             }
             else
             {
-                /* literal `$` */
                 output[j++] = '$';
                 i++;
             }
@@ -1061,7 +1245,6 @@ char *replace_vars(char *input, t_shell *shell)
             continue;
         }
 
-        /* —— everything else —— */
         else
         {
             output[j++] = input[i++];
