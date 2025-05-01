@@ -1,0 +1,12 @@
+builtins_fun
+executor
+includes
+info
+libft
+ls
+main.c
+Makefile
+minishell
+parsing
+utils
+ztesting
