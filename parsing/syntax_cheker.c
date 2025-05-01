@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/30 16:19:45 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:03:43 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int ft_special(char x, int her)
 {
+    if (x == '\0')
+        return (1);
     if (her == 69)
     {
         if (x  == '>' || x == '<' || x == '|')
@@ -72,7 +74,6 @@ int check_redirect_out(char *input)
                 return (0);
             j = 0;
             --input;
-
         }
         input++;
     }
@@ -89,22 +90,22 @@ int check_redirect_in(char *input)
     {
         if (*input == '<')
         {
-            while (*input == '<')
+            while (*input && *input == '<')
             {
                 input++;
-                if (*input == '\0')
-                    return (0);
                 j++;
+                if (*input == '\0')
+                    break ;
             }
-            while((*input == ' ' || *input == '\t') && *input)
+            while(*input && (*input == ' ' || *input == '\t'))
                 input++;
-            if (j > 2 && !ft_special(*input, 69))
-                return (perror("minishell"), 0);
-                // return (ft_putstr_fd("minishell: syntax error near unexpected token `newline'", 2), 0);
-            if (j > 2 && ft_special(*input, 69))
-                return (perror("minishell"), 0);
-
-                // return (printf ("minishell: syntax error near unexpected token `%c'", *input), 0);
+            if (j > 2)
+                return (write(2, "minishell: syntax error\n",25), 0);
+            while(*input && (*input == ' ' || *input == '\t'))
+                input++;
+            if (ft_special(*input, 69))
+                return (write(2, "minishell: syntax error\n", 25), 0);
+        
             j = 0;
             --input;
         }
