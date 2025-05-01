@@ -247,7 +247,7 @@ int main(int ac, char **av, char **env)
         // printf ("rl->copy : %s\n",shell->rl_copy);
         shell->rl_copy = replace_vars(shell->rl_input, shell);
 
-        printf("str ----> %s\n", shell->rl_copy);
+        // printf("str ----> %s\n", shell->rl_copy);
         //check syntax like ">>>"
         // if (!ft_strcmp(shell->rl_input, "\\"))
         // {
