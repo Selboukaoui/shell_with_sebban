@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_cheker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/01 12:21:54 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/01 14:31:05 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,33 @@ int ft_special(char x, int her)
 
 int check_quote_syntax(const char *input)
 {
-    int s;
-    int d;
+    // int s;
+    // int d;
 
-    s = 0;
-    d = 0;
+    // s = 0;
+    // d = 0;
     while (*input)
     {
         if (*input == '\'')
-            s++;
+        {
+            while (*input && *input != '\'')
+                input++;
+            if (*input == '\0' || *input != '\'')
+                return (0);
+        }
         else if (*input == '\"')
-            d++;
+        {
+            while (*input && *input != '\"')
+                input++;
+            if (*input == '\0' || *input != '\"')
+                return (0);
+        }
         input++;
     }
-    if (s % 2 == 0 && d % 2 == 0)
-        return (1);
-    else
-        return(0);
+    // if (s % 2 == 0 && d % 2 == 0)
+    //     return (1);
+    // else
+    return(1);
 }
 
 int check_redirect_out(char *input)

@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:42:43 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/28 09:53:34 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/01 13:58:19 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void    handle_single(t_shell *shell)
         }
         else if (pid == 0)
         {
+            // signal(SIGQUIT, SIG_DFL)
+            signal_setup(CHILD);
             handle_single_child(shell);
         }
         else
