@@ -103,6 +103,78 @@ handle_dollar_quotes(const char *input)
 }
 
 
+
+
+
+
+
+int main(int ac, char **av, char **env)
+{
+    t_shell *shell;
+
+    (void)ac;
+    (void)av;
+    shell = init_shell(env);
+    signal_setup(PARENT);
+    
+    if (!shell)
+        return (1);
+    while (1)
+    {
+        shell->rl_input = readline("minishell-1.0$~ ");
+        if (!shell->rl_input) // CTRL+D (EOF)
+		{
+			write(1, "exit\n", 5);
+            ft_malloc(0, 0);
+			break; // command not found in ctr + d handle it
+		}
+        if (*shell->rl_input)
+            add_history(shell->rl_input);
+
+        // handle history cmd here
+        shell->rl_input = handle_dollar_quotes(shell->rl_input);
+        // printf("str_handle_dolar ----> %s\n", shell->rl_input);
+        shell->rl_copy = clean_rl_copy(shell->rl_input);
+        // printf ("rl->copy : %s\n",shell->rl_copy);
+        shell->rl_copy = replace_vars(shell->rl_input, shell);
+
+        // printf("str ----> %s\n", shell->rl_copy);
+        //check syntax like ">>>"
+        // if (!ft_strcmp(shell->rl_input, "\\"))
+        // {
+        //     ft_putstr_fd("syntax error near unexpected token`(xx)'\n", 2);
+        //     //clean
+        // }
+
+        // printf ("%s-->\n", shell->rl_copy);
+        if (parser(shell) == false)
+            continue ;
+
+        // t_shell *tst = shell;
+        // while (tst->lex_head)
+        // {
+        //     printf ("str ----> %s\n type -----> %u\n", tst->lex_head->str, tst->lex_head->type);
+        //     tst->lex_head = tst->lex_head->next;
+        // }
+
+        executor(shell);
+        // and clean for next loop
+    }
+    // clean
+    return(0);// return exit_code
+}
+
+
+
+
+
+
+
+
+
+
+
+
 // static char *handle_dollar_quotes(const char *input)
 // {
 //     int len = ft_strlen(input);
@@ -216,59 +288,3 @@ handle_dollar_quotes(const char *input)
 //     result[j] = '\0';
 //     return result;
 // }
-
-int main(int ac, char **av, char **env)
-{
-    t_shell *shell;
-
-    (void)ac;
-    (void)av;
-    shell = init_shell(env);
-    signal_setup(PARENT);
-    
-    if (!shell)
-        return (1);
-    while (1)
-    {
-        shell->rl_input = readline("minishell-1.0$~ ");
-        if (!shell->rl_input) // CTRL+D (EOF)
-		{
-			write(1, "exit\n", 5);
-            ft_malloc(0, 0);
-			break; // command not found in ctr + d handle it
-		}
-        if (*shell->rl_input)
-            add_history(shell->rl_input);
-
-        // handle history cmd here
-        shell->rl_input = handle_dollar_quotes(shell->rl_input);
-        // printf("str_handle_dolar ----> %s\n", shell->rl_input);
-        shell->rl_copy = clean_rl_copy(shell->rl_input);
-        // printf ("rl->copy : %s\n",shell->rl_copy);
-        shell->rl_copy = replace_vars(shell->rl_input, shell);
-
-        // printf("str ----> %s\n", shell->rl_copy);
-        //check syntax like ">>>"
-        // if (!ft_strcmp(shell->rl_input, "\\"))
-        // {
-        //     ft_putstr_fd("syntax error near unexpected token`(xx)'\n", 2);
-        //     //clean
-        // }
-
-        // printf ("%s-->\n", shell->rl_copy);
-        if (parser(shell) == false)
-            continue ;
-
-        // t_shell *tst = shell;
-        // while (tst->lex_head)
-        // {
-        //     printf ("str ----> %s\n type -----> %u\n", tst->lex_head->str, tst->lex_head->type);
-        //     tst->lex_head = tst->lex_head->next;
-        // }
-
-        executor(shell);
-        // and clean for next loop
-    }
-    // clean
-    return(0);// return exit_code
-}
