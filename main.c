@@ -25,66 +25,81 @@
  *         Then append the unquoted content.
  *   - Otherwise, copy '$'s literally.
  */
-static char *handle_dollar_quotes(const char *input)
+static char *
+handle_dollar_quotes(const char *input)
 {
-    size_t len = strlen(input);
-    /* Allocate with some headroom for expansions */
-    size_t cap = len * 2 + 1;
-    char *result = malloc(cap);
-    if (!result)
-        return NULL;
+    size_t  len     = strlen(input);
+    size_t  cap     = len + 1;
+    char   *out     = malloc(cap);
+    size_t  oi      = 0;
+    bool    in_q    = false;
 
-    size_t i = 0, j = 0;
-    while (i < len) {
-        if (input[i] == '$') {
-            /* count run of '$' */
-            size_t dollar_count = 0;
-            while (i + dollar_count < len && input[i + dollar_count] == '$')
-                dollar_count++;
+    for (size_t i = 0; i < len; /* updated below */) {
+        char c = input[i];
 
-            size_t k = i + dollar_count;
-            /* if next char is a quote, apply special here-doc rules */
-            if (k < len && (input[k] == '\'' || input[k] == '"')) {
-                char quote = input[k];
-                size_t var_start = k + 1;
-                size_t m = var_start;
-                /* find matching closing quote */
-                while (m < len && input[m] != quote)
-                    m++;
-                size_t var_len = m - var_start;
+        /* Toggle quote state on unescaped '"' */
+        if (c == '"' && (i == 0 || input[i-1] != '\\')) {
+            /* append the '"' */
+            if (oi + 1 >= cap) {
+                cap = cap * 2;
+                out = realloc(out, cap);
+            }
+            out[oi++] = '"';
+            in_q = !in_q;
+            i++;
+            continue;
+        }
 
-                /* skip closing quote if present */
-                if (m < len && input[m] == quote)
-                    m++;
-
-                /* empty quoted string after single '$' => literal '$' */
-                if (dollar_count == 1 && var_len == 0) {
-                    result[j++] = '$';
+        /* If we’re outside quotes, check for $…+" pattern */
+        if (!in_q && c == '$') {
+            /* count consecutive $ */
+            size_t j = i;
+            while (j < len && input[j] == '$') j++;
+            /* if next is a quote, handle per parity rule */
+            if (j < len && input[j] == '"') {
+                size_t dollar_count = j - i;
+                if (dollar_count % 2 == 1) {
+                    /* odd -> drop one $ */
+                    if (oi + dollar_count - 1 + 1 >= cap) {
+                        cap = cap + len;  /* enough room */
+                        out = realloc(out, cap);
+                    }
+                    /* write (count-1) $ */
+                    for (size_t k = 0; k < dollar_count - 1; k++) {
+                        out[oi++] = '$';
+                    }
+                    /* write the quote, enter quote mode */
+                    out[oi++] = '"';
+                    in_q = true;
                 } else {
-                    /* determine how many '$' to keep */
-                    size_t keep = (dollar_count % 2 == 0)
-                                    ? dollar_count
-                                    : dollar_count - 1;
-                    for (size_t d = 0; d < keep; d++)
-                        result[j++] = '$';
-                    /* append unquoted content */
-                    memcpy(result + j, input + var_start, var_len);
-                    j += var_len;
+                    /* even -> leave as-is (all $ and the ") */
+                    if (oi + dollar_count + 1 >= cap) {
+                        cap = cap + len;
+                        out = realloc(out, cap);
+                    }
+                    for (size_t k = 0; k < dollar_count; k++) {
+                        out[oi++] = '$';
+                    }
+                    out[oi++] = '"';
+                    in_q = true;
                 }
-                /* advance past processed section */
-                i = m;
+                i = j + 1;
                 continue;
             }
-            /* no quote after => copy all '$' literally */
-            for (size_t d = 0; d < dollar_count; d++)
-                result[j++] = '$';
-            i = k;
-        } else {
-            result[j++] = input[i++];
+            /* otherwise not followed by a quote—treat literally */
         }
+
+        /* Default: copy character */
+        if (oi + 1 >= cap) {
+            cap = cap * 2;
+            out = realloc(out, cap);
+        }
+        out[oi++] = c;
+        i++;
     }
-    result[j] = '\0';
-    return result;
+
+    out[oi] = '\0';
+    return out;
 }
 
 
@@ -227,9 +242,12 @@ int main(int ac, char **av, char **env)
 
         // handle history cmd here
         shell->rl_input = handle_dollar_quotes(shell->rl_input);
+        // printf("str_handle_dolar ----> %s\n", shell->rl_input);
         shell->rl_copy = clean_rl_copy(shell->rl_input);
         // printf ("rl->copy : %s\n",shell->rl_copy);
         shell->rl_copy = replace_vars(shell->rl_input, shell);
+
+        printf("str ----> %s\n", shell->rl_copy);
         //check syntax like ">>>"
         // if (!ft_strcmp(shell->rl_input, "\\"))
         // {

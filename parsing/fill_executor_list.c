@@ -6,26 +6,43 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/23 12:38:20 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/01 10:54:56 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// static bool open_outputfile(t_executor *current, t_lexer_list *lexer)
+// {
+//     if (current->append)
+//         current->fd_out = open(lexer->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+//     else
+//         current->fd_out = open(lexer->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+//     if (current->fd_out == -1)
+//     {
+//         ft_putstr_fd("minishell: ", STDERR_FILENO);
+//         // perror(lexer->str);
+//         // return (false);
+//     }
+//     return (true);
+// }
 static bool open_outputfile(t_executor *current, t_lexer_list *lexer)
 {
     if (current->append)
-        current->fd_out = open(lexer->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        current->fd_out = open(lexer->str,
+            O_WRONLY | O_CREAT | O_APPEND, 0644);
     else
-        current->fd_out = open(lexer->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        current->fd_out = open(lexer->str,
+            O_WRONLY | O_CREAT | O_TRUNC, 0644);
+
     if (current->fd_out == -1)
     {
-        ft_putstr_fd("minishell: ", STDERR_FILENO);
-        // perror(lexer->str);
-        // return (false);
+        perror(lexer->str);
+        return false;
     }
-    return (true);
+    return true;
 }
+
 
 static int process_out_append(t_executor *current, t_lexer_list *lexer)
 {

@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:33:32 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/30 10:11:38 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/01 10:58:23 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -808,138 +808,138 @@ char *get_env_value(t_environ_list *env_list, char *key)
 // }
 
 
-// char *replace_vars(char *input, t_shell *shell)
-// {
-//     size_t  i = 0, j = 0, len = ft_strlen(input);
-//     char    *output;
-//     int     in_single_quote   = 0;
-//     int     in_double_quote   = 0;
-//     int     seen_export       = 0;
-//     int     in_export_assign  = 0;
-//     int     k;
+char *replace_vars(char *input, t_shell *shell)
+{
+    size_t  i = 0, j = 0, len = ft_strlen(input);
+    char    *output;
+    int     in_single_quote   = 0;
+    int     in_double_quote   = 0;
+    int     seen_export       = 0;
+    int     in_export_assign  = 0;
+    int     k;
 
-//     /* detect leading “export …” */
-//     {
-//         size_t p = 0;
-//         while (p < len && ft_isspace(input[p]))
-//             p++;
-//         if (p + 6 <= len
-//             && ft_strncmp(&input[p], "export", 6) == 0
-//             && (p + 6 == len || ft_isspace(input[p + 6])))
-//         {
-//             seen_export = 1;
-//         }
-//     }
+    /* detect leading “export …” */
+    {
+        size_t p = 0;
+        while (p < len && ft_isspace(input[p]))
+            p++;
+        if (p + 6 <= len
+            && ft_strncmp(&input[p], "export", 6) == 0
+            && (p + 6 == len || ft_isspace(input[p + 6])))
+        {
+            seen_export = 1;
+        }
+    }
 
-//     output = ft_malloc(PATH_MAX + 1, 1);
-//     if (!output)
-//         return NULL;
+    output = ft_malloc(PATH_MAX + 1, 1);
+    if (!output)
+        return NULL;
 
-//     while (i < len)
-//     {
-//         /* start of RHS of “export VAR=” */
-//         if (seen_export && !in_export_assign
-//             && !in_single_quote && !in_double_quote
-//             && input[i] == '=')
-//         {
-//             in_export_assign = 1;
-//             output[j++]     = input[i++];
-//             continue;
-//         }
+    while (i < len)
+    {
+        /* start of RHS of “export VAR=” */
+        if (seen_export && !in_export_assign
+            && !in_single_quote && !in_double_quote
+            && input[i] == '=')
+        {
+            in_export_assign = 1;
+            output[j++]     = input[i++];
+            continue;
+        }
 
-//         /* leave export-assignment on unquoted space or pipe */
-//         if (in_export_assign && !in_single_quote && !in_double_quote
-//             && (ft_isspace(input[i]) || input[i] == '|'))
-//         {
-//             in_export_assign = 0;
-//             output[j++]      = input[i++];
-//             continue;
-//         }
+        /* leave export-assignment on unquoted space or pipe */
+        if (in_export_assign && !in_single_quote && !in_double_quote
+            && (ft_isspace(input[i]) || input[i] == '|'))
+        {
+            in_export_assign = 0;
+            output[j++]      = input[i++];
+            continue;
+        }
 
-//         /* normal quote toggling */
-//         if (input[i] == '\'' && !in_double_quote)
-//             in_single_quote = !in_single_quote, output[j++] = input[i++];
-//         else if (input[i] == '"' && !in_single_quote)
-//             in_double_quote = !in_double_quote, output[j++] = input[i++];
+        /* normal quote toggling */
+        if (input[i] == '\'' && !in_double_quote)
+            in_single_quote = !in_single_quote, output[j++] = input[i++];
+        else if (input[i] == '"' && !in_single_quote)
+            in_double_quote = !in_double_quote, output[j++] = input[i++];
 
-//         /* potential variable expansion */
-//         else if (input[i] == '$' && !in_single_quote)
-//         {
-//             /* literal end-of-input */
-//             if (input[i + 1] == '\0')
-//             {
-//                 output[j++] = '$';
-//                 i++;
-//             }
-//             /* handle `$?` */
-//             else if (input[i + 1] == '?')
-//             {
-//                 if (seen_export && in_export_assign)
-//                     output[j++] = '"';
+        /* potential variable expansion */
+        else if (input[i] == '$' && !in_single_quote)
+        {
+            /* literal end-of-input */
+            if (input[i + 1] == '\0')
+            {
+                output[j++] = '$';
+                i++;
+            }
+            /* handle `$?` */
+            else if (input[i + 1] == '?')
+            {
+                if (seen_export && in_export_assign)
+                    output[j++] = '"';
 
-//                 int  status = exit_status(0, 0);
-//                 char status_str[12];
-//                 int_to_str(status, status_str);
-//                 k = 0;
-//                 while (status_str[k])
-//                     output[j++] = status_str[k++];
-//                 i += 2;
+                int  status = exit_status(0, 0);
+                char status_str[12];
+                int_to_str(status, status_str);
+                k = 0;
+                while (status_str[k])
+                    output[j++] = status_str[k++];
+                i += 2;
 
-//                 if (seen_export && in_export_assign)
-//                     output[j++] = '"';
-//             }
-//             /* handle positional `$<digit>` (skip) */
-//             else if (ft_isdigit(input[i + 1]))
-//             {
-//                 i += 2;  // skip both `$` and the digit
-//             }
-//             /* normal `$VARNAME` */
-//             else if (ft_isalpha(input[i + 1]) || input[i + 1] == '_')
-//             {
-//                 if (seen_export && in_export_assign)
-//                     output[j++] = '"';
+                if (seen_export && in_export_assign)
+                    output[j++] = '"';
+            }
+            /* handle positional `$<digit>` (skip) */
+            else if (ft_isdigit(input[i + 1]))
+            {
+                i += 2;  // skip both `$` and the digit
+            }
+            /* normal `$VARNAME` */
+            else if (ft_isalpha(input[i + 1]) || input[i + 1] == '_')
+            {
+                if (seen_export && in_export_assign)
+                    output[j++] = '"';
 
-//                 int  var_start = i + 1;
-//                 int  var_len   = 0;
-//                 char var_name[256];
+                int  var_start = i + 1;
+                int  var_len   = 0;
+                char var_name[256];
 
-//                 while (ft_isalnum(input[var_start + var_len]) || input[var_start + var_len] == '_')
-//                     var_len++;
+                while (ft_isalnum(input[var_start + var_len]) || input[var_start + var_len] == '_')
+                    var_len++;
 
-//                 ft_strncpy(var_name, &input[var_start], var_len);
-//                 var_name[var_len] = '\0';
+                ft_strncpy(var_name, &input[var_start], var_len);
+                var_name[var_len] = '\0';
 
-//                 char *val = get_env_value(shell->env, var_name);
-//                 if (val)
-//                 {
-//                     k = 0;
-//                     while (val[k])
-//                         output[j++] = val[k++];
-//                 }
-//                 // if undefined, do nothing (no newline)
-//                 i += var_len + 1;
+                char *val = get_env_value(shell->env, var_name);
+                if (val)
+                {
+                    k = 0;
+                    while (val[k])
+                        output[j++] = val[k++];
+                }
+                // if undefined, do nothing (no newline)
+                i += var_len + 1;
 
-//                 if (seen_export && in_export_assign)
-//                     output[j++] = '"';
-//             }
-//             /* invalid or literal `$` */
-//             else
-//             {
-//                 output[j++] = '$';
-//                 i++;
-//             }
-//             continue;
-//         }
-//         /* everything else */
-//         else
-//         {
-//             output[j++] = input[i++];
-//         }
-//     }
+                if (seen_export && in_export_assign)
+                    output[j++] = '"';
+            }
+            /* invalid or literal `$` */
+            else
+            {
+                output[j++] = '$';
+                i++;
+            }
+            continue;
+        }
+        /* everything else */
+        else
+        {
+            output[j++] = input[i++];
+        }
+    }
 
-//     output[j] = '\0';
-//     return output;
-// }
+    output[j] = '\0';
+    return output;
+}
 
 
 // char *replace_vars(char *input, t_shell *shell)
@@ -1071,186 +1071,186 @@ char *get_env_value(t_environ_list *env_list, char *key)
 //     output[j] = '\0';
 //     return output;
 // }
-char *replace_vars(char *input, t_shell *shell)
-{
-    size_t  i = 0, j = 0, len = ft_strlen(input);
-    char    *output;
-    int     in_single_quote   = 0;
-    int     in_double_quote   = 0;
-    int     seen_export       = 0;
-    int     in_export_assign  = 0;
+// char *replace_vars(char *input, t_shell *shell)
+// {
+//     size_t  i = 0, j = 0, len = ft_strlen(input);
+//     char    *output;
+//     int     in_single_quote   = 0;
+//     int     in_double_quote   = 0;
+//     int     seen_export       = 0;
+//     int     in_export_assign  = 0;
 
-    /* here-doc state */
-    int     in_heredoc        = 0;
-    int     delim_quoted      = 0;
-    char    heredoc_delim[256] = {0};
-    size_t  heredoc_delim_len = 0;
-    char    heredoc_quote     = 0;
+//     /* here-doc state */
+//     int     in_heredoc        = 0;
+//     int     delim_quoted      = 0;
+//     char    heredoc_delim[256] = {0};
+//     size_t  heredoc_delim_len = 0;
+//     char    heredoc_quote     = 0;
 
-    /* —— detect leading “export …” —— */
-    {
-        size_t p = 0;
-        while (p < len && ft_isspace(input[p])) p++;
-        if (p + 6 <= len
-            && ft_strncmp(&input[p], "export", 6) == 0
-            && (p + 6 == len || ft_isspace(input[p + 6])))
-        {
-            seen_export = 1;
-        }
-    }
+//     /* —— detect leading “export …” —— */
+//     {
+//         size_t p = 0;
+//         while (p < len && ft_isspace(input[p])) p++;
+//         if (p + 6 <= len
+//             && ft_strncmp(&input[p], "export", 6) == 0
+//             && (p + 6 == len || ft_isspace(input[p + 6])))
+//         {
+//             seen_export = 1;
+//         }
+//     }
 
-    /* —— detect leading “echo …” —— */
-    int  seen_echo = 0;
-    size_t echo_end = 0;
-    {
-        size_t p = 0;
-        while (p < len && ft_isspace(input[p])) p++;
-        if (p + 4 <= len
-            && ft_strncmp(&input[p], "echo", 4) == 0
-            && (p + 4 == len || ft_isspace(input[p + 4])))
-        {
-            seen_echo = 1;
-            echo_end  = p + 4;
-        }
-    }
-    int passed_echo = 0;
+//     /* —— detect leading “echo …” —— */
+//     int  seen_echo = 0;
+//     size_t echo_end = 0;
+//     {
+//         size_t p = 0;
+//         while (p < len && ft_isspace(input[p])) p++;
+//         if (p + 4 <= len
+//             && ft_strncmp(&input[p], "echo", 4) == 0
+//             && (p + 4 == len || ft_isspace(input[p + 4])))
+//         {
+//             seen_echo = 1;
+//             echo_end  = p + 4;
+//         }
+//     }
+//     int passed_echo = 0;
 
-    output = ft_malloc(PATH_MAX + 1, 1);
-    if (!output) return NULL;
+//     output = ft_malloc(PATH_MAX + 1, 1);
+//     if (!output) return NULL;
 
-    while (i < len)
-    {
-        if (seen_echo && !passed_echo && i >= echo_end)
-            passed_echo = 1;
+//     while (i < len)
+//     {
+//         if (seen_echo && !passed_echo && i >= echo_end)
+//             passed_echo = 1;
 
-        if (!in_single_quote && !in_double_quote
-            && input[i] == '<' && input[i + 1] == '<')
-        {
-            i += 2;
-            while (i < len && ft_isspace(input[i]))
-                i++;
+//         if (!in_single_quote && !in_double_quote
+//             && input[i] == '<' && input[i + 1] == '<')
+//         {
+//             i += 2;
+//             while (i < len && ft_isspace(input[i]))
+//                 i++;
 
-            if (input[i] == '\'' || input[i] == '"')
-            {
-                delim_quoted = 1;
-                heredoc_quote = input[i++];
-                heredoc_delim_len = 0;
-                while (i < len && input[i] != heredoc_quote && heredoc_delim_len < sizeof(heredoc_delim)-1)
-                    heredoc_delim[heredoc_delim_len++] = input[i++];
-                heredoc_delim[heredoc_delim_len] = '\0';
-                if (i < len && input[i] == heredoc_quote)
-                    i++;
-            }
-            else
-            {
-                delim_quoted = 0;
-                heredoc_quote = 0;
-                heredoc_delim_len = 0;
-                while (i < len && !ft_isspace(input[i]) && heredoc_delim_len < sizeof(heredoc_delim)-1)
-                    heredoc_delim[heredoc_delim_len++] = input[i++];
-                heredoc_delim[heredoc_delim_len] = '\0';
-            }
+//             if (input[i] == '\'' || input[i] == '"')
+//             {
+//                 delim_quoted = 1;
+//                 heredoc_quote = input[i++];
+//                 heredoc_delim_len = 0;
+//                 while (i < len && input[i] != heredoc_quote && heredoc_delim_len < sizeof(heredoc_delim)-1)
+//                     heredoc_delim[heredoc_delim_len++] = input[i++];
+//                 heredoc_delim[heredoc_delim_len] = '\0';
+//                 if (i < len && input[i] == heredoc_quote)
+//                     i++;
+//             }
+//             else
+//             {
+//                 delim_quoted = 0;
+//                 heredoc_quote = 0;
+//                 heredoc_delim_len = 0;
+//                 while (i < len && !ft_isspace(input[i]) && heredoc_delim_len < sizeof(heredoc_delim)-1)
+//                     heredoc_delim[heredoc_delim_len++] = input[i++];
+//                 heredoc_delim[heredoc_delim_len] = '\0';
+//             }
 
-            in_heredoc = 1;
-            strcpy(&output[j], "<<"); j += 2;
-            if (delim_quoted)
-                output[j++] = heredoc_quote;
-            memcpy(&output[j], heredoc_delim, heredoc_delim_len);
-            j += heredoc_delim_len;
-            if (delim_quoted)
-                output[j++] = heredoc_quote;
-            continue;
-        }
+//             in_heredoc = 1;
+//             strcpy(&output[j], "<<"); j += 2;
+//             if (delim_quoted)
+//                 output[j++] = heredoc_quote;
+//             memcpy(&output[j], heredoc_delim, heredoc_delim_len);
+//             j += heredoc_delim_len;
+//             if (delim_quoted)
+//                 output[j++] = heredoc_quote;
+//             continue;
+//         }
 
-        if (in_heredoc && (i == 0 || input[i-1] == '\n'))
-        {
-            size_t dlen = strlen(heredoc_delim);
-            if (dlen > 0 && strncmp(&input[i], heredoc_delim, dlen) == 0
-                && (input[i + dlen] == '\n' || input[i + dlen] == '\0'))
-            {
-                in_heredoc = 0;
-                delim_quoted = 0;
-            }
-        }
+//         if (in_heredoc && (i == 0 || input[i-1] == '\n'))
+//         {
+//             size_t dlen = strlen(heredoc_delim);
+//             if (dlen > 0 && strncmp(&input[i], heredoc_delim, dlen) == 0
+//                 && (input[i + dlen] == '\n' || input[i + dlen] == '\0'))
+//             {
+//                 in_heredoc = 0;
+//                 delim_quoted = 0;
+//             }
+//         }
 
-        if (in_heredoc && delim_quoted)
-        {
-            output[j++] = input[i++];
-            continue;
-        }
+//         if (in_heredoc && delim_quoted)
+//         {
+//             output[j++] = input[i++];
+//             continue;
+//         }
 
-        if (seen_export && !in_export_assign
-            && !in_single_quote && !in_double_quote
-            && input[i] == '=')
-        {
-            in_export_assign = 1;
-            output[j++]     = input[i++];
-            continue;
-        }
-        if (in_export_assign && !in_single_quote && !in_double_quote
-            && (ft_isspace(input[i]) || input[i] == '|'))
-        {
-            in_export_assign = 0;
-            output[j++]      = input[i++];
-            continue;
-        }
+//         if (seen_export && !in_export_assign
+//             && !in_single_quote && !in_double_quote
+//             && input[i] == '=')
+//         {
+//             in_export_assign = 1;
+//             output[j++]     = input[i++];
+//             continue;
+//         }
+//         if (in_export_assign && !in_single_quote && !in_double_quote
+//             && (ft_isspace(input[i]) || input[i] == '|'))
+//         {
+//             in_export_assign = 0;
+//             output[j++]      = input[i++];
+//             continue;
+//         }
 
-        if (input[i] == '\'' && !in_double_quote)
-            in_single_quote = !in_single_quote,
-            output[j++]    = input[i++];
-        else if (input[i] == '"' && !in_single_quote)
-            in_double_quote = !in_double_quote,
-            output[j++]     = input[i++];
+//         if (input[i] == '\'' && !in_double_quote)
+//             in_single_quote = !in_single_quote,
+//             output[j++]    = input[i++];
+//         else if (input[i] == '"' && !in_single_quote)
+//             in_double_quote = !in_double_quote,
+//             output[j++]     = input[i++];
 
-        else if (input[i] == '$' && !in_single_quote)
-        {
-            int wrap = (seen_echo && passed_echo && !in_double_quote);
-            if (wrap) output[j++] = '"';
+//         else if (input[i] == '$' && !in_single_quote)
+//         {
+//             int wrap = (seen_echo && passed_echo && !in_double_quote);
+//             if (wrap) output[j++] = '"';
 
-            if (input[i+1] == '?')
-            {
-                int status = exit_status(0, 0);
-                char buf[12];
-                int k = 0;
-                int_to_str(status, buf);
-                while (buf[k]) output[j++] = buf[k++];
-                i += 2;
-            }
-            else if (ft_isdigit(input[i+1]))
-            {
-                i += 2;
-            }
-            else if (ft_isalpha(input[i+1]) || input[i+1] == '_')
-            {
-                int vs = i+1, vl = 0;
-                while (ft_isalnum(input[vs+vl]) || input[vs+vl] == '_') vl++;
-                char name[256];
-                ft_strncpy(name, &input[vs], vl);
-                name[vl] = '\0';
+//             if (input[i+1] == '?')
+//             {
+//                 int status = exit_status(0, 0);
+//                 char buf[12];
+//                 int k = 0;
+//                 int_to_str(status, buf);
+//                 while (buf[k]) output[j++] = buf[k++];
+//                 i += 2;
+//             }
+//             else if (ft_isdigit(input[i+1]))
+//             {
+//                 i += 2;
+//             }
+//             else if (ft_isalpha(input[i+1]) || input[i+1] == '_')
+//             {
+//                 int vs = i+1, vl = 0;
+//                 while (ft_isalnum(input[vs+vl]) || input[vs+vl] == '_') vl++;
+//                 char name[256];
+//                 ft_strncpy(name, &input[vs], vl);
+//                 name[vl] = '\0';
 
-                char *val = get_env_value(shell->env, name);
-                if (val)
-                    for (int k = 0; val[k]; k++)
-                        output[j++] = val[k];
+//                 char *val = get_env_value(shell->env, name);
+//                 if (val)
+//                     for (int k = 0; val[k]; k++)
+//                         output[j++] = val[k];
 
-                i += 1 + vl;
-            }
-            else
-            {
-                output[j++] = '$';
-                i++;
-            }
+//                 i += 1 + vl;
+//             }
+//             else
+//             {
+//                 output[j++] = '$';
+//                 i++;
+//             }
 
-            if (wrap) output[j++] = '"';
-            continue;
-        }
+//             if (wrap) output[j++] = '"';
+//             continue;
+//         }
 
-        else
-        {
-            output[j++] = input[i++];
-        }
-    }
+//         else
+//         {
+//             output[j++] = input[i++];
+//         }
+//     }
 
-    output[j] = '\0';
-    return output;
-}
+//     output[j] = '\0';
+//     return output;
+// }

@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:45:27 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/30 10:37:12 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/01 10:55:21 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,32 @@ static void execute_builtin(t_shell *shell)
     exit_status(EXIT_SET, exit_code);
 }
 
+// static bool handle_redirections_single_builtin(t_shell *shell)
+// {
+//     t_executor *exec = shell->executor;
+
+//     if (exec->fd_in != STDIN_FILENO)
+//     {
+//         if (dup2(exec->fd_in, STDIN_FILENO) == -1)
+//         {
+//             perror("minishell: dup2");
+//             return (false);
+//         }
+//         close(exec->fd_in);
+//     }
+
+//     if (exec->fd_out != STDOUT_FILENO)
+//     {
+//         if (dup2(exec->fd_out, STDOUT_FILENO) == -1)
+//         {
+//             perror("minishell: dup2");
+//             return (false);
+//         }
+//         close(exec->fd_out);
+//     }
+//     return (true);
+// }
+
 static bool handle_redirections_single_builtin(t_shell *shell)
 {
     t_executor *exec = shell->executor;
@@ -71,7 +97,7 @@ static bool handle_redirections_single_builtin(t_shell *shell)
         if (dup2(exec->fd_in, STDIN_FILENO) == -1)
         {
             perror("minishell: dup2");
-            return (false);
+            return false;
         }
         close(exec->fd_in);
     }
@@ -81,11 +107,11 @@ static bool handle_redirections_single_builtin(t_shell *shell)
         if (dup2(exec->fd_out, STDOUT_FILENO) == -1)
         {
             perror("minishell: dup2");
-            return (false);
+            return false;
         }
         close(exec->fd_out);
     }
-    return (true);
+    return true;
 }
 
 static bool restore_stds(int stdin_cpy, int stdout_cpy)
@@ -108,21 +134,36 @@ static bool restore_stds(int stdin_cpy, int stdout_cpy)
     return (success);
 }
 
-int handle_single_builtin(t_shell *shell)
-{
-    int stdin_copy;
-    int stdout_copy;
-    int ret;
+// int handle_single_builtin(t_shell *shell)
+// {
+//     int stdin_copy;
+//     int stdout_copy;
+//     int ret;
 
-    if (!handle_redirections_single_builtin(shell))
-        return (EXIT_FAILURE);
+//     if (!handle_redirections_single_builtin(shell))
+//         return (EXIT_FAILURE);
     
-    saving_stds(&stdin_copy, &stdout_copy);
-    execute_builtin(shell);
-    ret = restore_stds(stdin_copy, stdout_copy);
+//     saving_stds(&stdin_copy, &stdout_copy);
+//     execute_builtin(shell);
+//     ret = restore_stds(stdin_copy, stdout_copy);
     
-    if (ret)
-        return(EXIT_SUCCESS);
-    return(EXIT_FAILURE);
+//     if (ret)
+//         return(EXIT_SUCCESS);
+//     return(EXIT_FAILURE);
 
-}
+// }
+ int handle_single_builtin(t_shell *shell)
+ {
+     int stdin_copy, stdout_copy;
+
+
+    saving_stds(&stdin_copy, &stdout_copy);      /* ← save real STDIN/​STDOUT first */
+    if (!handle_redirections_single_builtin(shell)) {
+        restore_stds(stdin_copy, stdout_copy);
+         return EXIT_FAILURE;
+     }
+
+     execute_builtin(shell);
+     restore_stds(stdin_copy, stdout_copy);
+     return EXIT_SUCCESS;
+ }
