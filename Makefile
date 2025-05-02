@@ -19,7 +19,7 @@ all: $(LIBFT) $(NAME)
 
 # $(NAME) : $(OBJS) 
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(LIBFT) # add libft 
 	$(CC) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 %.o: %.c includes/minishell.h

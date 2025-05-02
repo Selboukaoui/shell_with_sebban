@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 12:13:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/29 10:01:52 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/02 12:06:34 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,15 @@ void handle_single_child(t_shell *shell)
     if (!handle_redirections_single_child(shell))
         exit(EXIT_FAILURE);
 
+    if (is_cmdline_empty(cmd))
+    {
+            // skip parsing
+        ft_putstr_fd("minishell: ", STDERR_FILENO);
+        ft_putstr_fd(cmd, STDERR_FILENO);
+        ft_putstr_fd(": command not found\n", STDERR_FILENO);
+        exit(127);
+        
+    }
     /* If user typed a slash anywhere (./foo or /usr/bin/foo), use it literally.
      * Otherwise, search PATH—but since get_path now skips “.”, 
      * bare filenames in CWD won’t be found. */

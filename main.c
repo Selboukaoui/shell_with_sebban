@@ -101,9 +101,44 @@ handle_dollar_quotes(const char *input)
     out[oi] = '\0';
     return out;
 }
+static int ft_isspace(int c)
+{
+    return (c == ' ' || c == '\t' || c == '\n' ||
+            c == '\v' || c == '\f' || c == '\r');
+}
 
+int is_cmdline_empty(const char *cmdline)
+{
+    if (!cmdline)
+        return 1;
 
+    int i = 0;
+    while (cmdline[i])
+    {
+        // skip whitespace
+        if (ft_isspace((unsigned char)cmdline[i])) {
+            i++;
+            continue;
+        }
 
+        // skip empty double quotes
+        if (cmdline[i] == '"' && cmdline[i + 1] == '"' ) {
+            i += 2;
+            continue;
+        }
+
+        // skip empty single quotes
+        if (cmdline[i] == '\'' && cmdline[i + 1] == '\'') {
+            i += 2;
+            continue;
+        }
+
+        // if any other non-space, non-empty-quote char is found, not empty
+        return 0;
+    }
+
+    return 1;  // only whitespace or empty quotes
+}
 
 
 
@@ -137,8 +172,13 @@ int main(int ac, char **av, char **env)
         shell->rl_copy = clean_rl_copy(shell->rl_input);
         // printf ("rl->copy : %s\n",shell->rl_copy);
         shell->rl_copy = replace_vars(shell->rl_input, shell);
-
         // printf("str ----> %s\n", shell->rl_copy);
+        // if (is_blank_command(shell->rl_copy)) {
+        //     // maybe skip, or print "command not found"
+        //     continue;
+        // }
+        
+        
         //check syntax like ">>>"
         // if (!ft_strcmp(shell->rl_input, "\\"))
         // {

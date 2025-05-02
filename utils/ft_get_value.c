@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:33:32 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/01 10:58:23 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/02 10:58:48 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,7 +285,7 @@ static int ft_isspace(int c)
             c == '\v' || c == '\f' || c == '\r');
 }
 
-static char *ft_strncpy(char *dest, const char *src, size_t n)
+char *ft_strncpy(char *dest, const char *src, size_t n)
 {
     size_t i = 0;
 
@@ -307,7 +307,7 @@ static char *ft_strncpy(char *dest, const char *src, size_t n)
 }
 
 
-static void int_to_str(int num, char *str)
+void int_to_str(int num, char *str)
 {
     int i = 0, j = 0, is_negative = 0;
     if (num == 0)

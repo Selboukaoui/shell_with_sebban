@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/01 13:42:37 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/02 10:59:42 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -470,19 +470,143 @@ static int is_last_delim_quoted(const char *cmdline)
  * Strip all single and double quotes from the delimiter token.
  * Returns newly allocated unquoted string, or strdup(s) if no quotes.
  */
-static char *strip_quotes(const char *s)
+// static char *strip_quotes(const char *s)
+// {
+//     size_t len = ft_strlen(s);
+//     char *out = malloc(len + 1);
+//     if (!out) return NULL;
+//     size_t j = 0;
+//     for (size_t i = 0; i < len; ++i) {
+//         if (s[i] != '\'' && s[i] != '"')
+//             out[j++] = s[i];
+//     }
+//     out[j] = '\0';
+//     return out;
+// }
+
+
+static char *replace_vars_heredoc(char *input, t_shell *shell)
 {
-    size_t len = ft_strlen(s);
-    char *out = malloc(len + 1);
-    if (!out) return NULL;
-    size_t j = 0;
-    for (size_t i = 0; i < len; ++i) {
-        if (s[i] != '\'' && s[i] != '"')
-            out[j++] = s[i];
+    size_t  i = 0, j = 0, len = ft_strlen(input);
+    char    *output;
+    int     in_single_quote   = 0;
+    int     in_double_quote   = 0;
+    int     seen_export       = 0;
+    int     in_export_assign  = 0;
+    int     k;
+
+    // detect leading “export …”
+    {
+        size_t p = 0;
+        while (p < len && ft_isspace(input[p]))
+            p++;
+        if (p + 6 <= len
+            && ft_strncmp(&input[p], "export", 6) == 0
+            && (p + 6 == len || ft_isspace(input[p + 6])))
+        {
+            seen_export = 1;
+        }
     }
-    out[j] = '\0';
-    return out;
+
+    output = ft_malloc(PATH_MAX + 1, 1);
+    if (!output)
+        return NULL;
+
+    while (i < len)
+    {
+        if (seen_export && !in_export_assign
+            && input[i] == '=')
+        {
+            in_export_assign = 1;
+            output[j++] = input[i++];
+            continue;
+        }
+
+        if (in_export_assign
+            && (ft_isspace(input[i]) || input[i] == '|'))
+        {
+            in_export_assign = 0;
+            output[j++] = input[i++];
+            continue;
+        }
+
+        if (input[i] == '\'' && !in_double_quote)
+            in_single_quote = !in_single_quote, output[j++] = input[i++];
+        else if (input[i] == '"' && !in_single_quote)
+            in_double_quote = !in_double_quote, output[j++] = input[i++];
+
+        // Allow variable expansion even inside single quotes
+        else if (input[i] == '$')
+        {
+            if (input[i + 1] == '\0')
+            {
+                output[j++] = '$';
+                i++;
+            }
+            else if (input[i + 1] == '?')
+            {
+                if (seen_export && in_export_assign)
+                    output[j++] = '"';
+
+                int  status = exit_status(0, 0);
+                char status_str[12];
+                int_to_str(status, status_str);
+                k = 0;
+                while (status_str[k])
+                    output[j++] = status_str[k++];
+                i += 2;
+
+                if (seen_export && in_export_assign)
+                    output[j++] = '"';
+            }
+            else if (ft_isdigit(input[i + 1]))
+            {
+                i += 2;
+            }
+            else if (ft_isalpha(input[i + 1]) || input[i + 1] == '_')
+            {
+                if (seen_export && in_export_assign)
+                    output[j++] = '"';
+
+                int  var_start = i + 1;
+                int  var_len   = 0;
+                char var_name[256];
+
+                while (ft_isalnum(input[var_start + var_len]) || input[var_start + var_len] == '_')
+                    var_len++;
+
+                ft_strncpy(var_name, &input[var_start], var_len);
+                var_name[var_len] = '\0';
+
+                char *val = get_env_value(shell->env, var_name);
+                if (val)
+                {
+                    k = 0;
+                    while (val[k])
+                        output[j++] = val[k++];
+                }
+                i += var_len + 1;
+
+                if (seen_export && in_export_assign)
+                    output[j++] = '"';
+            }
+            else
+            {
+                output[j++] = '$';
+                i++;
+            }
+            continue;
+        }
+        else
+        {
+            output[j++] = input[i++];
+        }
+    }
+
+    output[j] = '\0';
+    return output;
 }
+
 
 /**
  * Create a heredoc: read lines until the given delimiter (quotes stripped).
@@ -496,10 +620,11 @@ int create_heredoc(char *delimiter, t_shell *shell)
         return -1;
 
     int quoted = is_last_delim_quoted(shell->rl_copy);
-    char *real_delim = strip_quotes(delimiter);
-    if (!real_delim)
-        return -1;
-
+    // char *real_delim = strip_quotes(delimiter);
+    // if (!real_delim)
+    //     return -1;
+    // printf("delemetre is :%s\n", delimiter);
+    // printf("real_delemetre is :%s\n", real_delim);
     while (1) {
         char *line = readline("> ");
         if (!line) {
@@ -509,12 +634,16 @@ int create_heredoc(char *delimiter, t_shell *shell)
             ft_putstr_fd("')\n", STDERR_FILENO);
             break;
         }
-        if (ft_strcmp(line, real_delim) == 0) {
+        if (ft_strcmp(line, delimiter) == 0) {
             free(line);
             break;
         }
         if (!quoted) {
-            char *expanded = replace_vars(line, shell);
+            // char *expanded = replace_vars(line, shell); thsi case : << c cat
+            // > '$HOME'
+            // > "'$PWD'"
+            // > c
+            char *expanded = replace_vars_heredoc(line, shell);
             write(pipefd[1], expanded, ft_strlen(expanded));
             write(pipefd[1], "\n", 1);
             free(expanded);
@@ -525,7 +654,7 @@ int create_heredoc(char *delimiter, t_shell *shell)
         free(line);
     }
 
-    free(real_delim);
+    // free(real_delim);
     close(pipefd[1]);
     return pipefd[0];
 }

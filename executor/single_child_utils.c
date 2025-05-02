@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:02:46 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/29 10:07:26 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/02 11:01:29 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool handle_redirections_single_child(t_shell *shell)
     return (true);
 }
 
-static char *get_env_value(t_shell *shell, const char *key)
+static char *get_env1_value(t_shell *shell, const char *key)
 {
     t_environ_node *env;
     size_t key_len;
@@ -103,7 +103,7 @@ static char *get_absolute_path(t_shell *shell)
     if (!shell->executor->execs[0])
         return NULL;
 
-    path_var = get_env_value(shell, "PATH");
+    path_var = get_env1_value(shell, "PATH");
     if (!path_var)
         return NULL;
 

@@ -160,11 +160,11 @@ void    signal_setup(int mode);
 int check_parenthesis(char *input);
 int check_redirect_out(char *input);
 int check_redirect_in(char *input);
-
+void int_to_str(int num, char *str);
 char *ft_strcpy(char *dest, const char *src);
 int	echo(char **args);
 // t_lexer_list *tokenize_and_split(t_shell *shell);
-
+char *ft_strncpy(char *dest, const char *src, size_t n);
 t_token which_type(char *s, int inside);
 
 int check_pipe(char *input);
@@ -199,9 +199,10 @@ char *replace_vars(char *input, t_shell *shell);
 
 int export(t_shell *shell, char **args);
 
+// char *get_env_value(t_shell *shell, const char *key);
 
-
+char *get_env_value(t_environ_list *env_list, char *key);
 t_environ_node   *ft_getenv(t_environ_list *env, char *key);
 int exit_builtin(t_shell *shell, char **args);
-
+int is_cmdline_empty(const char *cmdline);
 #endif     

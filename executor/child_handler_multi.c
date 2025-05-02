@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_handler_multi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/29 11:56:44 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/02 12:00:18 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,14 @@ int child_handler_multi(int *fildes, t_executor *current, t_info *info)
     if (handle_redirections_pipeline(fildes, current) == FAIL_SYSCALL)
         exit(FAIL_SYSCALL_CHILD);
 
+    if (is_cmdline_empty(current->execs[0]))
+    {
+            // skip parsing
+        ft_putstr_fd("minishell: ", STDERR_FILENO);
+        ft_putstr_fd(current->execs[0], STDERR_FILENO);
+        ft_putstr_fd(": command not found\n", STDERR_FILENO);
+        exit(127);
+    }
     if (is_builtin(current->execs[0]))
         execute_builtin_child(info, current);
     //else
