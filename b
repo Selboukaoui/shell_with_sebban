@@ -1,0 +1,15 @@
+ajhsg
+b
+builtins_fun
+executor
+includes
+info
+libft
+ls
+main.c
+main.o
+Makefile
+minishell
+parsing
+test_cases
+utils

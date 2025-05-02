@@ -168,12 +168,13 @@ int main(int ac, char **av, char **env)
             add_history(shell->rl_input);
 
         // handle history cmd here
+        // printf("the cmd in readline:%s\n", shell->rl_input);
         shell->rl_input = handle_dollar_quotes(shell->rl_input);
-        // printf("str_handle_dolar ----> %s\n", shell->rl_input);
+        // printf("handle_dolar ----> %s\n", shell->rl_input);
         shell->rl_copy = clean_rl_copy(shell->rl_input);
         // printf ("rl->copy : %s\n",shell->rl_copy);
         shell->rl_copy = replace_vars(shell->rl_input, shell);
-        // printf("str ----> %s\n", shell->rl_copy);
+        // printf("the cmd after change all vars ----> %s\n", shell->rl_copy);
         // if (is_blank_command(shell->rl_copy)) {
         //     // maybe skip, or print "command not found"
         //     continue;
