@@ -84,6 +84,11 @@ builtins_fun  folder  includes  libft  main.c  Makefile   parsing  utils
 executor      gfg     info      ls     main.o  minishell  s        ztesting
 
 
+ls > b | cat < b
 
 
+ '"'"'---$HOME----'+PWD---'"'"'
 
+unset _ 
+
+export x="ls <tab> -la"
