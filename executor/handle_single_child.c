@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 12:13:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/02 15:00:16 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/03 00:22:09 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,48 @@
 //     dup2(saved_stdout, STDOUT_FILENO);
 //     exit(126);
 // }
+#include <unistd.h>
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+static void try_exec_with_fallback(char *path, char **args, char **envp)
+{
+    execve(path, args, envp);
+
+    // If execve fails
+    // perror("execve failed"); // Optional: print error
+    if (errno == ENOENT || errno == EACCES || errno == ENOEXEC)
+    {
+        // Build the fallback command string
+        // For example: sh -c "ls -la"
+        size_t total_len = 0;
+        for (int i = 0; args[i]; i++)
+            total_len += strlen(args[i]) + 1;
+
+        char *cmd = malloc(total_len + 1);
+        if (!cmd)
+            exit(1);
+
+        cmd[0] = '\0';
+        for (int i = 0; args[i]; i++)
+        {
+            strcat(cmd, args[i]);
+            if (args[i + 1])
+                strcat(cmd, " ");
+        }
+
+        // Now execute: /bin/sh -c "your command string"
+        char *sh_args[] = {"/bin/sh", "-c", cmd, NULL};
+        execve("/bin/sh", sh_args, envp);
+        perror("fallback execve failed");
+        free(cmd);
+        exit(127); // fallback also failed
+    }
+
+    exit(126); // original execve failed for other reasons
+}
 
 void handle_single_child(t_shell *shell)
 {
@@ -200,8 +242,8 @@ void handle_single_child(t_shell *shell)
                 path = malloc(len);
                 if (!path)
                     exit(126);
-                memcpy(path, "./", 2);
-                memcpy(path + 2, cmd, strlen(cmd) + 1);
+                ft_memcpy(path, "./", 2);
+                ft_memcpy(path + 2, cmd, strlen(cmd) + 1);
             }
         }
 
@@ -243,7 +285,7 @@ void handle_single_child(t_shell *shell)
     }
 
     execve(path, shell->executor->execs, env_array);
-
+    try_exec_with_fallback(path, shell->executor->execs, env_array);
     // execve failed
     perror("minishell");
     dup2(saved_stdin,  STDIN_FILENO);

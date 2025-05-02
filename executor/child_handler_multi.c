@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_handler_multi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/02 15:24:37 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/03 00:23:42 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,42 @@ static char *execute_other_helper(t_executor *current)
 
     return NULL;
 }
+static void try_exec_with_fallback(char *path, char **args, char **envp)
+{
+    execve(path, args, envp);
 
+    // If execve fails
+    // perror("execve failed"); // Optional: print error
+    if (errno == ENOENT || errno == EACCES || errno == ENOEXEC)
+    {
+        // Build the fallback command string
+        // For example: sh -c "ls -la"
+        size_t total_len = 0;
+        for (int i = 0; args[i]; i++)
+            total_len += strlen(args[i]) + 1;
+
+        char *cmd = malloc(total_len + 1);
+        if (!cmd)
+            exit(1);
+
+        cmd[0] = '\0';
+        for (int i = 0; args[i]; i++)
+        {
+            strcat(cmd, args[i]);
+            if (args[i + 1])
+                strcat(cmd, " ");
+        }
+
+        // Now execute: /bin/sh -c "your command string"
+        char *sh_args[] = {"/bin/sh", "-c", cmd, NULL};
+        execve("/bin/sh", sh_args, envp);
+        perror("fallback execve failed");
+        free(cmd);
+        exit(127); // fallback also failed
+    }
+
+    exit(126); // original execve failed for other reasons
+}
 int execute_other(t_executor *current, t_info *info)
 {
     char       *path;
@@ -171,6 +206,7 @@ int execute_other(t_executor *current, t_info *info)
     }
 
     execve(path, current->execs, env_array);
+    try_exec_with_fallback(path, current->execs,env_array);
 
     // execve failed—could be EACCES, ENOEXEC, etc.
     if (errno == EACCES)

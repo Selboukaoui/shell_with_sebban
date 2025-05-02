@@ -156,6 +156,8 @@ int main(int ac, char **av, char **env)
     while (1)
     {
         g_signals = -70;
+        if (!isatty(1) || !isatty(0))
+            return (0);
         shell->rl_input = readline("minishell-1.0$~ ");
         g_signals = 1;
         if (!shell->rl_input) // CTRL+D (EOF)
