@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/02 12:00:18 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/02 15:12:05 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,127 +71,244 @@ static int handle_redirections_pipeline(int *pipefd,
     return OKAY;
 }
 
+// executor.c
 
 static char *path_join(const char *dir, const char *file)
 {
-    char *tmp;
-    char *full;
-
-    // dir + "/" 
-    tmp = ft_strjoin(dir, "/");
-    if (!tmp)
-        return NULL;
-
-    // (dir + "/") + file
-    full = ft_strjoin(tmp, file);
-    // //free(tmp);
+    char *tmp  = ft_strjoin(dir, "/");
+    if (!tmp) return NULL;
+    char *full = ft_strjoin(tmp, file);
+    free(tmp);
     return full;
 }
 
-
- static char *execute_other_helper(t_executor *current)
+/**
+ * Try to resolve current->execs[0]:
+ * 1) if it starts with '/' or '.', treat it literally
+ * 2) else scan current->path[]
+ * 3) else if current->path is NULL        → PATH unset: try "./cmd"
+ * Returns a malloc'd path, or NULL if not found.
+ * Leaves errno unchanged if “not found”; sets errno=EACCES if found but not executable.
+ */
+static char *execute_other_helper(t_executor *current)
 {
-    char    *full_path;
-    int     i;
+    char    *candidate;
+    struct stat st;
+    int      i;
 
+    // 1) Literal
     if (current->execs[0][0] == '/' || current->execs[0][0] == '.')
     {
-        if (access(current->execs[0], F_OK | X_OK) == 0)
-            return (ft_strdup(current->execs[0]));
-        return (NULL);
+        if (stat(current->execs[0], &st) == 0)
+            return ft_strdup(current->execs[0]);
+        return NULL;
     }
 
-    i = 0;
-    // while (current->path[i])
-    // {
-    //     printf("-----------__>%s\n", current->path[i++]);
-    // }
-    // i = 0;
-    // while (current->path && current->path[i])
-    // {
-    //     full_path = ft_strjoin(current->path[i], current->execs[0]);
-    //     if (!full_path)
-    //         return (NULL);
-    //     if (access(full_path, F_OK | X_OK) == 0)
-    //         return (full_path);
-    //     //free(full_path);
-    //     i++;
-    // }
-    i = 0;
-        while (current->path && current->path[i])
+    // 2) Search PATH entries
+    if (current->path)
+    {
+        for (i = 0; current->path[i]; i++)
         {
-            full_path = path_join(current->path[i], current->execs[0]);
-            if (!full_path)
-                return NULL;
-            if (access(full_path, F_OK | X_OK) == 0)
-                return full_path;
-            // //free(full_path);
-            i++;
+            candidate = path_join(current->path[i], current->execs[0]);
+            if (!candidate) return NULL;
+            if (stat(candidate, &st) == 0)
+            {
+                // Found a file—return even if not executable,
+                // so execve can give EACCES.
+                return candidate;
+            }
+            free(candidate);
         }
-    // printf("here\n");
-    return (NULL);
+    }
+
+    // 3) PATH unset in your minishell: try "./cmd"
+    if (!current->path)
+    {
+        size_t len = 2 + strlen(current->execs[0]) + 1;
+        char *dotcmd = malloc(len);
+        if (!dotcmd) return NULL;
+        memcpy(dotcmd, "./", 2);
+        memcpy(dotcmd + 2, current->execs[0], strlen(current->execs[0]) + 1);
+        if (stat(dotcmd, &st) == 0)
+            return dotcmd;
+        free(dotcmd);
+    }
+
+    return NULL;
 }
 
-// char *get_path(t_shell *shell, bool printerror)
-// {
-//     char    *path;
-//     if(!shell->executor->execs || !shell->executor->execs[0])
-//         return(NULL);
-//     // If command is already an absolute path
-//     if (ft_strchr((shell->executor->execs[0]), '/'))
-//     {
-//         path = ft_strdup(shell->executor->execs[0]);
-//         if (!path)
-//             return (NULL);
-//         if (access(path, F_OK) == -1 && printerror)
-//             get_path_error(shell->executor->execs[0]);
-//         return (path);
-//     }
-//     // otherwise searrch PATH
-//     path = get_absolute_path(shell);
-//     if (!path)
-//         return (NULL);
-//     if (access(path, F_OK) == -1 && printerror)
-//         // get_path_error(shell->executor->execs[0]);
-    
-//     return (path);
-// }
-
-
-static int execute_other(t_executor *current, t_info *info)
+int execute_other(t_executor *current, t_info *info)
 {
-    char    *path;
-    char    **env_array;
-    struct stat path_stat;
+    char       *path;
+    char      **env_array;
+    struct stat st;
 
     path = execute_other_helper(current);
     if (!path)
     {
+        // not found in any of the steps
         ft_putstr_fd("minishell: ", STDERR_FILENO);
         ft_putstr_fd(current->execs[0], STDERR_FILENO);
         ft_putstr_fd(": command not found\n", STDERR_FILENO);
-        exit(127); // Command not found
+        exit(127);
     }
 
-    // Check if path is a directory
-    if (stat(path, &path_stat) == 0) {
-        if ((path_stat.st_mode & S_IFDIR) == S_IFDIR) {
-            ft_putstr_fd("minishell: ", STDERR_FILENO);
-            ft_putstr_fd(path, STDERR_FILENO);
-            ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
-            exit(126); // Path is a directory, not executable
-        }
+    // If it exists but isn't executable, execve will set errno=EACCES
+    if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
+    {
+        ft_putstr_fd("minishell: ", STDERR_FILENO);
+        ft_putstr_fd(path, STDERR_FILENO);
+        ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
+        free(path);
+        exit(126);
     }
 
     env_array = transform_environ_array(info->shell);
     if (!env_array)
     {
-        exit(126); // Cannot create environment
+        free(path);
+        exit(126);
     }
 
     execve(path, current->execs, env_array);
-    exit(126); // Execution failed
+
+    // execve failed—could be EACCES, ENOEXEC, etc.
+    if (errno == EACCES)
+    {
+        ft_putstr_fd("minishell: ", STDERR_FILENO);
+        ft_putstr_fd(current->execs[0], STDERR_FILENO);
+        ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+        free(path);
+        exit(126);
+    }
+    else
+    {
+        perror("minishell");
+        free(path);
+        exit(126);
+    }
 }
+
+// static char *path_join(const char *dir, const char *file)
+// {
+//     char *tmp;
+//     char *full;
+
+//     // dir + "/" 
+//     tmp = ft_strjoin(dir, "/");
+//     if (!tmp)
+//         return NULL;
+
+//     // (dir + "/") + file
+//     full = ft_strjoin(tmp, file);
+//     // //free(tmp);
+//     return full;
+// }
+
+
+//  static char *execute_other_helper(t_executor *current)
+// {
+//     char    *full_path;
+//     int     i;
+
+//     if (current->execs[0][0] == '/' || current->execs[0][0] == '.')
+//     {
+//         if (access(current->execs[0], F_OK | X_OK) == 0)
+//             return (ft_strdup(current->execs[0]));
+//         return (NULL);
+//     }
+
+//     i = 0;
+//     // while (current->path[i])
+//     // {
+//     //     printf("-----------__>%s\n", current->path[i++]);
+//     // }
+//     // i = 0;
+//     // while (current->path && current->path[i])
+//     // {
+//     //     full_path = ft_strjoin(current->path[i], current->execs[0]);
+//     //     if (!full_path)
+//     //         return (NULL);
+//     //     if (access(full_path, F_OK | X_OK) == 0)
+//     //         return (full_path);
+//     //     //free(full_path);
+//     //     i++;
+//     // }
+//     i = 0;
+//         while (current->path && current->path[i])
+//         {
+//             full_path = path_join(current->path[i], current->execs[0]);
+//             if (!full_path)
+//                 return NULL;
+//             if (access(full_path, F_OK | X_OK) == 0)
+//                 return full_path;
+//             // //free(full_path);
+//             i++;
+//         }
+//     // printf("here\n");
+//     return (NULL);
+// }
+
+// // char *get_path(t_shell *shell, bool printerror)
+// // {
+// //     char    *path;
+// //     if(!shell->executor->execs || !shell->executor->execs[0])
+// //         return(NULL);
+// //     // If command is already an absolute path
+// //     if (ft_strchr((shell->executor->execs[0]), '/'))
+// //     {
+// //         path = ft_strdup(shell->executor->execs[0]);
+// //         if (!path)
+// //             return (NULL);
+// //         if (access(path, F_OK) == -1 && printerror)
+// //             get_path_error(shell->executor->execs[0]);
+// //         return (path);
+// //     }
+// //     // otherwise searrch PATH
+// //     path = get_absolute_path(shell);
+// //     if (!path)
+// //         return (NULL);
+// //     if (access(path, F_OK) == -1 && printerror)
+// //         // get_path_error(shell->executor->execs[0]);
+    
+// //     return (path);
+// // }
+
+
+// static int execute_other(t_executor *current, t_info *info)
+// {
+//     char    *path;
+//     char    **env_array;
+//     struct stat path_stat;
+
+//     path = execute_other_helper(current);
+//     if (!path)
+//     {
+//         ft_putstr_fd("minishell: ", STDERR_FILENO);
+//         ft_putstr_fd(current->execs[0], STDERR_FILENO);
+//         ft_putstr_fd(": command not found\n", STDERR_FILENO);
+//         exit(127); // Command not found
+//     }
+
+//     // Check if path is a directory
+//     if (stat(path, &path_stat) == 0) {
+//         if ((path_stat.st_mode & S_IFDIR) == S_IFDIR) {
+//             ft_putstr_fd("minishell: ", STDERR_FILENO);
+//             ft_putstr_fd(path, STDERR_FILENO);
+//             ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
+//             exit(126); // Path is a directory, not executable
+//         }
+//     }
+
+//     env_array = transform_environ_array(info->shell);
+//     if (!env_array)
+//     {
+//         exit(126); // Cannot create environment
+//     }
+
+//     execve(path, current->execs, env_array);
+//     exit(126); // Execution failed
+// }
 // static int execute_other(t_executor *current, t_info *info)
 // {
 //     char    *path;

@@ -22,7 +22,7 @@ all: $(LIBFT) $(NAME)
 $(NAME): $(OBJS) $(LIBFT) # add libft 
 	$(CC) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
-%.o: %.c includes/minishell.h
+%.o: %.c includes/minishell.h  libft/libft.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT): $(SRCLIB) libft/libft.h

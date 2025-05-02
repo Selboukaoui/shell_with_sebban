@@ -13,6 +13,9 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
+
+#include <errno.h>
+
 #include <stdbool.h>
 # include <limits.h>
 #include <sys/stat.h>
