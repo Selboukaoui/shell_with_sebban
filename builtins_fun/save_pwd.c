@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:39:36 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/03 13:08:51 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/03 14:00:51 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ char *save_pwd(int action, char *value)
     if (action == 0)         // GET
         return save;
     else if (action == 1)    // SET
-        save = value;
+    {
+        free(save); // free previous if any
+        if (value)
+            save = ft_strdup(value); // duplicate instead of storing pointer
+        else
+            save = NULL;
+    }
     return save;
 }
