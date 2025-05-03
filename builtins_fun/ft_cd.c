@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/03 12:48:42 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/03 17:31:07 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int 	cd (t_shell *shell, char **arg)
     static char     *x;
     
     (void)shell;
-    // pwd(shell->env, 0);
     if (arg[2])
     {
         ft_putstr_fd("minishell: cd: too many arguments\n", 2);
@@ -99,6 +98,7 @@ int 	cd (t_shell *shell, char **arg)
             env_var_update(shell->env, "PWD", old_pwd);  
             x = NULL;
         }
+
         ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
             return (FAILED);
     }

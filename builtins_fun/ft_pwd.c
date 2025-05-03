@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:13:33 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/03 13:52:58 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/03 17:32:44 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int 	pwd (t_environ_list *env){
     {
         node = ft_getenv(env, "PWD");
         if (!node || !node->value)
-            return (printf("--%s---\n" ,save_pwd(0, NULL)));
+            return (printf("%s\n" ,save_pwd(0, NULL)));
 
             // return (ft_putstr_fd("PWD not set in environment\n", 2),1); //pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
         printf ("%s\n",node->value);
