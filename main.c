@@ -138,8 +138,116 @@ int is_cmdline_empty(const char *cmdline)
     return 1;  // only whitespace or empty quotes
 }
 
+// char *replace_var_equals_var(char *input, t_shell *shell)
+// {
+//     char *output = ft_malloc(PATH_MAX + 1, 1);
+//     size_t i = 0, j = 0;
+
+//     while (input[i])
+//     {
+//         if (input[i] == '$')
+//         {
+//             // Try to parse variable name
+//             size_t name_start = i + 1;
+//             size_t name_len = 0;
+//             while (ft_isalnum(input[name_start + name_len]) || input[name_start + name_len] == '_')
+//                 name_len++;
+
+//             if (name_len == 0)
+//             {
+//                 output[j++] = input[i++];
+//                 continue;
+//             }
+
+//             char name[PATH_MAX];
+//             ft_strncpy(name, input + name_start, name_len);
+//             name[name_len] = '\0';
+
+//             char *val = get_env_value(shell->env, name);
+//             if (!val)
+//                 val = "";
+
+//             i = name_start + name_len;
+
+//             // Check if we are in pattern like $x=$y or $x=$y=$z
+//             if (input[i] == '=')
+//             {
+//                 // Write val of $x
+//                 for (size_t k = 0; val[k]; k++) output[j++] = val[k];
+//                 output[j++] = '='; // Write '='
+//                 i++; // Skip '='
+
+//                 while (input[i] == '$')
+//                 {
+//                     i++; // skip $
+//                     size_t rlen = 0;
+//                     while (ft_isalnum(input[i + rlen]) || input[i + rlen] == '_')
+//                         rlen++;
+
+//                     if (rlen == 0) break;
+
+//                     char rname[PATH_MAX];
+//                     ft_strncpy(rname, input + i, rlen);
+//                     rname[rlen] = '\0';
+
+//                     char *rval = get_env_value(shell->env, rname);
+//                     if (!rval)
+//                         rval = "";
+
+//                     for (size_t k = 0; rval[k]; k++) output[j++] = rval[k];
+//                     i += rlen;
+
+//                     if (input[i] == '=')
+//                     {
+//                         output[j++] = '=';
+//                         i++;
+//                     }
+//                     else break;
+//                 }
+
+//                 continue;
+//             }
+//             else
+//             {
+//                 // It's not in $x=$y form → leave untouched
+//                 output[j++] = '$';
+//                 for (size_t k = 0; k < name_len; k++) output[j++] = name[k];
+//                 continue;
+//             }
+//         }
+//         else
+//         {
+//             output[j++] = input[i++];
+//         }
+//     }
+
+//     output[j] = '\0';
+//     return output;
+// }
 char *replace_var_equals_var(char *input, t_shell *shell)
 {
+    size_t L = ft_strlen(input);
+    size_t idx = 0;
+
+    // 1) Skip leading spaces
+    while (idx < L && ft_isspace(input[idx]))
+        idx++;
+
+    // 2) Skip optional "export" keyword + following spaces
+    if (idx + 6 <= L
+        && ft_strncmp(input + idx, "export", 6) == 0
+        && (idx + 6 == L || ft_isspace(input[idx + 6])))
+    {
+        idx += 6;
+        while (idx < L && ft_isspace(input[idx]))
+            idx++;
+    }
+
+    // 3) If the first non-space (after export) isn't '$', leave unchanged
+    if (idx >= L || input[idx] != '$')
+        return ft_strdup(input);
+
+    // 4) Otherwise, perform your chain-assignment replacement:
     char *output = ft_malloc(PATH_MAX + 1, 1);
     size_t i = 0, j = 0;
 
@@ -147,10 +255,10 @@ char *replace_var_equals_var(char *input, t_shell *shell)
     {
         if (input[i] == '$')
         {
-            // Try to parse variable name
-            size_t name_start = i + 1;
-            size_t name_len = 0;
-            while (ft_isalnum(input[name_start + name_len]) || input[name_start + name_len] == '_')
+            // parse variable name after '$'
+            size_t name_start = i + 1, name_len = 0;
+            while (ft_isalnum(input[name_start + name_len]) ||
+                   input[name_start + name_len] == '_')
                 name_len++;
 
             if (name_len == 0)
@@ -159,29 +267,34 @@ char *replace_var_equals_var(char *input, t_shell *shell)
                 continue;
             }
 
+            // copy var name into buffer
             char name[PATH_MAX];
             ft_strncpy(name, input + name_start, name_len);
             name[name_len] = '\0';
 
+            // lookup its value (empty if unset)
             char *val = get_env_value(shell->env, name);
-            if (!val)
-                val = "";
+            if (!val) val = "";
 
+            // advance input pointer past "$name"
             i = name_start + name_len;
 
-            // Check if we are in pattern like $x=$y or $x=$y=$z
+            // only expand if next char is '='
             if (input[i] == '=')
             {
-                // Write val of $x
-                for (size_t k = 0; val[k]; k++) output[j++] = val[k];
-                output[j++] = '='; // Write '='
-                i++; // Skip '='
+                // write left-side value + '='
+                for (size_t k = 0; val[k]; k++)
+                    output[j++] = val[k];
+                output[j++] = '=';
+                i++;
 
+                // then expand any further $VAR[=…] segments
                 while (input[i] == '$')
                 {
-                    i++; // skip $
+                    i++;  // skip '$'
                     size_t rlen = 0;
-                    while (ft_isalnum(input[i + rlen]) || input[i + rlen] == '_')
+                    while (ft_isalnum(input[i + rlen]) ||
+                           input[i + rlen] == '_')
                         rlen++;
 
                     if (rlen == 0) break;
@@ -191,10 +304,10 @@ char *replace_var_equals_var(char *input, t_shell *shell)
                     rname[rlen] = '\0';
 
                     char *rval = get_env_value(shell->env, rname);
-                    if (!rval)
-                        rval = "";
+                    if (!rval) rval = "";
 
-                    for (size_t k = 0; rval[k]; k++) output[j++] = rval[k];
+                    for (size_t k = 0; rval[k]; k++)
+                        output[j++] = rval[k];
                     i += rlen;
 
                     if (input[i] == '=')
@@ -202,21 +315,23 @@ char *replace_var_equals_var(char *input, t_shell *shell)
                         output[j++] = '=';
                         i++;
                     }
-                    else break;
+                    else
+                        break;
                 }
-
                 continue;
             }
             else
             {
-                // It's not in $x=$y form → leave untouched
+                // not a "$x=" chain -> copy literally
                 output[j++] = '$';
-                for (size_t k = 0; k < name_len; k++) output[j++] = name[k];
+                for (size_t k = 0; k < name_len; k++)
+                    output[j++] = name[k];
                 continue;
             }
         }
         else
         {
+            // any other char, copy as-is
             output[j++] = input[i++];
         }
     }
@@ -224,7 +339,6 @@ char *replace_var_equals_var(char *input, t_shell *shell)
     output[j] = '\0';
     return output;
 }
-
 
 int main(int ac, char **av, char **env)
 {
@@ -261,7 +375,7 @@ int main(int ac, char **av, char **env)
         // printf("handle_dolar ----> %s\n", shell->rl_input);
 
         shell->rl_input = replace_var_equals_var(shell->rl_input, shell);
-        // printf ("return your new func : %s\n",shell->rl_input);
+        printf ("return your new func : %s\n",shell->rl_input);
         shell->rl_copy = clean_rl_copy(shell->rl_input);
         // printf ("clean_: %s\n",shell->rl_copy);
 
