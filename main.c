@@ -250,7 +250,7 @@ int main(int ac, char **av, char **env)
 		{
 			write(1, "exit\n", 5);
             ft_malloc(0, 0);
-			break; // command not found in ctr + d handle it
+			exit(exit_status(0,0)); // command not found in ctr + d handle it
 		}
         if (*shell->rl_input)
             add_history(shell->rl_input);
