@@ -258,15 +258,15 @@ int main(int ac, char **av, char **env)
         // handle history cmd here
         // printf("the cmd in readline:%s\n", shell->rl_input);
         shell->rl_input = handle_dollar_quotes(shell->rl_input);
-        printf("handle_dolar ----> %s\n", shell->rl_input);
+        // printf("handle_dolar ----> %s\n", shell->rl_input);
 
         shell->rl_input = replace_var_equals_var(shell->rl_input, shell);
-        printf ("return your new func : %s\n",shell->rl_input);
+        // printf ("return your new func : %s\n",shell->rl_input);
         shell->rl_copy = clean_rl_copy(shell->rl_input);
-        printf ("clean_: %s\n",shell->rl_copy);
+        // printf ("clean_: %s\n",shell->rl_copy);
 
         shell->rl_copy = replace_vars(shell->rl_input, shell);
-        printf ("replace: %s\n",shell->rl_copy);
+        // printf ("replace: %s\n",shell->rl_copy);
         // printf("the cmd after change all vars ----> %s\n", shell->rl_copy);
         // if (is_blank_command(shell->rl_copy)) {
         //     // maybe skip, or print "command not found"

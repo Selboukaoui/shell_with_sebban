@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_executor_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/03 17:09:50 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:36:23 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -814,7 +814,11 @@ t_executor *fill_executor_list(t_shell *shell, t_executor *list)
     {
         list = process_lexemes(list, current, &lexer, shell);
         if (!list)
+        {
+            exit_status(1,1);
             return (NULL);
+        }
+        exit_status(1,0);
         current = current->next;
     }
     return (list);
