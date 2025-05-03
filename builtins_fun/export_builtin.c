@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 10:28:53 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/28 12:12:50 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/03 14:12:33 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,6 @@ void exporting(t_shell *shell, char *str)
             node->key = ft_strdup(key);
             node->value = NULL;
             node->next = NULL;
-            printf("i was here\n");
         }
         add_back_environ_node(shell->env, node);
     }
