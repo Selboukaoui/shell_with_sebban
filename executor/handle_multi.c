@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:31:19 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/02 18:38:44 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/03 21:11:08 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,3 +108,4 @@ void handle_multi(t_info *info, t_executor *current)
     if (current->fd_out != STDOUT_FILENO)
         close(current->fd_out);
 }
+ 
