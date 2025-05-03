@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_handler_multi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/03 12:54:26 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/03 21:03:47 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -407,7 +407,7 @@ static void execute_builtin_child(t_info *info, t_executor *cur)
     else if (ft_strcmp(args[0], "export") == 0) exit_code = export(info->shell, args);
     else if (ft_strcmp(args[0], "unset")  == 0) exit_code = unset(info->shell, args);
     else if (ft_strcmp(args[0], "env")    == 0) exit_code = env(info->shell);
-    else if (ft_strcmp(args[0], "exit")   == 0) exit_code = exit_builtin(info->shell, args); //// if in shild not print exit
+    else if (ft_strcmp(args[0], "exit")   == 0) exit_code = exit_builtin(info->shell, args, 1); //// if in shild not print exit
 
     exit(exit_code);
 }

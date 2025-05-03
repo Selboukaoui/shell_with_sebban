@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:11:51 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/28 10:11:42 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/03 21:07:43 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static bool	is_arg_number(char *arg)
 	return (true);
 }
 
-int exit_builtin(t_shell *shell, char **args)
+int exit_builtin(t_shell *shell, char **args, int in_pipe)
 {
     int exit_code;
     int arg_count;
@@ -45,10 +45,18 @@ int exit_builtin(t_shell *shell, char **args)
     arg_count = 0;
     exit_code = exit_status(0, 0);
     while (args[arg_count])
+	{
         arg_count++;
-    if (arg_count == 1)
-        ( printf("exit\n"),clean_exit(shell, exit_code));
-    if (!is_arg_number(args[1]))
+	}
+	if(arg_count == 1)
+	{
+		if (!in_pipe)
+			( printf("exit\n"),clean_exit(shell, exit_code));
+		else
+			clean_exit(shell, exit_code);
+		
+	}
+    if (!is_arg_number(args[1]) )
 	{
         printf("exit\n");
         ft_putstr_fd("minishell: exit: ", STDERR_FILENO);

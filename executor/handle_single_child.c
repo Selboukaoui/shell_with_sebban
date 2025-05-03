@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 12:13:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/03 00:22:09 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/03 19:50:29 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,7 +288,7 @@ void handle_single_child(t_shell *shell)
     try_exec_with_fallback(path, shell->executor->execs, env_array);
     // execve failed
     perror("minishell");
-    dup2(saved_stdin,  STDIN_FILENO);
+    dup2(saved_stdin,  STDIN_FILENO);//dup in try
     dup2(saved_stdout, STDOUT_FILENO);
     if (path != cmd) free(path);
     exit(126);

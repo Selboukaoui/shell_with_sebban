@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_single_builtin.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:45:27 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/03 12:54:32 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/03 21:03:54 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void execute_builtin(t_shell *shell)
     else if (ft_strcmp(args[0], "echo") == 0)
         exit_code = echo(args);
     else if (ft_strcmp(args[0], "exit") == 0)
-        exit_code = exit_builtin(shell, args);
+        exit_code = exit_builtin(shell, args, 0);
     else if (ft_strcmp(args[0], "export") == 0)
         exit_code = export(shell, args);
     else if (ft_strcmp(args[0], "unset") == 0)
