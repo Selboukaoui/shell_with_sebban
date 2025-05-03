@@ -138,6 +138,92 @@ int is_cmdline_empty(const char *cmdline)
     return 1;  // only whitespace or empty quotes
 }
 
+char *replace_var_equals_var(char *input, t_shell *shell)
+{
+    char *output = ft_malloc(PATH_MAX + 1, 1);
+    size_t i = 0, j = 0;
+
+    while (input[i])
+    {
+        if (input[i] == '$')
+        {
+            // Try to parse variable name
+            size_t name_start = i + 1;
+            size_t name_len = 0;
+            while (ft_isalnum(input[name_start + name_len]) || input[name_start + name_len] == '_')
+                name_len++;
+
+            if (name_len == 0)
+            {
+                output[j++] = input[i++];
+                continue;
+            }
+
+            char name[PATH_MAX];
+            ft_strncpy(name, input + name_start, name_len);
+            name[name_len] = '\0';
+
+            char *val = get_env_value(shell->env, name);
+            if (!val)
+                val = "";
+
+            i = name_start + name_len;
+
+            // Check if we are in pattern like $x=$y or $x=$y=$z
+            if (input[i] == '=')
+            {
+                // Write val of $x
+                for (size_t k = 0; val[k]; k++) output[j++] = val[k];
+                output[j++] = '='; // Write '='
+                i++; // Skip '='
+
+                while (input[i] == '$')
+                {
+                    i++; // skip $
+                    size_t rlen = 0;
+                    while (ft_isalnum(input[i + rlen]) || input[i + rlen] == '_')
+                        rlen++;
+
+                    if (rlen == 0) break;
+
+                    char rname[PATH_MAX];
+                    ft_strncpy(rname, input + i, rlen);
+                    rname[rlen] = '\0';
+
+                    char *rval = get_env_value(shell->env, rname);
+                    if (!rval)
+                        rval = "";
+
+                    for (size_t k = 0; rval[k]; k++) output[j++] = rval[k];
+                    i += rlen;
+
+                    if (input[i] == '=')
+                    {
+                        output[j++] = '=';
+                        i++;
+                    }
+                    else break;
+                }
+
+                continue;
+            }
+            else
+            {
+                // It's not in $x=$y form → leave untouched
+                output[j++] = '$';
+                for (size_t k = 0; k < name_len; k++) output[j++] = name[k];
+                continue;
+            }
+        }
+        else
+        {
+            output[j++] = input[i++];
+        }
+    }
+
+    output[j] = '\0';
+    return output;
+}
 
 
 int main(int ac, char **av, char **env)
@@ -173,8 +259,10 @@ int main(int ac, char **av, char **env)
         // printf("the cmd in readline:%s\n", shell->rl_input);
         shell->rl_input = handle_dollar_quotes(shell->rl_input);
         // printf("handle_dolar ----> %s\n", shell->rl_input);
+
+        shell->rl_input = replace_var_equals_var(shell->rl_input, shell);
+        printf ("return your new func : %s\n",shell->rl_input);
         shell->rl_copy = clean_rl_copy(shell->rl_input);
-        // printf ("rl->copy : %s\n",shell->rl_copy);
         shell->rl_copy = replace_vars(shell->rl_input, shell);
         // printf("the cmd after change all vars ----> %s\n", shell->rl_copy);
         // if (is_blank_command(shell->rl_copy)) {
