@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:45:27 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/02 15:24:50 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/03 12:54:32 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void execute_builtin(t_shell *shell)
     
     exit_code = 0;
     if (ft_strcmp(args[0], "pwd") == 0)
-        exit_code = pwd(shell->env, 1);
+        exit_code = pwd(shell->env);
     else if (ft_strcmp(args[0], "cd") == 0)
         exit_code = cd(shell, args);
     else if (ft_strcmp(args[0], ":") == 0)

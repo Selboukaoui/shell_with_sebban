@@ -92,3 +92,14 @@ ls > b | cat < b
 unset _ 
 
 export x="ls <tab> -la"
+
+
+bash: '/home/selbouka/1337project/shell': No such file or directory
+selbouka@e1r13p4:~/1337project/shell$ """'$HOME____$PWD"""'
+> 
+
+
+
+
+
+fach tkhrej , file mmso7 pwd problem

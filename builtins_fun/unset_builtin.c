@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:32:39 by asebban           #+#    #+#             */
-/*   Updated: 2025/04/22 16:03:01 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/03 13:00:16 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,13 @@ int	unset(t_shell *shell, char **args)
 
 	if (!args[1])
 		return (EXIT_SUCCESS);
-	c = 0;
+	c = 0; 
 	i = 1;
 	while (args[i])
 	{
+		if (ft_strcmp(args[i],"PWD")== 0)
+			save_pwd(1, get_env_value(shell->env, "PWD"));
+		// pwd(shell->env, 0);
 		unset_arg(shell, args[i], &c);
 		i++;
 	}

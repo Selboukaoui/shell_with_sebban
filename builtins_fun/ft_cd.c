@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/02 15:01:22 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/03 12:48:42 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ int 	cd (t_shell *shell, char **arg)
     static char     *x;
     
     (void)shell;
-    pwd(shell->env, 0);
+    // pwd(shell->env, 0);
     if (arg[2])
     {
-        ft_putstr_fd("bash: cd: too many arguments\n", 2);
+        ft_putstr_fd("minishell: cd: too many arguments\n", 2);
             return (FAILED);
     }
     if (!getcwd(old_pwd, sizeof(old_pwd)))

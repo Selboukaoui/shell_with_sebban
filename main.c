@@ -261,7 +261,7 @@ int main(int ac, char **av, char **env)
         // printf("handle_dolar ----> %s\n", shell->rl_input);
 
         shell->rl_input = replace_var_equals_var(shell->rl_input, shell);
-        printf ("return your new func : %s\n",shell->rl_input);
+        // printf ("return your new func : %s\n",shell->rl_input);
         shell->rl_copy = clean_rl_copy(shell->rl_input);
         shell->rl_copy = replace_vars(shell->rl_input, shell);
         // printf("the cmd after change all vars ----> %s\n", shell->rl_copy);

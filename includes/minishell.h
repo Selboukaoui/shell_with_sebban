@@ -135,6 +135,8 @@ typedef struct garbage_c
 	struct garbage_c	*next;
 }	t_collect;
 
+
+char *save_pwd(int action, char *value);
 int	unset(t_shell *shell, char **args);
 void wait_pipeline(t_info *info, int number);
 t_environ_node *create_environ_node(char *var);
@@ -187,7 +189,7 @@ bool handle_redirections_single_child(t_shell *shell);
 int handle_single_builtin(t_shell *shell);
 
 bool    is_builtin(char *exec);
-int 	pwd (t_environ_list *env, int mode);
+int 	pwd (t_environ_list *env);
 int 	cd (t_shell *shell, char **arg);
 
 void	*ft_malloc(size_t size, int mode);
