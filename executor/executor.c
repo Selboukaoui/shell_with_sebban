@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:42:43 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 12:28:53 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:13:36 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void    handle_single(t_shell *shell)
         {
             perror("minishell");
             exit_status(EXIT_SET, 1);
-            return;
+            return ;
         }
         else if (pid == 0)
         {
@@ -49,7 +49,7 @@ static void    handle_single(t_shell *shell)
         else
         {
             int status;
-            waitpid(pid, &status, 0);
+            waitpid (pid, &status, 0);
             
             if (WIFEXITED(status))
                 exit_status(EXIT_SET, WEXITSTATUS(status));
@@ -77,7 +77,7 @@ void executor(t_shell *shell)
         t_info *info = init_info(shell);
         if (!info)
         {
-            //not forgot here to return
+            //not forgot here to return // check
         }
         while (current)
         {

@@ -6,13 +6,13 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:27:05 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/03 20:22:58 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:50:29 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static t_lexer_list    *lexer(t_shell *shell)
+t_lexer_list    *lexer(t_shell *shell)
 {
     //clean
     // if (shell->lex_head)

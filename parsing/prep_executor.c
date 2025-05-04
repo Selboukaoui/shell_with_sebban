@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:08:09 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 12:27:08 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:20:59 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static	t_executor	*create_executor_list(int size)
 	new_node = NULL;
 	while (size--)
 	{
-		new_node = (t_executor *)ft_mini_g(sizeof(t_executor), 1);
+		new_node = (t_executor *)ft_malloc(sizeof(t_executor), 1);
 		if (!new_node)
-			return (free_executor_list(head));
+			return (/*free_executor_list(head)*/ NULL);
 		if (!head)
 			head = new_node;
 		else

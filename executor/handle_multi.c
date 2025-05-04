@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:31:19 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 12:32:46 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:14:07 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void handle_multi(t_info *info, t_executor *current)
     else if (info->pids[current->id] == 0)
     {
         ret = child_handler_multi(fildes, current, info);
-        ft_mini_g(0,0);
+        // ft_mini_g(0,0);
         ft_malloc(0,0);
         exit(ret);
     }

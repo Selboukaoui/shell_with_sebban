@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_child_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:02:46 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/02 14:25:48 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/04 20:36:28 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static char *get_env1_value(t_shell *shell, const char *key)
 //     char    **path_dirs;
 //     char    *full_path;
 //     int     i;
-
 //     if (!shell->executor->execs || !shell->executor->execs[0])
 //         return (NULL);
 //     path_var = get_env_value(shell, "PATH");
@@ -72,7 +71,6 @@ static char *get_env1_value(t_shell *shell, const char *key)
 //     {
 //         // full_path = ft_strjoin3(path_dirs[i], "/", shell->executor->execs[0]);
 //         char *temp;
-
 //         temp = ft_strjoin(path_dirs[i], "/");
 //         if (!temp)
 //             return (free_str_arr(path_dirs),NULL);
@@ -127,22 +125,22 @@ static char *get_absolute_path(t_shell *shell)
         if (!tmp)
             break;
         full_path = ft_strjoin(tmp, shell->executor->execs[0]);
-        free(tmp);
+        // free(tmp);
         if (!full_path)
             break;
 
-        /* check existence and executability */
+        /* checnk existence and executability */
         if (access(full_path, X_OK) == 0)
         {
-            free_str_arr(path_dirs);
+            // free_str_arr(path_dirs);
             return full_path;
         }
 
-        free(full_path);
+        // free(full_path);
         i++;
     }
 
-    free_str_arr(path_dirs);
+    // free_str_arr(path_dirs);
     return NULL;
 }
 

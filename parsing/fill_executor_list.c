@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/03 20:45:08 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:47:42 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,8 +444,8 @@ static char *get_last_heredoc_delimiter(const char *cmdline)
                 ++i;
             size_t len = i - start;
             if (len > 0) {
-                free(last);
-                last = strndup(cmdline + start, len);
+                // free(last);
+                last = strndup(cmdline + start, len); // check strndup
             }
         }
     }
@@ -462,7 +462,7 @@ static int is_last_delim_quoted(const char *cmdline)
     if (!raw)
         return 0;
     int quoted = (strchr(raw, '\'') != NULL || strchr(raw, '"') != NULL);
-    free(raw);
+    // free(raw);
     return quoted;
 }
 
@@ -635,7 +635,7 @@ int create_heredoc(char *delimiter, t_shell *shell)
             break;
         }
         if (ft_strcmp(line, delimiter) == 0) {
-            free(line);
+            // free(line);
             break;
         }
         if (!quoted) {
@@ -651,7 +651,7 @@ int create_heredoc(char *delimiter, t_shell *shell)
             write(pipefd[1], line, ft_strlen(line));
             write(pipefd[1], "\n", 1);
         }
-        free(line);
+        // free(line);
     }
 
     // free(real_delim);
@@ -700,7 +700,7 @@ static int process_command(t_executor *current, t_lexer_list *lexer)
         current->execs[i] = ft_strdup(lexer->str);
         if (!current->execs[i])
         {
-            free_str_arr(current->execs);
+            // free_str_arr(current->execs);
             return (FAILED);
         }
         lexer = lexer->next;
@@ -760,21 +760,21 @@ static t_executor *process_lexemes(t_executor *list, t_executor *current, t_lexe
         {
             ret = process_out_append(current, *lexer);
             if (ret == FAILED)
-                return (free_executor_list(list));
+                return (/*free_executor_list(list)*/NULL);
             *lexer = (*lexer)->next->next;
         }
         else if ((*lexer)->type == REDERECT_IN || (*lexer)->type == HEREDOC)
         {
             ret = process_in_heredoc(current, *lexer, shell);
             if (ret == FAILED)
-                return (free_executor_list(list));
+                return (/*free_executor_list(list)*/NULL);
             *lexer = (*lexer)->next->next;
         }
         else if ((*lexer)->type == CMD)
         {
             ret = process_command(current, *lexer);
             if (ret == FAILED)
-                return (free_executor_list(list));
+                return (/*free_executor_list(list)*/NULL);
             while (*lexer && (*lexer)->type == CMD)
                 *lexer = (*lexer)->next;
         }

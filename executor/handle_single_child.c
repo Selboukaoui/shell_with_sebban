@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 12:13:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 12:34:48 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:36:24 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 //     char **env_array;
 //     int saved_stdin;
 //     int saved_stdout;
-
 //     saved_stdin = dup(STDIN_FILENO);
 //     saved_stdout = dup(STDOUT_FILENO);
 //     if (!handle_redirections_single_child(shell))
@@ -52,17 +51,13 @@
 //     int saved_stdin;
 //     int saved_stdout;
 //     struct stat path_stat;
-
 //     saved_stdin = dup(STDIN_FILENO);
 //     saved_stdout = dup(STDOUT_FILENO);
-
 //     if (!handle_redirections_single_child(shell))
 //         exit(EXIT_FAILURE);
-
 //     path = get_path(shell, true);
 //     if (!path)
 //         exit(127); // Command not found
-
 //     // Use stat to check if path is a directory
 //     if (stat(path, &path_stat) == 0) {
 //         if ((path_stat.st_mode & S_IFDIR) == S_IFDIR) {
@@ -72,14 +67,11 @@
 //             exit(126); // Path is a directory, not executable
 //         }
 //     }
-
 //     env_array = transform_environ_array(shell);
 //     if (!env_array) {
 //         exit(126); // Cannot create environment
 //     }
-
 //     execve(path, shell->executor->execs, env_array); // Exit if successful
-
 //     // Only reached if execve fails
 //     perror("minishell");
 //     dup2(saved_stdin, STDIN_FILENO);
@@ -155,11 +147,11 @@
 //     dup2(saved_stdout, STDOUT_FILENO);
 //     exit(126);
 // }
-#include <unistd.h>
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// #include <unistd.h>
+// #include <errno.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
 
 static void try_exec_with_fallback(char *path, char **args, char **envp)
 {
@@ -178,7 +170,7 @@ static void try_exec_with_fallback(char *path, char **args, char **envp)
         char *cmd = ft_malloc(total_len + 1, 1);
         if (!cmd)
         {
-            ft_mini_g(0,0);
+            // ft_mini_g(0,0);
             ft_malloc(0,0);
             exit(1);
         }
@@ -195,12 +187,12 @@ static void try_exec_with_fallback(char *path, char **args, char **envp)
         char *sh_args[] = {"/bin/sh", "-c", cmd, NULL};
         execve("/bin/sh", sh_args, envp);
         perror("fallback execve failed");
-        free(cmd);
-        ft_mini_g(0,0);
+        // free(cmd);
+        // ft_mini_g(0,0);
         ft_malloc(0,0);
         exit(127); // fallback also failed
     }
-    ft_mini_g(0,0);
+    // ft_mini_g(0,0);
     ft_malloc(0,0);
     exit(126); // original execve failed for other reasons
 }
@@ -219,18 +211,18 @@ void handle_single_child(t_shell *shell)
 
     if (!handle_redirections_single_child(shell))
     {
-        ft_mini_g(0,0);
+        // ft_mini_g(0,0);
         ft_malloc(0,0);   
         exit(EXIT_FAILURE);
     }
 
     if (is_cmdline_empty(cmd))
     {
-        ft_mini_g(0,0);
-        ft_malloc(0,0);
         ft_putstr_fd("minishell: ", STDERR_FILENO);
         ft_putstr_fd(cmd, STDERR_FILENO);
         ft_putstr_fd(": command not found\n", STDERR_FILENO);
+    
+        ft_malloc(0,0);
         exit(127);
     }
 
@@ -244,7 +236,7 @@ void handle_single_child(t_shell *shell)
         // 1) Try to resolve via PATH in shell->env
         path = get_path(shell, true);
 
-        // 2) If that failed, check if our shell’s PATH is unset/empty
+        // 2) If that failed, n if our shell’s PATH is unset/empty
         if (!path)
         {
             char *path_env = get_env_value(shell->env, "PATH");
@@ -255,7 +247,7 @@ void handle_single_child(t_shell *shell)
                 path = ft_malloc(len, 1);
                 if (!path)
                 {
-                    ft_mini_g(0,0);
+                    // ft_mini_g(0,0);
                     ft_malloc(0,0);
                     exit(126);
                 }
@@ -270,7 +262,7 @@ void handle_single_child(t_shell *shell)
             ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
             ft_putstr_fd(cmd, STDERR_FILENO);
             ft_putstr_fd("\n", STDERR_FILENO);
-            ft_mini_g(0,0);
+            // ft_mini_g(0,0);
             ft_malloc(0,0);
             exit(127);
         }
@@ -282,8 +274,9 @@ void handle_single_child(t_shell *shell)
         ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
         ft_putstr_fd(cmd, STDERR_FILENO);
         ft_putstr_fd("\n", STDERR_FILENO);
-        if (path != cmd) free(path);
-        ft_mini_g(0,0);
+        // if (path != cmd) free(path);
+        // ft_mini_g(0,0);
+        
         ft_malloc(0,0);
         exit(127);
     }
@@ -294,8 +287,8 @@ void handle_single_child(t_shell *shell)
         ft_putstr_fd("minishell: ", STDERR_FILENO);
         ft_putstr_fd(path, STDERR_FILENO);
         ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
-        if (path != cmd) free(path);
-        ft_mini_g(0,0);
+        // if (path != cmd) free(path);
+        // ft_mini_g(0,0);
         ft_malloc(0,0);
         exit(126);
     }
@@ -303,8 +296,8 @@ void handle_single_child(t_shell *shell)
     env_array = transform_environ_array(shell);
     if (!env_array)
     {
-        if (path != cmd) free(path);
-        ft_mini_g(0,0);
+        // if (path != cmd) free(path);
+        // ft_mini_g(0,0);
         ft_malloc(0,0);
         exit(126);
     }
@@ -315,8 +308,8 @@ void handle_single_child(t_shell *shell)
     perror("minishell");
     dup2(saved_stdin,  STDIN_FILENO);//dup in try
     dup2(saved_stdout, STDOUT_FILENO);
-    if (path != cmd) free(path);
-    ft_mini_g(0,0);
+    // if (path != cmd) free(path);
+    // ft_mini_g(0,0);
     ft_malloc(0,0);
     exit(126);
 }

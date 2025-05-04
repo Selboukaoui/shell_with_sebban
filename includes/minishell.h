@@ -135,28 +135,31 @@ typedef struct garbage_c
 	struct garbage_c	*next;
 }	t_collect;
 
-typedef struct s_mini_garbage
-{
-	void				*data;
-	struct s_mini_garbage	*next;
-}	t_alloc;
+// typedef struct s_mini_garbage
+// {
+// 	void				*data;
+// 	struct s_mini_garbage	*next;
+// }	t_alloc;
+// t_lexer_list *tokenize(t_shell *shell);
 
-void	*ft_mini_g(size_t size, int mode);
+t_lexer_list *tokenize(t_shell *shell);
+t_lexer_list    *lexer(t_shell *shell);
+// char *ft_strndup(const char *s, size_t n);
+// void	*ft_mini_g(size_t size, int mode);
 char *save_pwd(int action, char *value);
 int	unset(t_shell *shell, char **args);
 void wait_pipeline(t_info *info, int number);
 t_environ_node *create_environ_node(char *var);
 t_environ_node *add_back_environ_node(t_environ_list *env, t_environ_node *node);
-void free_environ(t_environ_list *env);
+// void free_environ(t_environ_list *env);
 t_environ_list *init_environ(char **envp);
 t_environ_list *empty_environ(t_environ_list *env);
 t_shell *init_shell(char **env);
 char *clean_rl_copy(char *rl_copy);
 int check_quote_syntax(const char *input);
 bool    parser(t_shell *shell);
-t_lexer_list *tokenize(t_shell *shell);
 char	**ft_newsplit(const char *s);
-char *free_str_arr(char **arr);
+// char *free_str_arr(char **arr);
 t_executor *prepare_executor(t_shell *shell);
 t_executor *fill_executor_list(t_shell *shell, t_executor *list);
 void set_path_executor(t_executor *list, t_environ_list *env);
@@ -185,7 +188,7 @@ char *get_path(t_shell *shell, bool printerror);
 
 void    handle_single_child(t_shell *shell);
 
-t_executor *free_executor_list(t_executor *list);
+// t_executor *free_executor_list(t_executor *list);
 
 void executor(t_shell *shell);
 

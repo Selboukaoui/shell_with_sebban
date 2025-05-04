@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:45:15 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 12:10:59 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:25:36 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static	char	*replace_with_clean(char *rl_copy, size_t start, size_t end)
 
 	if (end < start || !rl_copy)
 		return (NULL);
-	new_str = ft_mini_g(sizeof(char) * (end - start + 2), 1);
+	new_str = ft_malloc(sizeof(char) * (end - start + 2), 1);
 	if (!new_str)
 		return (perror("minishell"), NULL);
 	i = 0;
@@ -48,7 +48,7 @@ char	*clean_rl_copy(char *rl_copy)
 	while (rl_copy[start] && ft_isspace(rl_copy[start]))
 		start++;
 	if (start == len)
-		return (ft_strdup1(""));
+		return (ft_strdup(""));
 	end = len - 1;
 	while (end > start && ft_isspace(rl_copy[end]))
 		end--;

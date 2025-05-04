@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:33:32 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 12:25:01 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:29:15 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -808,14 +808,14 @@ char *get_env_value(t_environ_list *env_list, char *key)
         // }
         
         
-        static int already_quoted(const char *s)
-        {
-            size_t n = strlen(s);
-            if (n < 2) return 0;
-            if (s[0] == '\'' && s[n-1] == '\'') return 1;
-            if (s[0] == '"'  && s[n-1] == '"')  return 1;
-            return 0;
-        }
+static int already_quoted(const char *s)
+{
+    size_t n = strlen(s);
+    if (n < 2) return 0;
+    if (s[0] == '\'' && s[n-1] == '\'') return 1;
+    if (s[0] == '"'  && s[n-1] == '"')  return 1;
+    return 0;
+}
         
         /**
          * Wrap exactly one word in double-quotes if it contains:
@@ -835,27 +835,27 @@ char *get_env_value(t_environ_list *env_list, char *key)
 //     free(arr);
 // }
 
-        static char *auto_quote_word(const char *word)
-        {
-            int need = 0;
-            for (const char *p = word; *p; p++)
-                if (*p == ' ' || *p == '\t' || *p == '\'')
-                    { need = 1; break; }
-        
-            if (!need)
-                return strdup(word);
-        
-            size_t len = strlen(word);
-            char *out = ft_mini_g(len + 3, 1);  // two " + NUL
-            if (!out) return NULL;
-            sprintf(out, "\"%s\"", word);
-            return out;
-        }
+static char *auto_quote_word(const char *word)
+{
+    int need = 0;
+    for (const char *p = word; *p; p++)
+        if (*p == ' ' || *p == '\t' || *p == '\'')
+            { need = 1; break; }
+
+    if (!need)
+        return ft_strdup(word);
+
+    size_t len = ft_strlen(word);
+    char *out = ft_malloc(len + 3, 1);  // two " + NUL
+    if (!out) return NULL;
+    sprintf(out, "\"%s\"", word); // check
+    return out;
+}
         
 char *replace_vars(char *input, t_shell *shell)
 {
     size_t i = 0, j = 0, L = ft_strlen(input);
-    char  *output = ft_mini_g(PATH_MAX + 1, 1);
+    char  *output = ft_malloc(PATH_MAX + 1, 1);
     int    in_sq = 0, in_dq = 0;
     int    seen_export = 0, in_export_assign = 0;
     int    in_hdoc = 0, hdoc_word_started = 0;
@@ -958,7 +958,7 @@ char *replace_vars(char *input, t_shell *shell)
                     }
                     else if (!in_dq)
                     {
-                        char **words = ft_split1(val, ' ');
+                        char **words = ft_split(val, ' ');
                         for (int w = 0; words[w]; w++)
                         {
                             char *q = auto_quote_word(words[w]);

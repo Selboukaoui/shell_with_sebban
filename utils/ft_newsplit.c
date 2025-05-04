@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:59 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 12:26:00 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:30:29 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ char	**ft_newsplit(const char *s)
 		return NULL;
 
 	int total = count_tokens(s);
-	char **tokens = ft_mini_g(sizeof(char *) * (total + 1), 1);
+	char **tokens = ft_malloc(sizeof(char *) * (total + 1), 1);
 	if (!tokens)
 		return NULL;
 

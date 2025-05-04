@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/04 11:09:43 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:04:47 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int 	env_var_update(t_environ_list *env, char *key, char *value)
 	node = ft_getenv(env, key);
 	if (node)
 	{
-		free(node->value);// allcooihm b ft_malloc
+		// free(node->value);
 		if (!(node->value = ft_strdup(value)))
 			return(FAILED);
 		return (OK);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:35:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/02 18:59:35 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/04 20:55:06 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@
 //     int after = 0;
 //     int len = ft_strlen(rl_copy + i);
 //     while(rl_copy[i])
-//     {
-        
+//     {  
 //         //check if it befor quote and after quote(in case if it operator like "|" >> ...)
 //     }
 //     if (!s)
-//         return (EMPTY);
-    
+//         return (EMPTY);   
 //     if (ft_strcmp(s, "|") == 0)
 //         return (PIPE);
 //     else if (ft_strcmp(s, "<") == 0)
@@ -40,21 +38,18 @@
 //         return (APPEND);
 //     return (CMD);
 // }
+
 // char *iterate_rl_copy(char *rl_copy)
 // {
 //     static int i = 0;  // Static variable to maintain position
 //     char *current_char;
-
 //     // If the string is null or we have reached the end of the string, return NULL
 //     if (!rl_copy || rl_copy[i] == '\0')
 //         return NULL;
-
 //     // Get the current character at the current position
 //     current_char = &rl_copy[i];
-
 //     // Move the static variable i forward to the next character
 //     i++;
-
 //     return current_char;
 // }
 
@@ -419,9 +414,9 @@ t_lexer_list *tokenize(t_shell *shell)
                                         shell->rl_copy);
 
     /* cleanup token array */
-    for (size_t i = 0; tokens[i]; i++)
-        free(tokens[i]);
-    free(tokens);
+    // for (size_t i = 0; tokens[i]; i++)
+    //     free(tokens[i]);
+    // free(tokens);
 
     return lex;
 }

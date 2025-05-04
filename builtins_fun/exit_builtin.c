@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:11:51 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 12:31:05 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:47:54 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static	void	clean_exit(t_shell *shell, int exit_code)
 {
 	(void)shell;
-    ft_mini_g(0,0);
+    // ft_mini_g(0,0);
     ft_malloc(0,0);
 	exit(exit_code);
 }
@@ -60,8 +60,8 @@ int	exit_builtin(t_shell *shell, char **args, int in_pipe)
 	}
 	if (arg_count > 2)
 	{
-		ft_mini_g(0,0);
-		ft_malloc(0,0);
+		// ft_mini_g(0,0);
+		// ft_malloc(0,0);
 		return (ft_putstr_fd("minishell: exit: too many arguments\n",
 			STDERR_FILENO), EXIT_FAILURE);
 	}

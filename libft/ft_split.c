@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 20:55:45 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/04 12:14:43 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:45:19 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	counter(const char *s, char n)
 	return (count);
 }
 
-static char	*ft_strndup(const char *str, char n)
+char	*ft_strndup(const char *str, char n)
 {
 	int		len;
 	int		i;

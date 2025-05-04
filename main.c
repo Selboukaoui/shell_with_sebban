@@ -30,11 +30,11 @@
 
     if (new_size == 0)
     {
-        free(ptr);
+        // free(ptr);
         return NULL;
     }
 
-    new_ptr = ft_mini_g(new_size,  1);
+    new_ptr = ft_malloc(new_size,  1);
     if (!new_ptr)
         return NULL;
 
@@ -43,7 +43,7 @@
         // Copy the old contents to the new memory block
         size_t size_to_copy = old_size < new_size ? old_size : new_size;
         ft_memcpy(new_ptr, ptr, size_to_copy);
-        free(ptr);
+        // free(ptr);
     }
 
     return new_ptr;
@@ -52,7 +52,7 @@ static char *handle_dollar_quotes(const char *input)
 {
     size_t  len     = ft_strlen(input);
     size_t  cap     = len + 1;
-    char   *out     = ft_mini_g(cap, 1);     // check
+    char   *out     = ft_malloc(cap, 1);     // check 
     size_t  oi      = 0;
     bool    in_q    = false;
 
@@ -72,8 +72,9 @@ static char *handle_dollar_quotes(const char *input)
             continue;
         }
 
-        /* If we’re outside quotes, check for $…+" pattern */
-        if (!in_q && c == '$') {
+        /* If we’re outside quotes, chefck for $…+" pattern */
+        if (!in_q && c == '$') 
+        {
             /* count consecutive $ */
             size_t j = i;
             while (j < len && input[j] == '$') j++;
@@ -166,7 +167,6 @@ int is_cmdline_empty(const char *cmdline)
 // {
 //     char *output = ft_malloc(PATH_MAX + 1, 1);
 //     size_t i = 0, j = 0;
-
 //     while (input[i])
 //     {
 //         if (input[i] == '$')
@@ -176,23 +176,18 @@ int is_cmdline_empty(const char *cmdline)
 //             size_t name_len = 0;
 //             while (ft_isalnum(input[name_start + name_len]) || input[name_start + name_len] == '_')
 //                 name_len++;
-
 //             if (name_len == 0)
 //             {
 //                 output[j++] = input[i++];
 //                 continue;
 //             }
-
 //             char name[PATH_MAX];
 //             ft_strncpy(name, input + name_start, name_len);
 //             name[name_len] = '\0';
-
 //             char *val = get_env_value(shell->env, name);
 //             if (!val)
 //                 val = "";
-
 //             i = name_start + name_len;
-
 //             // Check if we are in pattern like $x=$y or $x=$y=$z
 //             if (input[i] == '=')
 //             {
@@ -200,27 +195,21 @@ int is_cmdline_empty(const char *cmdline)
 //                 for (size_t k = 0; val[k]; k++) output[j++] = val[k];
 //                 output[j++] = '='; // Write '='
 //                 i++; // Skip '='
-
 //                 while (input[i] == '$')
 //                 {
 //                     i++; // skip $
 //                     size_t rlen = 0;
 //                     while (ft_isalnum(input[i + rlen]) || input[i + rlen] == '_')
 //                         rlen++;
-
 //                     if (rlen == 0) break;
-
 //                     char rname[PATH_MAX];
 //                     ft_strncpy(rname, input + i, rlen);
 //                     rname[rlen] = '\0';
-
-//                     char *rval = get_env_value(shell->env, rname);
+//                    char *rval = get_env_value(shell->env, rname);
 //                     if (!rval)
 //                         rval = "";
-
 //                     for (size_t k = 0; rval[k]; k++) output[j++] = rval[k];
 //                     i += rlen;
-
 //                     if (input[i] == '=')
 //                     {
 //                         output[j++] = '=';
@@ -228,7 +217,6 @@ int is_cmdline_empty(const char *cmdline)
 //                     }
 //                     else break;
 //                 }
-
 //                 continue;
 //             }
 //             else
@@ -244,7 +232,6 @@ int is_cmdline_empty(const char *cmdline)
 //             output[j++] = input[i++];
 //         }
 //     }
-
 //     output[j] = '\0';
 //     return output;
 // }
@@ -269,10 +256,10 @@ char *replace_var_equals_var(char *input, t_shell *shell)
 
     // 3) If the first non-space (after export) isn't '$', leave unchanged
     if (idx >= L || input[idx] != '$')
-        return ft_strdup1(input);
+        return ft_strdup(input);
 
     // 4) Otherwise, perform your chain-assignment replacement:
-    char *output = ft_mini_g(PATH_MAX + 1, 1);
+    char *output = ft_malloc(PATH_MAX + 1, 1);
     size_t i = 0, j = 0;
 
     while (input[i])
@@ -389,7 +376,6 @@ int main(int ac, char **av, char **env)
             free (shell->rl_input);
 			write(1, "exit\n", 5);
             ft_malloc(0, 0);
-            ft_mini_g(0, 0);
 			exit(exit_status(0,0)); // command not found in ctr + d handle it
 		}
         if (*shell->rl_input)
@@ -430,7 +416,7 @@ int main(int ac, char **av, char **env)
         // and clean for next loop
         //free (shell->rl_input);
         // shell.  = NULL;
-        ft_mini_g(0,0);
+        // ft_malloc(0,0);
     }
     // clean
     ft_malloc(0,0);
@@ -598,7 +584,6 @@ int main(int ac, char **av, char **env)
 //         shell->rl_copy = replace_vars(shell->rl_input, shell);
 
 //         // printf("str ----> %s\n", shell->rl_copy);
-//         //check syntax like ">>>"
 //         // if (!ft_strcmp(shell->rl_input, "\\"))
 //         // {
 //         //     ft_putstr_fd("syntax error near unexpected token`(xx)'\n", 2);
