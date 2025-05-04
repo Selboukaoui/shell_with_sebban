@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_handler_multi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/03 21:03:47 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/04 11:09:01 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static char *path_join(const char *dir, const char *file)
  * 1) if it starts with '/' or '.', treat it literally
  * 2) else scan current->path[]
  * 3) else if current->path is NULL        → PATH unset: try "./cmd"
- * Returns a malloc'd path, or NULL if not found.
+ * Returns a ft_malloc'd path, or NULL if not found.
  * Leaves errno unchanged if “not found”; sets errno=EACCES if found but not executable.
  */
 static char *execute_other_helper(t_executor *current)
@@ -125,7 +125,7 @@ static char *execute_other_helper(t_executor *current)
     if (!current->path)
     {
         size_t len = 2 + strlen(current->execs[0]) + 1;
-        char *dotcmd = malloc(len);
+        char *dotcmd = ft_malloc(len, 1);
         if (!dotcmd) return NULL;
         memcpy(dotcmd, "./", 2);
         memcpy(dotcmd + 2, current->execs[0], strlen(current->execs[0]) + 1);
@@ -150,7 +150,7 @@ static void try_exec_with_fallback(char *path, char **args, char **envp)
         for (int i = 0; args[i]; i++)
             total_len += strlen(args[i]) + 1;
 
-        char *cmd = malloc(total_len + 1);
+        char *cmd = ft_malloc(total_len + 1, 1);
         if (!cmd)
             exit(1);
 

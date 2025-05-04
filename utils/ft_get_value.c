@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_value.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:33:32 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/03 17:28:54 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/03 20:50:18 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -846,7 +846,7 @@ char *get_env_value(t_environ_list *env_list, char *key)
                 return strdup(word);
         
             size_t len = strlen(word);
-            char *out = malloc(len + 3);  // two " + NUL
+            char *out = ft_malloc(len + 3, 1);  // two " + NUL
             if (!out) return NULL;
             sprintf(out, "\"%s\"", word);
             return out;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_executor_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/03 18:36:23 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/03 20:45:08 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -473,7 +473,7 @@ static int is_last_delim_quoted(const char *cmdline)
 // static char *strip_quotes(const char *s)
 // {
 //     size_t len = ft_strlen(s);
-//     char *out = malloc(len + 1);
+//     char *out = ft_malloc(len + 1);
 //     if (!out) return NULL;
 //     size_t j = 0;
 //     for (size_t i = 0; i < len; ++i) {

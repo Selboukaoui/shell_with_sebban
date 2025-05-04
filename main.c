@@ -28,7 +28,7 @@ handle_dollar_quotes(const char *input)
 {
     size_t  len     = strlen(input);
     size_t  cap     = len + 1;
-    char   *out     = malloc(cap);
+    char   *out     = ft_malloc(cap, 1);
     size_t  oi      = 0;
     bool    in_q    = false;
 
@@ -375,7 +375,7 @@ int main(int ac, char **av, char **env)
         // printf("handle_dolar ----> %s\n", shell->rl_input);
 
         shell->rl_input = replace_var_equals_var(shell->rl_input, shell);
-        printf ("return your new func : %s\n",shell->rl_input);
+        // printf ("return your new func : %s\n",shell->rl_input);
         shell->rl_copy = clean_rl_copy(shell->rl_input);
         // printf ("clean_: %s\n",shell->rl_copy);
 
@@ -427,7 +427,7 @@ int main(int ac, char **av, char **env)
 // static char *handle_dollar_quotes(const char *input)
 // {
 //     int len = ft_strlen(input);
-//     char *result = malloc(len + 1);
+//     char *result = ft_malloc(len + 1);
 //     if (!result)
 //         return NULL;
 
@@ -484,7 +484,7 @@ int main(int ac, char **av, char **env)
 // static char *handle_dollar_quotes(const char *input)
 // {
 //     int len = ft_strlen(input);
-//     char *result = malloc(len + 1); // Allocate enough (final string will be smaller or same)
+//     char *result = ft_malloc(len + 1); // Allocate enough (final string will be smaller or same)
 //     if (!result)
 //         return NULL;
 

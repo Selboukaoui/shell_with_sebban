@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_single_child.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 12:13:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/03 19:50:29 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/04 11:09:21 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ static void try_exec_with_fallback(char *path, char **args, char **envp)
         for (int i = 0; args[i]; i++)
             total_len += strlen(args[i]) + 1;
 
-        char *cmd = malloc(total_len + 1);
+        char *cmd = ft_malloc(total_len + 1, 1);
         if (!cmd)
             exit(1);
 
@@ -239,7 +239,7 @@ void handle_single_child(t_shell *shell)
             {
                 // build "./cmd"
                 size_t len = strlen(cmd) + 3;
-                path = malloc(len);
+                path = ft_malloc(len, 1);
                 if (!path)
                     exit(126);
                 ft_memcpy(path, "./", 2);
