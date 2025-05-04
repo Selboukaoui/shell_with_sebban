@@ -6,20 +6,19 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:11:51 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/03 21:07:43 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/04 10:09:04 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void clean_exit(t_shell *shell, int exit_code)
+static	void	clean_exit(t_shell *shell, int exit_code)
 {
-    (void)shell;
-    //clean
-    exit(exit_code);
+	(void)shell;
+	exit(exit_code);
 }
 
-static bool	is_arg_number(char *arg)
+static	bool	is_arg_number(char *arg)
 {
 	int	i;
 
@@ -37,40 +36,30 @@ static bool	is_arg_number(char *arg)
 	return (true);
 }
 
-int exit_builtin(t_shell *shell, char **args, int in_pipe)
+int	exit_builtin(t_shell *shell, char **args, int in_pipe)
 {
-    int exit_code;
-    int arg_count;
+	int	exit_code;
+	int	arg_count;
 
-    arg_count = 0;
-    exit_code = exit_status(0, 0);
-    while (args[arg_count])
+	arg_count = 0;
+	exit_code = exit_status(0, 0);
+	while (args[arg_count])
+		arg_count++;
+	if (arg_count == 1 && !in_pipe)
+		(printf("exit\n"), clean_exit(shell, exit_code));
+	if (arg_count == 1 && in_pipe)
+		clean_exit(shell, exit_code);
+	if (!is_arg_number(args[1]))
 	{
-        arg_count++;
-	}
-	if(arg_count == 1)
-	{
-		if (!in_pipe)
-			( printf("exit\n"),clean_exit(shell, exit_code));
-		else
-			clean_exit(shell, exit_code);
-		
-	}
-    if (!is_arg_number(args[1]) )
-	{
-        printf("exit\n");
-        ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		(printf("exit\n"), ft_putstr_fd("minishell: exit: ", STDERR_FILENO));
 		ft_putstr_fd(args[1], STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		clean_exit(shell, 2);
 	}
-    if (arg_count > 2)
-    {
-        ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
-		return (EXIT_FAILURE);
-    }
-    printf("exit\n");
-    exit_code = ft_atoi(args[1]);
-	clean_exit(shell, exit_code);
-	return (EXIT_SUCCESS); // This line is theoretically unreachable
+	if (arg_count > 2)
+		return (ft_putstr_fd("minishell: exit: too many arguments\n",
+				STDERR_FILENO), EXIT_FAILURE);
+	printf("exit\n");
+	exit_code = ft_atoi(args[1]);
+	return (clean_exit(shell, exit_code), EXIT_SUCCESS);
 }

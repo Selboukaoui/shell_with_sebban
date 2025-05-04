@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:32:39 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/03 13:58:50 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/04 10:22:11 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static bool	is_valid_identifier(char *arg)
 	return (true);
 }
 
-static void	delete_variable(t_shell *shell, char *arg)
+static	void	delete_variable(t_shell *shell, char *arg)
 {
 	t_environ_node	*current;
 	t_environ_node	*prev;
@@ -51,7 +51,7 @@ static void	delete_variable(t_shell *shell, char *arg)
 	}
 }
 
-static void	unset_arg(t_shell *shell, char *arg, int *c)
+static	void	unset_arg(t_shell *shell, char *arg, int *c)
 {
 	if (!is_valid_identifier(arg))
 	{
@@ -71,25 +71,19 @@ int	unset(t_shell *shell, char **args)
 
 	if (!args[1])
 		return (EXIT_SUCCESS);
-	c = 0; 
+	c = 0;
 	i = 1;
 	while (args[i])
 	{
-		if (ft_strcmp(args[i],"PWD")== 0)
+		if (ft_strcmp(args[i], "PWD") == 0)
 		{
 			if (get_env_value(shell->env, "PWD"))
 				save_pwd(1, get_env_value(shell->env, "PWD"));
-			// printf("%s\n",save_pwd(0, NULL));
 		}
-		// pwd(shell->env, 0);
 		unset_arg(shell, args[i], &c);
 		i++;
 	}
-    if (c)
-	{
-        return(EXIT_FAILURE);
-		
-	}
-	
+	if (c)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
