@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:27:05 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 20:50:29 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:17:52 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,6 @@ int check_syntax(t_shell *input)
         exit_status(EXIT_SET, 2);
         return (0);
     }
-    // if (!check_quote_syntax(input->rl_copy) && herdoc == 0)
-    // {
-    //     ft_putstr_fd("minishell:  syntax error near unexpected token `(quote)'\n", 2);
-    //     exit_status(EXIT_SET, 2);
-    //     return (0);
-    // }
     if (!check_quote_syntax(input->rl_copy))
     {
         ft_putstr_fd("minishell:  syntax error !!\n", 2);
