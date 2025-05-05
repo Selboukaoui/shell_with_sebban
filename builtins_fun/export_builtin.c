@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 10:28:53 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 20:04:14 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:34:29 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ static	void	print_sorted_env(t_environ_list *env)
 		{
 			char *joined = ft_strjoin(tmp->key, "=");
 			full = ft_strjoin(joined, tmp->value);
-			// free(joined);
+			free(joined);
 		}
 		else
 			full = ft_strdup(tmp->key);
 		current = create_environ_node(full);
-		// free(full);
+		free(full);
 		if (!current)
 			return ;
 		if (!sorted || ft_strcmp(current->key, sorted->key) < 0)
@@ -59,9 +59,9 @@ static	void	print_sorted_env(t_environ_list *env)
 			printf("declare -x %s\n", sorted->key);
 		current = sorted;
 		sorted = sorted->next;
-		// free(current->key);
-		// free(current->value);
-		// free(current);
+		free(current->key);
+		free(current->value);
+		free(current);
 	}
 }
 
@@ -125,18 +125,18 @@ void	exporting(t_shell *shell, char *str)
 			if (append && node->value)
 			{
 				char *new_value = ft_strjoin(node->value, value);
-				// free(node->value);
+				free(node->value);
 				node->value = new_value;
-				// free(value);
+				free(value);
 			}
 			else
 			{
-				// free(node->value);
+				free(node->value);
 				node->value = value;
 			}
 		}
-		// else
-		// 	free(value);
+		else
+			free(value);
 	}
 	else
 	{
@@ -144,9 +144,9 @@ void	exporting(t_shell *shell, char *str)
 		{
 			char *temp = ft_strjoin(key, "=");
 			char *full = ft_strjoin(temp, value);
-			// free(temp);
+			free(temp);
 			node = create_environ_node(full);
-			// free(full);
+			free(full);
 		}
 		else
 		{
@@ -157,7 +157,7 @@ void	exporting(t_shell *shell, char *str)
 		}
 		add_back_environ_node(shell->env, node);
 	}
-	// free(key);
+	free(key);
 }
 
 static	int	export_args(t_shell *shell, char **args)

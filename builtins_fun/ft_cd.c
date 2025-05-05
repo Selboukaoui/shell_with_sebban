@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/04 20:04:47 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:30:19 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,18 @@ int 	env_var_update(t_environ_list *env, char *key, char *value)
 	node = ft_getenv(env, key);
 	if (node)
 	{
-		// free(node->value);
-		if (!(node->value = ft_strdup(value)))
-			return(FAILED);
-		return (OK);
+		free(node->value);
+		node->value = ft_strdup(value);
+		free(value);
+		return node->value ? OK : FAILED;
 	}
-	node = ft_malloc (sizeof(t_environ_node), 1);
+	node = malloc (sizeof(t_environ_node));
 	if (!node)
 		return (FAILED);
-	node->key = ft_strdup(key);
-	node->value = ft_strdup(value);
+	node->key = ft_strdup1(key);
+	node->value = ft_strdup1(value);
 	if (!node->key || !node->key)
-		return (/*free and*/FAILED);
+		return (FAILED);
 	node->next = env->head;
 	env->head = node;
 	env->size++;
@@ -55,14 +55,17 @@ int cd_no_args(t_shell *shell)
 {
 	t_environ_node     *home;
 	char    old_pwd[PATH_MAX];
+
 	if (!(home = ft_getenv(shell->env,"HOME")))
 		return(ft_putstr_fd("cd: HOME not set\n", 2), FAILED);
 	if (!getcwd(old_pwd, sizeof(old_pwd)))
-		return(ft_putstr_fd("getcwd\n", 2), FAILED);
+		return(ft_putstr_fd("getcwd\n", 2), FAILED); // ?
 	if (chdir(home->value) != 0)
 		return(ft_putstr_fd("Chdir\n", 2), FAILED);
-	env_var_update(shell->env, "PWD", home->value);
-	env_var_update(shell->env, "OLDPWD", old_pwd);
+	if(env_var_update(shell->env, "PWD", home->value) == FAILED)
+		return (FAILED);
+	if (env_var_update(shell->env, "OLDPWD", old_pwd) == FAILED)
+		return (FAILED);
 	return (OK);
 }
 
@@ -71,8 +74,7 @@ int	cd(t_shell *shell, char **arg)
 	char		old_pwd[PATH_MAX];
 	char		new_pwd[PATH_MAX];
 	static char	*x;
-	
-	(void)shell;
+	// char *new_x ;
 	if (arg[2])
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
@@ -82,23 +84,27 @@ int	cd(t_shell *shell, char **arg)
 	{
 		if (!ft_strcmp("..", arg[1]))
 		{
-			env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x));
+			if (env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x)) == FAILED)
+				return (FAILED);
 			x = ft_strjoin(x, "/..");
-			env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x));
+			if (env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x)) == FAILED)
+				return (FAILED);
 		}
 		else if (!ft_strcmp(".", arg[1]))
 		{
-			env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x));
+			if (env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x)) == FAILED)
+				return (FAILED);
 			x = ft_strjoin(x, "/.");
-			env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x));
+			if (env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x)) == FAILED)
+				return (FAILED);
 		}
 		chdir(arg[1]);
 		if (getcwd(old_pwd, sizeof(old_pwd)))
 		{
-			env_var_update(shell->env, "PWD", old_pwd);  
+			if (env_var_update(shell->env, "PWD", old_pwd) == FAILED)
+				return (FAILED);
 			x = NULL;
 		}
-
 		ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
 			return (FAILED);
 	}
@@ -120,10 +126,35 @@ int	cd(t_shell *shell, char **arg)
 		ft_putstr_fd("cd: error retrieving new directory\n", 2);
 			return (FAILED);
 	}
-	env_var_update(shell->env, "PWD", new_pwd);
-	env_var_update(shell->env, "OLDPWD", old_pwd);
+	if ( env_var_update(shell->env, "PWD", new_pwd) == FAILED)
+		return (FAILED);
+	if (env_var_update(shell->env, "OLDPWD", old_pwd) == FAILED)
+		return (FAILED);
 	return (OK);
 }
 
 
 // leaks ft_strjoin
+
+
+
+
+/*
+
+		if (!ft_strcmp("..", arg[1]))
+		{
+			env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x));
+			new_x = ft_strjoin(x, "/..");
+			free(x);
+			x = new_x;
+			env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x));
+		}
+		else if (!ft_strcmp(".", arg[1]))
+		{
+			env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x));
+			new_x = ft_strjoin(x, "/.");
+			free(x);
+			x = new_x;
+			env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x));
+		}
+*/

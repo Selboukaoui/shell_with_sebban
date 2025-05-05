@@ -219,4 +219,7 @@ char *get_env_value(t_environ_list *env_list, char *key);
 t_environ_node   *ft_getenv(t_environ_list *env, char *key);
 int exit_builtin(t_shell *shell, char **args, int in_pipe);
 int is_cmdline_empty(const char *cmdline);
+
+
+void free_environ(t_shell *shell);
 #endif     

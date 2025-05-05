@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 20:12:13 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:16:05 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ static char *execute_other_helper(t_executor *current)
 
     return NULL;
 }
-static void try_exec_with_fallback(char *path, char **args, char **envp)
+static void try_exec_with_fallback(char *path, char **args, char **envp, t_shell *shell)
 {
     execve(path, args, envp);
 
@@ -151,7 +151,8 @@ static void try_exec_with_fallback(char *path, char **args, char **envp)
         char *cmd = ft_malloc(total_len + 1, 1);
         if (!cmd)
         {
-            // ft_mini_g(0,0);
+            
+            free_environ(shell); //check 
             ft_malloc(0,0);
             exit(1);
         }
@@ -169,9 +170,11 @@ static void try_exec_with_fallback(char *path, char **args, char **envp)
         execve("/bin/sh", sh_args, envp);
         perror("fallback execve failed");
         // free(cmd);
+        free_environ(shell); //check
         ft_malloc(0,0);
         exit(127); // fallback also failed
     }
+    free_environ(shell);
     ft_malloc(0,0);
     exit(126); // original execve failed for other reasons
 }
@@ -189,6 +192,7 @@ int execute_other(t_executor *current, t_info *info)
         ft_putstr_fd(current->execs[0], STDERR_FILENO);
         ft_putstr_fd(": command not found\n", STDERR_FILENO);
         
+        free_environ(info->shell);
         ft_malloc(0,0);
         exit(127);
     }
@@ -200,6 +204,8 @@ int execute_other(t_executor *current, t_info *info)
         ft_putstr_fd(path, STDERR_FILENO);
         ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
         // free(path);
+
+        free_environ(info->shell);
         ft_malloc(0,0);
 
         exit(126);
@@ -209,13 +215,14 @@ int execute_other(t_executor *current, t_info *info)
     if (!env_array)
     {
         // free(path);
+        free_environ(info->shell);
         ft_malloc(0,0);
 
         exit(126);
     }
 
     execve(path, current->execs, env_array);
-    try_exec_with_fallback(path, current->execs,env_array);
+    try_exec_with_fallback(path, current->execs,env_array, info->shell);
 
     // execve failed—could be EACCES, ENOEXEC, etc.
     if (errno == EACCES)
@@ -224,6 +231,8 @@ int execute_other(t_executor *current, t_info *info)
         ft_putstr_fd(current->execs[0], STDERR_FILENO);
         ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
         // free(path);
+
+        free_environ(info->shell);
         ft_malloc(0,0);
 
         exit(126);
@@ -232,6 +241,7 @@ int execute_other(t_executor *current, t_info *info)
     {
         perror("minishell");
         // free(path);
+        free_environ(info->shell);
         ft_malloc(0,0);
         exit(126);
     }
@@ -414,7 +424,7 @@ static void execute_builtin_child(t_info *info, t_executor *cur)
     else if (ft_strcmp(args[0], "unset")  == 0) exit_code = unset(info->shell, args);
     else if (ft_strcmp(args[0], "env")    == 0) exit_code = env(info->shell);
     else if (ft_strcmp(args[0], "exit")   == 0) exit_code = exit_builtin(info->shell, args, 1); //// if in shild not print exit
-
+    free_environ(info->shell);
     ft_malloc(0,0);
     exit(exit_code);
 }
@@ -429,6 +439,7 @@ int child_handler_multi(int *fildes, t_executor *current, t_info *info)
     // }
     if (handle_redirections_pipeline(fildes, current) == FAIL_SYSCALL)
     {
+        free_environ(info->shell);
         ft_malloc(0,0);
         exit(FAIL_SYSCALL_CHILD);
     }
@@ -439,6 +450,8 @@ int child_handler_multi(int *fildes, t_executor *current, t_info *info)
         ft_putstr_fd("minishell: ", STDERR_FILENO);
         ft_putstr_fd(current->execs[0], STDERR_FILENO);
         ft_putstr_fd(": command not found\n", STDERR_FILENO);
+
+        free_environ(info->shell);
         ft_malloc(0,0);
         exit(127);
     }

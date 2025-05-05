@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 12:13:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 20:36:24 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:17:15 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@
 // #include <stdlib.h>
 // #include <string.h>
 
-static void try_exec_with_fallback(char *path, char **args, char **envp)
+static void try_exec_with_fallback(char *path, char **args, char **envp, t_shell *shell)
 {
     execve(path, args, envp);
 
@@ -170,7 +170,9 @@ static void try_exec_with_fallback(char *path, char **args, char **envp)
         char *cmd = ft_malloc(total_len + 1, 1);
         if (!cmd)
         {
-            // ft_mini_g(0,0);
+            
+
+            free_environ(shell); // check
             ft_malloc(0,0);
             exit(1);
         }
@@ -187,12 +189,13 @@ static void try_exec_with_fallback(char *path, char **args, char **envp)
         char *sh_args[] = {"/bin/sh", "-c", cmd, NULL};
         execve("/bin/sh", sh_args, envp);
         perror("fallback execve failed");
-        // free(cmd);
-        // ft_mini_g(0,0);
+
+        free_environ(shell);
         ft_malloc(0,0);
         exit(127); // fallback also failed
     }
-    // ft_mini_g(0,0);
+ 
+    free_environ(shell);
     ft_malloc(0,0);
     exit(126); // original execve failed for other reasons
 }
@@ -211,7 +214,9 @@ void handle_single_child(t_shell *shell)
 
     if (!handle_redirections_single_child(shell))
     {
-        // ft_mini_g(0,0);
+        
+        
+        free_environ(shell);
         ft_malloc(0,0);   
         exit(EXIT_FAILURE);
     }
@@ -222,6 +227,7 @@ void handle_single_child(t_shell *shell)
         ft_putstr_fd(cmd, STDERR_FILENO);
         ft_putstr_fd(": command not found\n", STDERR_FILENO);
     
+        free_environ(shell);
         ft_malloc(0,0);
         exit(127);
     }
@@ -247,7 +253,8 @@ void handle_single_child(t_shell *shell)
                 path = ft_malloc(len, 1);
                 if (!path)
                 {
-                    // ft_mini_g(0,0);
+                    
+                    free_environ(shell);
                     ft_malloc(0,0);
                     exit(126);
                 }
@@ -262,7 +269,8 @@ void handle_single_child(t_shell *shell)
             ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
             ft_putstr_fd(cmd, STDERR_FILENO);
             ft_putstr_fd("\n", STDERR_FILENO);
-            // ft_mini_g(0,0);
+            
+            free_environ(shell);
             ft_malloc(0,0);
             exit(127);
         }
@@ -275,8 +283,8 @@ void handle_single_child(t_shell *shell)
         ft_putstr_fd(cmd, STDERR_FILENO);
         ft_putstr_fd("\n", STDERR_FILENO);
         // if (path != cmd) free(path);
-        // ft_mini_g(0,0);
         
+        free_environ(shell);
         ft_malloc(0,0);
         exit(127);
     }
@@ -288,7 +296,9 @@ void handle_single_child(t_shell *shell)
         ft_putstr_fd(path, STDERR_FILENO);
         ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
         // if (path != cmd) free(path);
-        // ft_mini_g(0,0);
+        
+
+        free_environ(shell);
         ft_malloc(0,0);
         exit(126);
     }
@@ -297,19 +307,22 @@ void handle_single_child(t_shell *shell)
     if (!env_array)
     {
         // if (path != cmd) free(path);
-        // ft_mini_g(0,0);
+        
+        free_environ(shell);
         ft_malloc(0,0);
         exit(126);
     }
 
     execve(path, shell->executor->execs, env_array);
-    try_exec_with_fallback(path, shell->executor->execs, env_array);
+    try_exec_with_fallback(path, shell->executor->execs, env_array, shell);
     // execve failed
     perror("minishell");
     dup2(saved_stdin,  STDIN_FILENO);//dup in try
     dup2(saved_stdout, STDOUT_FILENO);
     // if (path != cmd) free(path);
-    // ft_mini_g(0,0);
+    
+
+    free_environ(shell);
     ft_malloc(0,0);
     exit(126);
 }

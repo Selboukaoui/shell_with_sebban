@@ -369,14 +369,15 @@ int main(int ac, char **av, char **env)
         g_signals = -70;
         if (!isatty(1) || !isatty(0))
             return (0);
-        shell->rl_input = readline("minishell-1.0$~ "); // *not saved
+        shell->rl_input = readline("minishell-1.0$~ ");
         g_signals = 1;
-        if (!shell->rl_input) // CTRL+D (EOF)
+        if (!shell->rl_input)
 		{
             free (shell->rl_input);
-			write(1, "exit\n", 5);
+            write(1, "exit\n", 5);
             ft_malloc(0, 0);
-			exit(exit_status(0,0)); // command not found in ctr + d handle it
+            free_environ(shell);
+			exit(exit_status(0,0));
 		}
         if (*shell->rl_input)
             add_history(shell->rl_input);
@@ -417,9 +418,10 @@ int main(int ac, char **av, char **env)
         //free (shell->rl_input);
         // shell.  = NULL;
         // ft_malloc(0,0);
+        ft_malloc(0,0);
     }
     // clean
-    ft_malloc(0,0);
+    free_environ(shell);
     return(0);// return exit_code
 }
 

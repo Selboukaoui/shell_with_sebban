@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:02:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 11:51:57 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:34:24 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,24 @@ t_environ_node	*create_environ_node(char *var)
 
 	if (!var)
 		return (NULL);
-	new_node = (t_environ_node *)ft_calloc(1, sizeof(t_environ_node)); // 4
+	new_node = (t_environ_node *)malloc(sizeof(t_environ_node)); // 4
 	if (!new_node)
 		return (NULL);
 	equal_sign = ft_strchr(var, '=');
 	if (equal_sign)
 	{
 		key_len = equal_sign - var;
-		new_node->key = ft_substr(var, 0, key_len); // 5 6
-		new_node->value = ft_strdup(equal_sign + 1); // 7
+		new_node->key = ft_substr1(var, 0, key_len); // 5 6
+		new_node->value = ft_strdup1(equal_sign + 1); // 7
+		free (var);
+		// free(equal_sign);
 	}
 	else
 	{
-		new_node->key = ft_strdup(var); // 5 
+		new_node->key = ft_strdup1(var); // 5 
 		new_node->value = NULL;
+		free(var);
+		// free(equal_sign);
 	}
 	if (!new_node->key || (equal_sign && !new_node->value))
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:13:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 20:26:51 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:39:45 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,23 @@
 //     return (NULL);
 // }
 
-// void free_environ(t_environ_list *env)
-// {
-//     t_environ_node *current;
-//     t_environ_node *next;
+void free_environ(t_shell *shell)
+{
+    t_environ_node *current;
+    t_environ_node *next;
 
-//     if (!env)
-//         return;
+    if (!shell->env)
+        return;
     
-//     current = env->head;
-//     while (current)
-//     {
-//         next = current->next;
-//         //free(current->key);
-//         //free(current->value);
-//         //free(current);
-//         current = next;
-//     }
-//     env->head = NULL;
-//     env->size = 0;
-// }
+    current = shell->env->head;
+    while (current)
+    {
+        next = current->next;
+        free(current->key);
+        free(current->value);
+        free(current);
+        current = next;
+    }
+    shell->env->head = NULL;
+    shell->env->size = 0;
+}
