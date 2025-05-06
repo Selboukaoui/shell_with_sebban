@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/05 20:33:12 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 09:59:49 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,29 +132,3 @@ int	cd(t_shell *shell, char **arg)
 		return (FAILED);
 	return (OK);
 }
-
-
-// leaks ft_strjoin
-
-
-
-
-/*
-
-		if (!ft_strcmp("..", arg[1]))
-		{
-			env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x));
-			new_x = ft_strjoin(x, "/..");
-			free(x);
-			x = new_x;
-			env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x));
-		}
-		else if (!ft_strcmp(".", arg[1]))
-		{
-			env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x));
-			new_x = ft_strjoin(x, "/.");
-			free(x);
-			x = new_x;
-			env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x));
-		}
-*/
