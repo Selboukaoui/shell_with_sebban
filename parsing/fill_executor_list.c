@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 20:47:42 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:48:34 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -445,7 +445,7 @@ static char *get_last_heredoc_delimiter(const char *cmdline)
             size_t len = i - start;
             if (len > 0) {
                 // free(last);
-                last = strndup(cmdline + start, len); // check strndup
+                last = ft_strndup(cmdline + start, len); // check strndup
             }
         }
     }
@@ -635,7 +635,7 @@ int create_heredoc(char *delimiter, t_shell *shell)
             break;
         }
         if (ft_strcmp(line, delimiter) == 0) {
-            // free(line);
+            free(line);
             break;
         }
         if (!quoted) {
@@ -651,7 +651,7 @@ int create_heredoc(char *delimiter, t_shell *shell)
             write(pipefd[1], line, ft_strlen(line));
             write(pipefd[1], "\n", 1);
         }
-        // free(line);
+        free(line);
     }
 
     // free(real_delim);

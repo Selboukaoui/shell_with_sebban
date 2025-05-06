@@ -368,7 +368,13 @@ int main(int ac, char **av, char **env)
     {
         g_signals = -70;
         if (!isatty(1) || !isatty(0))
+        {
+            free_environ(shell);
+            ft_malloc(0,0);
+            // free(shell->env);
+            // free(shell);
             return (0);
+        }
         shell->rl_input = readline("minishell-1.0$~ ");
         g_signals = 1;
         if (!shell->rl_input)
@@ -378,6 +384,7 @@ int main(int ac, char **av, char **env)
             ft_malloc(0, 0);
             free_environ(shell);
 			exit(exit_status(0,0));
+            // break;
 		}
         if (*shell->rl_input)
             add_history(shell->rl_input);
@@ -404,7 +411,10 @@ int main(int ac, char **av, char **env)
 
         // printf ("%s-->\n", shell->rl_copy);
         if (parser(shell) == false)
+        {
+            ft_malloc(0,0);
             continue ;
+        }
 
         // t_shell *tst = shell;
         // while (tst->lex_head)
@@ -422,6 +432,8 @@ int main(int ac, char **av, char **env)
     }
     // clean
     free_environ(shell);
+    // free(shell->env);
+    // free(shell);
     return(0);// return exit_code
 }
 

@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 10:28:53 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/05 19:34:29 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:19:14 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ static	void	print_sorted_env(t_environ_list *env)
 		char	*full;
 		if (tmp->value)
 		{
-			char *joined = ft_strjoin(tmp->key, "=");
-			full = ft_strjoin(joined, tmp->value);
+			char *joined = ft_strjoin1(tmp->key, "=");
+			full = ft_strjoin1(joined, tmp->value);
 			free(joined);
 		}
 		else
-			full = ft_strdup(tmp->key);
+			full = ft_strdup1(tmp->key);
 		current = create_environ_node(full);
-		free(full);
+	
 		if (!current)
 			return ;
 		if (!sorted || ft_strcmp(current->key, sorted->key) < 0)
@@ -104,17 +104,17 @@ void	exporting(t_shell *shell, char *str)
 	if (equal_sign && equal_sign > str && *(equal_sign - 1) == '+')
 	{
 		append = true;
-		key = ft_substr(str, 0, (equal_sign - str) - 1);
-		value = ft_strdup(equal_sign + 1);
+		key = ft_substr1(str, 0, (equal_sign - str) - 1);
+		value = ft_strdup1(equal_sign + 1);
 	}
 	else if (equal_sign)
 	{
-		key = ft_substr(str, 0, equal_sign - str);
-		value = ft_strdup(equal_sign + 1);
+		key = ft_substr1(str, 0, equal_sign - str);
+		value = ft_strdup1(equal_sign + 1);
 	}
 	else
 	{
-		key = ft_strdup(str);
+		key = ft_strdup1(str);
 		value = NULL;
 	}
 	node = get_node(shell->env, key);
@@ -124,40 +124,44 @@ void	exporting(t_shell *shell, char *str)
 		{
 			if (append && node->value)
 			{
-				char *new_value = ft_strjoin(node->value, value);
+				char *new_value = ft_strjoin1(node->value, value);
 				free(node->value);
 				node->value = new_value;
-				free(value);
+				// free(value);
+				// free(key);
 			}
 			else
 			{
 				free(node->value);
 				node->value = value;
+				// free(value);
 			}
 		}
-		else
-			free(value);
+		// else
+		// 	free(value);
 	}
 	else
 	{
 		if (equal_sign)
 		{
-			char *temp = ft_strjoin(key, "=");
-			char *full = ft_strjoin(temp, value);
+			char *temp = ft_strjoin1(key, "=");
+			char *full = ft_strjoin1(temp, value);
 			free(temp);
 			node = create_environ_node(full);
-			free(full);
+			// free(full);
 		}
 		else
 		{
-			node = ft_calloc(1, sizeof(t_environ_node));
-			node->key = ft_strdup(key);
+			// free(node->value);
+			node = malloc(sizeof(t_environ_node));
+			node->key = ft_strdup1(key);
 			node->value = NULL;
 			node->next = NULL;
 		}
 		add_back_environ_node(shell->env, node);
 	}
 	free(key);
+	free(value);
 }
 
 static	int	export_args(t_shell *shell, char **args)

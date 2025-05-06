@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:02:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/05 17:34:24 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:04:27 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_environ_node	*create_environ_node(char *var)
 		new_node->key = ft_substr1(var, 0, key_len); // 5 6
 		new_node->value = ft_strdup1(equal_sign + 1); // 7
 		free (var);
-		// free(equal_sign);
+	
 	}
 	else
 	{

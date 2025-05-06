@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/05 19:30:19 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:33:12 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int 	env_var_update(t_environ_list *env, char *key, char *value)
 	if (node)
 	{
 		free(node->value);
-		node->value = ft_strdup(value);
+		node->value = ft_strdup1(value);
 		free(value);
 		return node->value ? OK : FAILED;
 	}

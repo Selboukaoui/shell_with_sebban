@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:32:39 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 20:07:06 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:21:41 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static	void	delete_variable(t_shell *shell, char *arg)
 				prev->next = current->next;
 			else
 				shell->env->head = current->next; // check 
-			// free(current->key);
-			// free(current->value);
-			// free(current);
+			free(current->key);
+			free(current->value);
+			free(current);
 			shell->env->size--;
 			return ;
 		}
