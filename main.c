@@ -422,7 +422,6 @@ int main(int ac, char **av, char **env)
         //     printf ("str ----> %s\n type -----> %u\n", tst->lex_head->str, tst->lex_head->type);
         //     tst->lex_head = tst->lex_head->next;
         // }
-
         executor(shell);
         // and clean for next loop
         //free (shell->rl_input);

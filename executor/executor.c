@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:42:43 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 20:13:36 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:47:19 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ static void    handle_single(t_shell *shell)
             exit_status(EXIT_SET, 1); // Failed builtin (e.g., invalid cd)
         }
         else
+        {
             exit_status(EXIT_SET, 0); // Success
+        }
     }
     else
     {

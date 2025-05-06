@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/06 09:59:49 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:59:54 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int 	env_var_update(t_environ_list *env, char *key, char *value)
 	{
 		free(node->value);
 		node->value = ft_strdup1(value);
-		free(value);
 		return node->value ? OK : FAILED;
 	}
+	printf("hhhhhhhh\n");
 	node = malloc (sizeof(t_environ_node));
 	if (!node)
 		return (FAILED);
@@ -77,6 +77,7 @@ int	cd(t_shell *shell, char **arg)
 	// char *new_x ;
 	if (arg[2])
 	{
+		printf("hh\n");
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		return (FAILED);
 	}
@@ -84,18 +85,18 @@ int	cd(t_shell *shell, char **arg)
 	{
 		if (!ft_strcmp("..", arg[1]))
 		{
-			if (env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x)) == FAILED)
+			if (env_var_update(shell->env, "OLDPWD", ft_strjoin1(old_pwd, x)) == FAILED)
 				return (FAILED);
-			x = ft_strjoin(x, "/..");
-			if (env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x)) == FAILED)
+			x = ft_strjoin1(x, "/..");
+			if (env_var_update(shell->env, "PWD", ft_strjoin1(old_pwd, x)) == FAILED)
 				return (FAILED);
 		}
 		else if (!ft_strcmp(".", arg[1]))
 		{
-			if (env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x)) == FAILED)
+			if (env_var_update(shell->env, "OLDPWD", ft_strjoin1(old_pwd, x)) == FAILED)
 				return (FAILED);
-			x = ft_strjoin(x, "/.");
-			if (env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x)) == FAILED)
+			x = ft_strjoin1(x, "/.");
+			if (env_var_update(shell->env, "PWD", ft_strjoin1(old_pwd, x)) == FAILED)
 				return (FAILED);
 		}
 		chdir(arg[1]);
@@ -110,12 +111,14 @@ int	cd(t_shell *shell, char **arg)
 	}
 	if (!arg[1])
 	{
+		printf("here1\n");
 		if (cd_no_args(shell) == FAILED)
 			return (FAILED);
 		return (OK);
 	}
 	else if (chdir(arg[1]) != 0)
 	{
+		printf("here2\n");
 		ft_putstr_fd("minishell: cd: ",2);
 		ft_putstr_fd(arg[1],2);
 		ft_putstr_fd(": No such file or directory\n",2);
@@ -123,12 +126,19 @@ int	cd(t_shell *shell, char **arg)
 	}
 	if (!getcwd(new_pwd, sizeof(new_pwd)))
 	{
+		printf("here3\n");
 		ft_putstr_fd("cd: error retrieving new directory\n", 2);
 			return (FAILED);
 	}
-	if ( env_var_update(shell->env, "PWD", new_pwd) == FAILED)
+	if (env_var_update(shell->env, "PWD", new_pwd) == FAILED)
+	{
+		printf("here4\n");
 		return (FAILED);
+	}
 	if (env_var_update(shell->env, "OLDPWD", old_pwd) == FAILED)
+	{
+		printf("here5\n");
 		return (FAILED);
+	}
 	return (OK);
 }
