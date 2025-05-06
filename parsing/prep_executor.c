@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_executor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:08:09 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/04 20:20:59 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:14:58 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,29 @@ static	int	get_size_executor(t_lexer_list *head)
 	return (size);
 }
 
-static	t_executor	*create_executor_list(int size)
+static t_executor *create_executor_list(int size)
 {
-	t_executor	*head;
-	t_executor	*current;
-	t_executor	*new_node;
+	t_executor *head = NULL;
+	t_executor *current = NULL;
+	t_executor *new_node = NULL;
 
-	head = NULL;
-	current = NULL;
-	new_node = NULL;
 	while (size--)
 	{
 		new_node = (t_executor *)ft_malloc(sizeof(t_executor), 1);
 		if (!new_node)
-			return (/*free_executor_list(head)*/ NULL);
+			return (NULL); // or free_executor_list(head) if needed
+
+		new_node->next = NULL;
+		new_node->prev = current;
+
 		if (!head)
 			head = new_node;
 		else
 			current->next = new_node;
-		new_node->prev = current;
+
 		current = new_node;
 	}
-	return (head);
+	return head;
 }
 
 static	void	set_executor_defaults(t_executor *node)
