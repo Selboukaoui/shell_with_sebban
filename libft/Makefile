@@ -14,9 +14,15 @@ all: $(NAME) $(OBJB)
 
 $(NAME) : $(OBJS) 
 
-%.o: %.c libft.h
+%.o: %.c libft.h build_progress
 	@$(CC) $(CFLAGS) -c $<
-	@ar -r $(NAME) $@
+	@ar -rcs $(NAME) $@
+
+
+build_progress:
+	@echo "minishell is building ."
+	@echo "minishell is building .."
+	@echo "minishell is building ..."
 
 bonus : $(OBJB)
 

@@ -15,19 +15,25 @@ SRCLIB = libft/ft_lstadd_back_bonus.c libft/ft_lstsize_bonus.c libft/ft_strjoin.
 
 OBJS = $(SRCM:.c=.o)
 
+MAKEFLAGS += --no-print-directory
+CYAN = \033[1;36m
+RESET = \033[0m
 
 all: $(LIBFT) $(NAME)
+	@echo "$(CYAN) __  __  __  _  _  __  ___  _  _  ___  __    __   $(RESET)"
+	@echo "$(CYAN)(  \/  )(  )( \( )(  )/ __)( )( )(  _)(  )  (  )  $(RESET)"
+	@echo "$(CYAN) )    (  )(  )  (  )( \__ \ )__(  ) _) )(__  )(__ $(RESET)"
+	@echo "$(CYAN)(_/\_\/)(__)(_)\_)(__)(___/(_)(_)(___)(____)(____)$(RESET)"
+	@echo ""
 
-# $(NAME) : $(OBJS) 
-
-$(NAME): $(OBJS) $(LIBFT) # add libft 
-	$(CC) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+$(NAME): $(OBJS) $(LIBFT)
+	@$(CC) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 %.o: %.c includes/minishell.h  libft/libft.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT): $(SRCLIB) libft/libft.h
-	make -C libft/
+	@make -C libft/
 
 clean:
 	@rm -f $(OBJS)
