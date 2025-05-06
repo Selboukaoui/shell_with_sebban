@@ -27,10 +27,10 @@ build_progress:
 bonus : $(OBJB)
 
 clean:
-	rm -f $(OBJS) $(OBJB)
+	@rm -f $(OBJS) $(OBJB)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 

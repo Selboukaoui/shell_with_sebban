@@ -36,6 +36,7 @@ $(LIBFT): $(SRCLIB) libft/libft.h
 	@make -C libft/
 
 clean:
+	@echo "Cleaning up… 🧹 🧼 🧽 ✨"
 	@rm -f $(OBJS)
 	@make -C libft clean
 
