@@ -356,6 +356,11 @@ int main(int ac, char **av, char **env)
 {
     t_shell *shell;
 
+    if (ac != 1)
+	{
+		printf("\033[0;31mUsage: ./minishell\033[0m\n");
+		return (1);
+	}
     (void)ac;
     (void)av;
     g_signals = 1;
@@ -363,9 +368,9 @@ int main(int ac, char **av, char **env)
     shell = init_shell(env);
     if (!shell)
         return (1);
-    signal_setup(PARENT);
     while (1)
     {
+        signal_setup(PARENT);
         if (!isatty(1) || !isatty(0))
             return (ft_malloc(0,0), 0);
         g_signals = 0;
@@ -380,30 +385,17 @@ int main(int ac, char **av, char **env)
 		}
         if (*shell->rl_input)
             add_history(shell->rl_input);
-
         char *str = handle_dollar_quotes(shell->rl_input);
-
         free (shell->rl_input);
         shell->rl_input = str;
-
         shell->rl_input = replace_var_equals_var(shell->rl_input, shell);
-
         shell->rl_copy = clean_rl_copy(shell->rl_input);
-
-
         shell->rl_copy = replace_vars(shell->rl_input, shell);
-
         if (parser(shell) == false)
-        {
             continue ;
-        }
-
         executor(shell);
-        heredoc_sig(1, 0);
     }
-
     ft_malloc(0,0);
-
     return(0);
 }
 

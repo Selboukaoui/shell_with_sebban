@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_cheker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/05 14:19:27 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 22:10:51 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int check_redirect_out(char *input)
             while((*input == ' ' || *input == '\t') && *input)
                 input++;
             if (ft_special(*input, 69))
-                return (write(2, "minishell: syntax error !!\n",25), 0);
+                return (write(2, "minishell: syntax error !!\n",28), 0);
             j = 0;
             --input;
         }

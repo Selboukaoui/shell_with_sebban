@@ -6,12 +6,14 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 21:11:01 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/06 23:52:00 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+
+extern int  g_signals;
 // static bool open_outputfile(t_executor *current, t_lexer_list *lexer)
 // {
 //     if (current->append)
@@ -608,84 +610,86 @@ static char *replace_vars_heredoc(char *input, t_shell *shell)
 }
 
 
-/**
- * Create a heredoc: read lines until the given delimiter (quotes stripped).
- * Variables are expanded only if the *last* delimiter was not quoted.
- * Prints warning on EOF (Ctrl-D) and returns read-end FD, or -1 on error.
- */
+
 int create_heredoc(char *delimiter, t_shell *shell)
 {
     int pipefd[2];
+    pid_t pid;
+    int status;
     if (pipe(pipefd) == -1)
         return -1;
 
-    int quoted = is_last_delim_quoted(shell->rl_copy);
-    // char *real_delim = strip_quotes(delimiter);
-    // if (!real_delim)
-    //     return -1;
-    // printf("delemetre is :%s\n", delimiter);
-    // printf("real_delemetre is :%s\n", real_delim);
-    signal_setup(3);
-    while (1) {
-        char *line = readline("> ");
-        if (!line) {
-            // Ctrl-D pressed
-            ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `", STDERR_FILENO);
-            ft_putstr_fd(delimiter, STDERR_FILENO);
-            ft_putstr_fd("')\n", STDERR_FILENO);
-
-            // break;
-        }
-        if (ft_strcmp(line, delimiter) == 0) {
-            free(line);
-            // break;
-        }
-        if (!quoted) {
-            // char *expanded = replace_vars(line, shell); thsi case : << c cat
-            // > '$HOME'
-            // > "'$PWD'"
-            // > c
-            char *expanded = replace_vars_heredoc(line, shell);
-            write(pipefd[1], expanded, ft_strlen(expanded));
-            write(pipefd[1], "\n", 1);
-            free(expanded);
-        } else {
-            write(pipefd[1], line, ft_strlen(line));
-            write(pipefd[1], "\n", 1);
-        }
-        free(line);
+    pid = fork();
+    if (pid < 0)
+    {
+        close(pipefd[0]); close(pipefd[1]);
+        return (-1);
     }
-
-    // free(real_delim);
-    close(pipefd[1]);
-    return pipefd[0];
+    signal_setup(2);
+    if (pid == 0)
+    {
+        g_signals = 69;
+        rl_catch_signals = 1;
+        int quoted = is_last_delim_quoted(shell->rl_copy);
+        close(pipefd[0]);
+        while (1) {
+            char *line = readline("> ");
+            if (g_signals == 130)
+            {
+                // free(line);
+                // g_signals = 0;
+                exit(130);
+            }
+            if (!line) {
+                // Ctrl-D pressed
+                ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `", STDERR_FILENO);
+                ft_putstr_fd(delimiter, STDERR_FILENO);
+                ft_putstr_fd("')\n", STDERR_FILENO);
+                exit(0);
+            }
+            if (ft_strcmp(line, delimiter) == 0) {
+                free(line);
+                exit(0);
+            }
+            if (!quoted) {
+                // char *expanded = replace_vars(line, shell); thsi case : << c cat
+                // > '$HOME'
+                // > "'$PWD'"
+                // > c
+                char *expanded = replace_vars_heredoc(line, shell);
+                write(pipefd[1], expanded, ft_strlen(expanded));
+                write(pipefd[1], "\n", 1);
+                free(expanded);
+            } else {
+                write(pipefd[1], line, ft_strlen(line));
+                write(pipefd[1], "\n", 1);
+            }
+            free(line);
+        }
+    }
+    else{
+        // g_signals = 0;
+        close(pipefd[1]);                    /* close write end */
+        waitpid(pid, &status, 0);
+        // g_signals = 0;
+        if (WIFSIGNALED(status) &&           /* child died by signal */
+            WTERMSIG(status) == SIGINT) {    /* Ctrl+C pressed :contentReference[oaicite:7]{index=7} */
+            close(pipefd[0]);
+            return -2;
+        }
+        return pipefd[0];
+    }
 }
 
-/**
- * Process input redirection: if HEREDOC, invoke create_heredoc with the
- * raw token after HEREDOC; otherwise open filename. Returns OK or FAILED.
- */
 static int process_in_heredoc(t_executor *cur, t_lexer_list *lex, t_shell *sh)
 {
-    pid_t pid;
-    if (lex->type == HEREDOC) {
-        pid = fork();
-        if (pid == -1)
-        {
-            //
-        }
-        else if (pid == 0)
-        {
-            cur->fd_in = create_heredoc(lex->next->str, sh);
-            // exit(1);
-        }
-        else
-        {
-            wait(&pid);
-        }
+    if (lex->type == HEREDOC) 
+    {
+        cur->fd_in = create_heredoc(lex->next->str, sh);
         if (cur->fd_in == -1)
             return FAILED;
-    } else {
+    } 
+    else {
         cur->fd_in = open(lex->next->str, O_RDONLY);
         if (cur->fd_in == -1) {
             ft_putstr_fd("minishell: ", STDERR_FILENO);
