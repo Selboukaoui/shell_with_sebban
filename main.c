@@ -399,7 +399,7 @@ int main(int ac, char **av, char **env)
         }
 
         executor(shell);
-
+        heredoc_sig(1, 0);
     }
 
     ft_malloc(0,0);

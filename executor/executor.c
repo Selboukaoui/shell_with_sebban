@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:42:43 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 16:42:23 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/06 21:02:21 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void    handle_builtin_or_return(t_shell *shell, t_executor *cur)
 {
-    if (!cur->execs || !cur->execs[0])
+    if (!cur || !cur->execs || !cur->execs[0])
     {
         exit_status(EXIT_SET, 0);
         return ;
@@ -55,8 +55,10 @@ static void    handle_fork_execution(t_shell *shell)
 
 static void    handle_single(t_shell *shell)
 {
-    t_executor    *cur;
+    t_executor *cur = shell->executor;
 
+    if (!cur || !cur->execs || !cur->execs[0])
+        return ;
     cur = shell->executor;
     handle_builtin_or_return(shell, cur);
     if (!is_builtin(cur->execs[0]))

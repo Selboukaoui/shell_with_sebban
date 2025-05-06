@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 20:00:30 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 17:19:58 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:32:58 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,21 @@
 int	exit_status(int action, int value)
 {
 	static int	status;
-	// printf("value exit : ----> %d\n", value);
+
 	status = 0;
+	if (action == 0)
+		return (status);
+	else if (action == 1)
+		status = value;
+	return (status);
+}
+
+int	heredoc_sig(int action, int value)
+{
+	static int	status;
+
+	// printf("dkhal\n");
+	// status = 0;
 	if (action == 0)
 		return (status);
 	else if (action == 1)

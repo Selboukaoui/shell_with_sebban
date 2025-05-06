@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 17:42:31 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/06 21:11:01 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -633,11 +633,12 @@ int create_heredoc(char *delimiter, t_shell *shell)
             ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `", STDERR_FILENO);
             ft_putstr_fd(delimiter, STDERR_FILENO);
             ft_putstr_fd("')\n", STDERR_FILENO);
-            break;
+
+            // break;
         }
         if (ft_strcmp(line, delimiter) == 0) {
             free(line);
-            break;
+            // break;
         }
         if (!quoted) {
             // char *expanded = replace_vars(line, shell); thsi case : << c cat
@@ -666,8 +667,22 @@ int create_heredoc(char *delimiter, t_shell *shell)
  */
 static int process_in_heredoc(t_executor *cur, t_lexer_list *lex, t_shell *sh)
 {
+    pid_t pid;
     if (lex->type == HEREDOC) {
-        cur->fd_in = create_heredoc(lex->next->str, sh);
+        pid = fork();
+        if (pid == -1)
+        {
+            //
+        }
+        else if (pid == 0)
+        {
+            cur->fd_in = create_heredoc(lex->next->str, sh);
+            // exit(1);
+        }
+        else
+        {
+            wait(&pid);
+        }
         if (cur->fd_in == -1)
             return FAILED;
     } else {

@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   grb_coll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 20:00:22 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/06 13:44:53 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:27:15 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/minishell.h"
 
 int	err(int c)
 {
 	c = 1;
-	return c ;
+	return (c);
 }
-
 
 void	free_all(t_collect **head)
 {
@@ -53,7 +51,7 @@ void	*ft_malloc(size_t size, int mode)
 			err(25);
 		node = malloc(sizeof(t_collect));
 		if (!node)
-			(free(data), err(25)); // all
+			(free(data), err(25));
 		node->data = data;
 		node->next = head;
 		head = node;
