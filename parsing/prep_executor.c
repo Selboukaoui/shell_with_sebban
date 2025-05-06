@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:08:09 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 15:14:58 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/06 17:43:22 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static	void	set_executor_defaults(t_executor *node)
 		return ;
 	node->fd_in = STDIN_FILENO;
 	node->fd_out = STDOUT_FILENO;
-	node->REDERECT_OUT = false;
+	node->rederect_out = false;
 	node->append = false;
 	node->redirect_input = false;
 	node->heredoc = false;

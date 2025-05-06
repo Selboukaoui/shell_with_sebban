@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 20:55:45 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/04 20:45:19 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:05:59 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,7 @@ static char	*myfree(char **array, int i)
 
 	j = 0;
 	while (*array[j])
-	{
-		// //free(array[j]);
 		i++;
-	}
-	// //free (array);
 	return (NULL);
 }
 
@@ -108,5 +104,3 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	return (loop(s, array, c));
 }
-
-

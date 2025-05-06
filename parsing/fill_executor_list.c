@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_executor_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 17:08:16 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:42:31 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int process_out_append(t_executor *current, t_lexer_list *lexer)
     // }
     
     current->append = (lexer->type == APPEND);
-    current->REDERECT_OUT = (lexer->type == REDERECT_OUT);
+    current->rederect_out = (lexer->type == rederect_out);
     if (!open_outputfile(current, lexer->next))
         return (FAILED);
     
@@ -757,7 +757,7 @@ static t_executor *process_lexemes(t_executor *list, t_executor *current, t_lexe
             (*lexer) = (*lexer)->next;
             break;
         }
-        if ((*lexer)->type == REDERECT_OUT || (*lexer)->type == APPEND)
+        if ((*lexer)->type == rederect_out || (*lexer)->type == APPEND)
         {
             ret = process_out_append(current, *lexer);
             if (ret == FAILED)

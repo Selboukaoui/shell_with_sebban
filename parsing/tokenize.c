@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:35:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 17:08:32 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/06 17:43:37 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_token which_type(char *s, int inside)
 
 	if (ft_strcmp(s, "|")  == 0) return PIPE;
 	if (ft_strcmp(s, "<")  == 0) return REDERECT_IN;
-	if (ft_strcmp(s, ">")  == 0) return REDERECT_OUT;
+	if (ft_strcmp(s, ">")  == 0) return rederect_out;
 	if (ft_strcmp(s, "<<") == 0) return HEREDOC;
 	if (ft_strcmp(s, ">>") == 0) return APPEND;
 	return CMD;
