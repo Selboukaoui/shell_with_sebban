@@ -375,7 +375,7 @@ int main(int ac, char **av, char **env)
             // free(shell);
             return (0);
         }
-        shell->rl_input = readline("minishell-1.0$~ ");
+        shell->rl_input = readline("\001\033[0;32m\002minishell-1.0$~ \001\033[0m\002");
         g_signals = 1;
         if (!shell->rl_input)
 		{
