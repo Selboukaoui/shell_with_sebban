@@ -28,7 +28,7 @@
 #include <sys/wait.h>
 // #include <linux/limits.h>
 
-static int g_signals;
+// static int g_signals;
 # define FAILED     102
 # define OK         100
 

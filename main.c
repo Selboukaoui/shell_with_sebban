@@ -12,6 +12,7 @@
 
 #include "./includes/minishell.h"
 
+int g_signals;
 
 /*
  * handle_dollar_quotes:
@@ -357,24 +358,17 @@ int main(int ac, char **av, char **env)
 
     (void)ac;
     (void)av;
-
     g_signals = 1;
     rl_catch_signals = 0;
-    shell = init_shell(env); // initial // totaly 7
+    shell = init_shell(env);
     if (!shell)
         return (1);
-    signal_setup(PARENT); // NUll
+    signal_setup(PARENT);
     while (1)
     {
-        g_signals = -70;
         if (!isatty(1) || !isatty(0))
-        {
-            // free_enviro(shell);
-            ft_malloc(0,0);
-            // free(shell->env);
-            // free(shell);
-            return (0);
-        }
+            return (ft_malloc(0,0), 0);
+        g_signals = 0;
         shell->rl_input = readline("\001\033[0;32m\002minishell-1.0$~ \001\033[0m\002");
         g_signals = 1;
         if (!shell->rl_input)
@@ -382,58 +376,35 @@ int main(int ac, char **av, char **env)
             free (shell->rl_input);
             write(1, "exit\n", 5);
             ft_malloc(0, 0);
-            // free_enviro(shell);
 			exit(exit_status(0,0));
-            // break;
 		}
         if (*shell->rl_input)
             add_history(shell->rl_input);
 
-        // handle history cmd here
-        // printf("the cmd in readline:%s\n", shell->rl_input);
-        char *str = handle_dollar_quotes(shell->rl_input); // dont use free for r_l --> is in
-        // printf("handle_dolar ----> %s\n", shell->rl_input);
+        char *str = handle_dollar_quotes(shell->rl_input);
+
         free (shell->rl_input);
         shell->rl_input = str;
 
         shell->rl_input = replace_var_equals_var(shell->rl_input, shell);
-        // printf ("return your new func : %s\n",shell->rl_input);
+
         shell->rl_copy = clean_rl_copy(shell->rl_input);
-        // printf ("clean_: %s\n",shell->rl_copy);
+
 
         shell->rl_copy = replace_vars(shell->rl_input, shell);
-        // printf ("replace: %s\n",shell->rl_copy);
-        // printf("the cmd after change all vars ----> %s\n", shell->rl_copy);
-        // if (is_blank_command(shell->rl_copy)) {
-        //     // maybe skip, or print "command not found"
-        //     continue;
-        // }
 
-        // printf ("%s-->\n", shell->rl_copy);
         if (parser(shell) == false)
         {
-            // ft_malloc(0,0);
             continue ;
         }
 
-        // t_shell *tst = shell;
-        // while (tst->lex_head)
-        // {
-        //     printf ("str ----> %s\n type -----> %u\n", tst->lex_head->str, tst->lex_head->type);
-        //     tst->lex_head = tst->lex_head->next;
-        // }
         executor(shell);
-        // and clean for next loop
-        //free (shell->rl_input);
-        // shell.  = NULL;
-        // ft_malloc(0,0);
+
     }
-    // clean
+
     ft_malloc(0,0);
-    // // free_enviro(shell);
-    // free(shell->env);
-    // free(shell);
-    return(0);// return exit_code
+
+    return(0);
 }
 
 

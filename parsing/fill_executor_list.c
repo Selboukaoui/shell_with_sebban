@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/05 19:48:34 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:36:23 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -621,10 +621,11 @@ int create_heredoc(char *delimiter, t_shell *shell)
 
     int quoted = is_last_delim_quoted(shell->rl_copy);
     // char *real_delim = strip_quotes(delimiter);
-    // if (!real_delim)
+    // if (!real_delim)make
     //     return -1;
     // printf("delemetre is :%s\n", delimiter);
     // printf("real_delemetre is :%s\n", real_delim);
+    // signal_setup(CHILD);
     while (1) {
         char *line = readline("> ");
         if (!line) {
@@ -646,7 +647,7 @@ int create_heredoc(char *delimiter, t_shell *shell)
             char *expanded = replace_vars_heredoc(line, shell);
             write(pipefd[1], expanded, ft_strlen(expanded));
             write(pipefd[1], "\n", 1);
-            free(expanded);
+            // free(expanded);
         } else {
             write(pipefd[1], line, ft_strlen(line));
             write(pipefd[1], "\n", 1);

@@ -3,29 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:34:48 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/02 23:52:33 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:21:41 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "readline/readline.h"
+#include <asm-generic/signal-defs.h>
 
-// extern int  g_signal;
+extern int  g_signals;
 
 void    parent_handler(int signum)
 {
     (void) signum;
-    if (g_signals == 1)
+    if (g_signals == 0)
     {
-        write(STDOUT_FILENO, "^C\n", 3);
+        write(STDOUT_FILENO, "^C\n", 4);
         rl_on_new_line();
         rl_replace_line("", 0);
         rl_redisplay();
         exit_status(EXIT_SET,130);
     }
+
 }
 
 void    signal_setup(int mode)
