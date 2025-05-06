@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_pwd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:39:36 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/04 20:06:24 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:18:09 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	*save_pwd(int action, char *value)
 		return (save);
 	else if (action == 1)
 	{
-		// free(save);
 		if (value)
 			save = ft_strdup(value);
 		else

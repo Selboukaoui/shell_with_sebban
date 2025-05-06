@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:32:39 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/05 20:21:41 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:18:24 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static	void	delete_variable(t_shell *shell, char *arg)
 			if (prev)
 				prev->next = current->next;
 			else
-				shell->env->head = current->next; // check 
+				shell->env->head = current->next;
 			free(current->key);
 			free(current->value);
 			free(current);
