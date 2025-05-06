@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 20:00:22 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/05 17:58:31 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:44:53 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	*ft_malloc(size_t size, int mode)
 			err(25);
 		node = malloc(sizeof(t_collect));
 		if (!node)
-			(free(data), err(25));
+			(free(data), err(25)); // all
 		node->data = data;
 		node->next = head;
 		head = node;

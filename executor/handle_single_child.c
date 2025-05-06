@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 12:13:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/05 17:17:15 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:59:16 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ static void try_exec_with_fallback(char *path, char **args, char **envp, t_shell
 
     // If execve fails
     // perror("execve failed"); // Optional: print error
+    (void)shell;
     if (errno == ENOENT || errno == EACCES || errno == ENOEXEC)
     {
         // Build the fallback command string
@@ -172,7 +173,7 @@ static void try_exec_with_fallback(char *path, char **args, char **envp, t_shell
         {
             
 
-            free_environ(shell); // check
+            // free_enviro(shell); // check
             ft_malloc(0,0);
             exit(1);
         }
@@ -190,12 +191,12 @@ static void try_exec_with_fallback(char *path, char **args, char **envp, t_shell
         execve("/bin/sh", sh_args, envp);
         perror("fallback execve failed");
 
-        free_environ(shell);
+        // free_enviro(shell);
         ft_malloc(0,0);
         exit(127); // fallback also failed
     }
  
-    free_environ(shell);
+    // free_enviro(shell);
     ft_malloc(0,0);
     exit(126); // original execve failed for other reasons
 }
@@ -216,7 +217,7 @@ void handle_single_child(t_shell *shell)
     {
         
         
-        free_environ(shell);
+        // free_enviro(shell);
         ft_malloc(0,0);   
         exit(EXIT_FAILURE);
     }
@@ -227,7 +228,7 @@ void handle_single_child(t_shell *shell)
         ft_putstr_fd(cmd, STDERR_FILENO);
         ft_putstr_fd(": command not found\n", STDERR_FILENO);
     
-        free_environ(shell);
+        // free_enviro(shell);
         ft_malloc(0,0);
         exit(127);
     }
@@ -254,7 +255,7 @@ void handle_single_child(t_shell *shell)
                 if (!path)
                 {
                     
-                    free_environ(shell);
+                    // free_enviro(shell);
                     ft_malloc(0,0);
                     exit(126);
                 }
@@ -270,7 +271,7 @@ void handle_single_child(t_shell *shell)
             ft_putstr_fd(cmd, STDERR_FILENO);
             ft_putstr_fd("\n", STDERR_FILENO);
             
-            free_environ(shell);
+            // free_enviro(shell);
             ft_malloc(0,0);
             exit(127);
         }
@@ -284,7 +285,7 @@ void handle_single_child(t_shell *shell)
         ft_putstr_fd("\n", STDERR_FILENO);
         // if (path != cmd) free(path);
         
-        free_environ(shell);
+        // free_enviro(shell);
         ft_malloc(0,0);
         exit(127);
     }
@@ -298,7 +299,7 @@ void handle_single_child(t_shell *shell)
         // if (path != cmd) free(path);
         
 
-        free_environ(shell);
+        // free_enviro(shell);
         ft_malloc(0,0);
         exit(126);
     }
@@ -308,7 +309,7 @@ void handle_single_child(t_shell *shell)
     {
         // if (path != cmd) free(path);
         
-        free_environ(shell);
+        // free_enviro(shell);
         ft_malloc(0,0);
         exit(126);
     }
@@ -322,7 +323,7 @@ void handle_single_child(t_shell *shell)
     // if (path != cmd) free(path);
     
 
-    free_environ(shell);
+    // free_enviro(shell);
     ft_malloc(0,0);
     exit(126);
 }

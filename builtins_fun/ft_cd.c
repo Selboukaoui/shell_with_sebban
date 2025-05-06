@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/06 11:59:54 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:43:26 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,15 @@ int 	env_var_update(t_environ_list *env, char *key, char *value)
 	node = ft_getenv(env, key);
 	if (node)
 	{
-		free(node->value);
-		node->value = ft_strdup1(value);
+		// free(node->value);
+		node->value = ft_strdup(value);
 		return node->value ? OK : FAILED;
 	}
-	printf("hhhhhhhh\n");
-	node = malloc (sizeof(t_environ_node));
+	node = ft_malloc (sizeof(t_environ_node), 1);
 	if (!node)
 		return (FAILED);
-	node->key = ft_strdup1(key);
-	node->value = ft_strdup1(value);
+	node->key = ft_strdup(key);
+	node->value = ft_strdup(value);
 	if (!node->key || !node->key)
 		return (FAILED);
 	node->next = env->head;
@@ -85,18 +84,18 @@ int	cd(t_shell *shell, char **arg)
 	{
 		if (!ft_strcmp("..", arg[1]))
 		{
-			if (env_var_update(shell->env, "OLDPWD", ft_strjoin1(old_pwd, x)) == FAILED)
+			if (env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x)) == FAILED)
 				return (FAILED);
-			x = ft_strjoin1(x, "/..");
-			if (env_var_update(shell->env, "PWD", ft_strjoin1(old_pwd, x)) == FAILED)
+			x = ft_strjoin(x, "/..");
+			if (env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x)) == FAILED)
 				return (FAILED);
 		}
 		else if (!ft_strcmp(".", arg[1]))
 		{
-			if (env_var_update(shell->env, "OLDPWD", ft_strjoin1(old_pwd, x)) == FAILED)
+			if (env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x)) == FAILED)
 				return (FAILED);
-			x = ft_strjoin1(x, "/.");
-			if (env_var_update(shell->env, "PWD", ft_strjoin1(old_pwd, x)) == FAILED)
+			x = ft_strjoin(x, "/.");
+			if (env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x)) == FAILED)
 				return (FAILED);
 		}
 		chdir(arg[1]);

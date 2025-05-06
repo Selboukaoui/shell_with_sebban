@@ -24,7 +24,7 @@
  *   - Otherwise, copy '$'s literally.
  */
 
- void *ft_realloc(void *ptr, size_t old_size, size_t new_size)
+void *ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
     void *new_ptr;
 
@@ -369,7 +369,7 @@ int main(int ac, char **av, char **env)
         g_signals = -70;
         if (!isatty(1) || !isatty(0))
         {
-            free_environ(shell);
+            // free_enviro(shell);
             ft_malloc(0,0);
             // free(shell->env);
             // free(shell);
@@ -382,7 +382,7 @@ int main(int ac, char **av, char **env)
             free (shell->rl_input);
             write(1, "exit\n", 5);
             ft_malloc(0, 0);
-            free_environ(shell);
+            // free_enviro(shell);
 			exit(exit_status(0,0));
             // break;
 		}
@@ -412,7 +412,7 @@ int main(int ac, char **av, char **env)
         // printf ("%s-->\n", shell->rl_copy);
         if (parser(shell) == false)
         {
-            ft_malloc(0,0);
+            // ft_malloc(0,0);
             continue ;
         }
 
@@ -427,10 +427,10 @@ int main(int ac, char **av, char **env)
         //free (shell->rl_input);
         // shell.  = NULL;
         // ft_malloc(0,0);
-        ft_malloc(0,0);
     }
     // clean
-    free_environ(shell);
+    ft_malloc(0,0);
+    // // free_enviro(shell);
     // free(shell->env);
     // free(shell);
     return(0);// return exit_code

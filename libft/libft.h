@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:01:39 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/05 16:18:34 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:45:42 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 // char	**ft_split1(char const *s, char c)/;
 
 
-char	*ft_strjoin1(char const *s1, char const *s2);
-char	*ft_strdup1(const char *src);
-char	*ft_substr1(char const *s, unsigned int start, size_t len);
+// char	*ft_strjoin1(char const *s1, char const *s2);
+// char	*ft_strdup1(const char *src);
+// char	*ft_substr1(char const *s, unsigned int start, size_t len);
 #endif

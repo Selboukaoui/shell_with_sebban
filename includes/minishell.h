@@ -151,7 +151,7 @@ int	unset(t_shell *shell, char **args);
 void wait_pipeline(t_info *info, int number);
 t_environ_node *create_environ_node(char *var);
 t_environ_node *add_back_environ_node(t_environ_list *env, t_environ_node *node);
-// void free_environ(t_environ_list *env);
+// void free_enviro(t_environ_list *env);
 t_environ_list *init_environ(char **envp);
 t_environ_list *empty_environ(t_environ_list *env);
 t_shell *init_shell(char **env);
@@ -221,5 +221,5 @@ int exit_builtin(t_shell *shell, char **args, int in_pipe);
 int is_cmdline_empty(const char *cmdline);
 
 
-void free_environ(t_shell *shell);
+void free_enviro(t_shell *shell);
 #endif     

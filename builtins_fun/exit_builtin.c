@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:11:51 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/05 17:16:05 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:56:58 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static	void	clean_exit(t_shell *shell, int exit_code)
 	(void)shell;
     
     ft_malloc(0,0);
-	free_environ(shell);
+	// free_enviro(shell);
 	exit(exit_code);
 }
 
