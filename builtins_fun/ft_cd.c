@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/07 17:20:42 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/07 18:57:03 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,13 @@ t_environ_node	*ft_getenv(t_environ_list *env, char *key)
 	return (NULL);
 }
 
-int 	env_var_update(t_environ_list *env, char *key, char *value)
+int 	env_var_update(t_environ_list *env, char *key, const char *value)
 {
 	t_environ_node *node;
 	
 	node = ft_getenv(env, key);
 	if (node)
 	{
-		// free(node->value);
 		node->value = ft_strdup(value);
 		return node->value ? OK : FAILED;
 	}
@@ -42,7 +41,7 @@ int 	env_var_update(t_environ_list *env, char *key, char *value)
 		return (FAILED);
 	node->key = ft_strdup(key);
 	node->value = ft_strdup(value);
-	if (!node->key || !node->key)
+	if (!node->key || !node->value)
 		return (FAILED);
 	node->next = env->head;
 	env->head = node;
@@ -70,13 +69,12 @@ int cd_no_args(t_shell *shell)
 
 int	cd(t_shell *shell, char **arg)
 {
-	char		old_pwd[PATH_MAX];
-	char		new_pwd[PATH_MAX];
+	static char		old_pwd[PATH_MAX];
+	static char		new_pwd[PATH_MAX];
 	static char	*x;
-	// char *new_x ;
+
 	if (arg[2])
 	{
-		printf("hh\n");
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		return (FAILED);
 	}
@@ -101,22 +99,24 @@ int	cd(t_shell *shell, char **arg)
 		chdir(arg[1]);
 		if (getcwd(old_pwd, sizeof(old_pwd)))
 		{
+			
 			if (env_var_update(shell->env, "PWD", old_pwd) == FAILED)
+				return (FAILED);
+			if (env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x)) == FAILED)
 				return (FAILED);
 			x = NULL;
 		}
 		return (ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2), FAILED);
 	}
+
 	if (!arg[1])
 	{
-		printf("here1\n");
 		if (cd_no_args(shell) == FAILED)
 			return (FAILED);
 		return (OK);
 	}
 	else if (chdir(arg[1]) != 0)
 	{
-		printf("here2\n");
 		ft_putstr_fd("minishell: cd: ",2);
 		ft_putstr_fd(arg[1],2);
 		ft_putstr_fd(": No such file or directory\n",2);
@@ -124,19 +124,12 @@ int	cd(t_shell *shell, char **arg)
 	}
 	if (!getcwd(new_pwd, sizeof(new_pwd)))
 	{
-		printf("here3\n");
 		ft_putstr_fd("cd: error retrieving new directory\n", 2);
 			return (FAILED);
 	}
 	if (env_var_update(shell->env, "PWD", new_pwd) == FAILED)
-	{
-		printf("here4\n");
 		return (FAILED);
-	}
 	if (env_var_update(shell->env, "OLDPWD", old_pwd) == FAILED)
-	{
-		printf("here5\n");
 		return (FAILED);
-	}
 	return (OK);
 }
