@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:34:48 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/07 13:41:56 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/07 15:47:01 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	parent_handler(int signum)
 	(void)signum;
 	if (g_signals == 0)
 	{
-		write(STDOUT_FILENO, "^C\n", 4);
+		write(STDOUT_FILENO, "^Cx\n", 5);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -50,7 +50,7 @@ void	signal_setup(int mode)
 		signal(SIGINT, heredoc_handler);
 		signal(SIGQUIT, SIG_IGN);
 	}
-	else
+	else if (mode == 3)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);

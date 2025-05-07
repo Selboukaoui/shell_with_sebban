@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_single_child.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 12:13:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 16:40:26 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/07 15:25:14 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void try_exec_with_fallback(char *path, char **args, char **envp, t_shell
 	exit(126); // original execve failed for other reasons
 }
 
-void handle_single_child(t_shell *shell)
+void	handle_single_child(t_shell *shell)
 {
 	char        *path;
 	char        **env_array;
@@ -74,9 +74,6 @@ void handle_single_child(t_shell *shell)
 
 	if (!handle_redirections_single_child(shell))
 	{
-		
-		
-		// free_enviro(shell);
 		ft_malloc(0,0);   
 		exit(EXIT_FAILURE);
 	}

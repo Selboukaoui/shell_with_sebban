@@ -3,88 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:42:43 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 21:02:21 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/07 15:45:36 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void    handle_builtin_or_return(t_shell *shell, t_executor *cur)
+static	void	handle_builtin_or_return(t_shell *shell, t_executor *cur)
 {
-    if (!cur || !cur->execs || !cur->execs[0])
-    {
-        exit_status(EXIT_SET, 0);
-        return ;
-    }
-    if (is_builtin(cur->execs[0]))
-    {
-        if (handle_single_builtin(shell) == EXIT_FAILURE)
-            exit_status(EXIT_SET, 1);
-        else
-            exit_status(EXIT_SET, 0);
-    }
+	if (!cur || !cur->execs || !cur->execs[0])
+	{
+		exit_status(EXIT_SET, 0);
+		return ;
+	}
+	if (is_builtin(cur->execs[0]))
+	{
+		if (handle_single_builtin(shell) == EXIT_FAILURE)
+			exit_status(EXIT_SET, 1);
+		else
+			exit_status(EXIT_SET, 0);
+	}
 }
 
-static void    handle_fork_execution(t_shell *shell)
+static	void	handle_fork_execution(t_shell *shell)
 {
-    pid_t    pid;
-    int        status;
+	pid_t	pid;
+	int		status;
 
-    pid = fork();
-    if (pid == -1)
-    {
-        (perror("minishell"), exit_status(EXIT_SET, 1));
-        return ;
-    }
-    if (pid == 0)
-    {
-        signal_setup(CHILD);
-        handle_single_child(shell);
-    }
-    waitpid(pid, &status, 0);
-    if (WIFEXITED(status))
-        exit_status(EXIT_SET, WEXITSTATUS(status));
-    else if (WIFSIGNALED(status))
-        exit_status(EXIT_SET, 128 + WTERMSIG(status));
-    else
-        exit_status(EXIT_SET, 1);
+	pid = fork();
+	if (pid == -1)
+	{
+		(perror("minishell"), exit_status(EXIT_SET, 1));
+		return ;
+	}
+	if (pid == 0)
+		(signal_setup(3), handle_single_child(shell));
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		exit_status(EXIT_SET, WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+	{
+		if (status == 131)
+			(printf("Quit (core dumped)\n"), exit_status(EXIT_SET, 131));
+		else
+			(printf("\n"), exit_status(EXIT_SET, 128 + WTERMSIG(status)));
+	}
+	else
+		exit_status(EXIT_SET, 1);
 }
 
-static void    handle_single(t_shell *shell)
+static	void	handle_single(t_shell *shell)
 {
-    t_executor *cur = shell->executor;
+	t_executor	*cur;
 
-    if (!cur || !cur->execs || !cur->execs[0])
-        return ;
-    cur = shell->executor;
-    handle_builtin_or_return(shell, cur);
-    if (!is_builtin(cur->execs[0]))
-        handle_fork_execution(shell);
+	cur = shell->executor;
+	if (!cur || !cur->execs || !cur->execs[0])
+		return ;
+	cur = shell->executor;
+	handle_builtin_or_return(shell, cur);
+	if (!is_builtin(cur->execs[0]))
+		handle_fork_execution(shell);
 }
 
-void    executor(t_shell *shell)
+void	executor(t_shell *shell)
 {
-    t_executor    *current;
-    t_info        *info;
+	t_executor	*current;
+	t_info		*info;
 
-    current = shell->executor;
-    if (!current)
-        return ;
-    if (current->size == 1)
-        handle_single(shell);
-    else
-    {
-        info = init_info(shell);
-        if (!info)
-            return ;
-        while (current)
-        {
-            handle_multi(info, current);
-            current = current->next;
-        }
-        wait_pipeline(info, shell->executor->size);
-    }
+	current = shell->executor;
+	if (!current)
+		return ;
+	if (current->size == 1)
+		handle_single(shell);
+	else
+	{
+		info = init_info(shell);
+		if (!info)
+			return ;
+		while (current)
+		{
+			handle_multi(info, current);
+			current = current->next;
+		}
+		wait_pipeline(info, shell->executor->size);
+	}
 }
