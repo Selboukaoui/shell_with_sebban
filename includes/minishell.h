@@ -40,6 +40,7 @@
 # define FAIL_SYSCALL_PARENT    1
 # define FAIL_SYSCALL_CHILD  2
 
+# define FAIL -1
 # define PARENT 1
 # define CHILD  3
 // # define IGNORE 3
