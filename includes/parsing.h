@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 17:31:21 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/07 14:16:10 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/07 19:49:40 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,6 @@ t_token			which_type(char *s, int inside);
 char			*replace_vars(char *input, t_shell *shell);
 int             herdoc_status(int action, int value);
 char            *handle_dollar_quotes(char *input);
+char *replace_var_equals_var(const char *input);
+
 #endif
