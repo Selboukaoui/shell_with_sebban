@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 20:00:30 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 20:32:58 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/07 11:25:15 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@ int	exit_status(int action, int value)
 		status = value;
 	return (status);
 }
-
-int	heredoc_sig(int action, int value)
+int	herdoc_status(int action, int value)
 {
 	static int	status;
 
-	// printf("dkhal\n");
 	// status = 0;
 	if (action == 0)
 		return (status);

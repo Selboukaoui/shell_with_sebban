@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_executor_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/07 00:29:41 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:34:55 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,7 @@ int create_heredoc(char *delimiter, t_shell *shell)
     if (pipe(pipefd) == -1)
         return -1;
 
+    // signal(SIGQUIT, SIG_IGN);
     pid = fork();
     if (pid < 0)
     {
@@ -230,6 +231,7 @@ int create_heredoc(char *delimiter, t_shell *shell)
     signal_setup(2);
     if (pid == 0)
     {
+        // signal(SIGQUIT, SIG_IGN);
         g_signals = 69;
         rl_catch_signals = 1;
         int quoted = is_last_delim_quoted(shell->rl_copy);
@@ -238,7 +240,10 @@ int create_heredoc(char *delimiter, t_shell *shell)
             char *line = readline("> ");
             if (g_signals == 130)
             {
-                free(line);
+                // herdoc_status(1, 1);
+                // free(line);
+                // raise(SIGINT);
+                // printf("I was here\n");
                 exit(130);
             }
             if (!line) {
@@ -269,15 +274,25 @@ int create_heredoc(char *delimiter, t_shell *shell)
         }
     }
     else{
-        // g_signals = 0;
-        close(pipefd[1]);                    /* close write end */
+        close(pipefd[1]);
         waitpid(pid, &status, 0);
-        // g_signals = 0;
-        if (WIFSIGNALED(status) &&           /* child died by signal */
-            WTERMSIG(status) == SIGINT) {    /* Ctrl+C pressed :contentReference[oaicite:7]{index=7} */
-            close(pipefd[0]);
-            return -2;
+        // printf("%d\n",status);
+        if (WIFEXITED(status))
+        {
+            if(status == 33280)
+            {
+                close(pipefd[0]);
+                return -2;
+            }
         }
+
+        // if (WIFSIGNALED(status) &&
+        //     WTERMSIG(status) == SEGINT) {
+        //     close(pipefd[0]);
+        //     // printf("exit from here\n");
+        //     return -2;
+        // }
+        // printf("=%d\n", g_signals);
         return pipefd[0];
     }
 }
@@ -287,7 +302,8 @@ static int process_in_heredoc(t_executor *cur, t_lexer_list *lex, t_shell *sh)
     if (lex->type == HEREDOC) 
     {
         cur->fd_in = create_heredoc(lex->next->str, sh);
-        if (cur->fd_in == -1)
+        // printf("%d\n", cur->fd_in);
+        if (cur->fd_in == -1 || cur->fd_in == -2)
             return FAILED;
     } 
     else {
@@ -320,10 +336,7 @@ static int process_command(t_executor *current, t_lexer_list *lexer)
     {
         current->execs[i] = ft_strdup(lexer->str);
         if (!current->execs[i])
-        {
-            // free_str_arr(current->execs);
             return (FAILED);
-        }
         lexer = lexer->next;
     }
     return (OK);
@@ -332,7 +345,6 @@ static int process_command(t_executor *current, t_lexer_list *lexer)
 static t_executor *process_lexemes(t_executor *list, t_executor *current, t_lexer_list **lexer, t_shell *shell)
 {
     int ret;
-
     while (*lexer)
     {
         if ((*lexer)->type == PIPE)
@@ -366,6 +378,13 @@ static t_executor *process_lexemes(t_executor *list, t_executor *current, t_lexe
         {
             *lexer = (*lexer)->next;
         }
+        // if (herdoc_status(0, 0) == 1)
+        // {
+        //     printf("here\n");
+        //     exit_status(1,130);
+        //     // herdoc_status(1, 0);
+        //     break;
+        // }
     }
     return (list);
 }
