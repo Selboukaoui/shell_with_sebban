@@ -49,82 +49,82 @@ void *ft_realloc(void *ptr, size_t old_size, size_t new_size)
 
     return new_ptr;
 }
-static char *handle_dollar_quotes(const char *input)
-{
-    size_t  len     = ft_strlen(input);
-    size_t  cap     = len + 1;
-    char   *out     = ft_malloc(cap, 1);     // check 
-    size_t  oi      = 0;
-    bool    in_q    = false;
+// static char *handle_dollar_quotes(const char *input)
+// {
+//     size_t  len     = ft_strlen(input);
+//     size_t  cap     = len + 1;
+//     char   *out     = ft_malloc(cap, 1);     // check 
+//     size_t  oi      = 0;
+//     bool    in_q    = false;
 
-    for (size_t i = 0; i < len; /* updated below */) {
-        char c = input[i];
+//     for (size_t i = 0; i < len; /* updated below */) {
+//         char c = input[i];
 
-        /* Toggle quote state on unescaped '"' */
-        if (c == '"' && (i == 0 || input[i-1] != '\\')) {
-            /* append the '"' */
-            if (oi + 1 >= cap) {
-                cap = cap * 2;
-                out = ft_realloc(out,ft_strlen(out) ,cap); // t_realloc(void *ptr, size_t old_size, size_t new_size)
-            }
-            out[oi++] = '"';
-            in_q = !in_q;
-            i++;
-            continue;
-        }
+//         /* Toggle quote state on unescaped '"' */
+//         if (c == '"' && (i == 0 || input[i-1] != '\\')) {
+//             /* append the '"' */
+//             if (oi + 1 >= cap) {
+//                 cap = cap * 2;
+//                 out = ft_realloc(out,ft_strlen(out) ,cap); // t_realloc(void *ptr, size_t old_size, size_t new_size)
+//             }
+//             out[oi++] = '"';
+//             in_q = !in_q;
+//             i++;
+//             continue;
+//         }
 
-        /* If we’re outside quotes, chefck for $…+" pattern */
-        if (!in_q && c == '$') 
-        {
-            /* count consecutive $ */
-            size_t j = i;
-            while (j < len && input[j] == '$') j++;
-            /* if next is a quote, handle per parity rule */
-            if (j < len && input[j] == '"') {
-                size_t dollar_count = j - i;
-                if (dollar_count % 2 == 1) {
-                    /* odd -> drop one $ */
-                    if (oi + dollar_count - 1 + 1 >= cap) {
-                        cap = cap + len;  /* enough room */
-                        out = ft_realloc(out, ft_strlen(out),cap);// nn check
-                    }
-                    /* write (count-1) $ */
-                    for (size_t k = 0; k < dollar_count - 1; k++) {
-                        out[oi++] = '$';
-                    }
-                    /* write the quote, enter quote mode */
-                    out[oi++] = '"';
-                    in_q = true;
-                } else {
-                    /* even -> leave as-is (all $ and the ") */
-                    if (oi + dollar_count + 1 >= cap) {
-                        cap = cap + len;
-                        out = ft_realloc(out, ft_strlen(out),cap);// nn check
-                    }
-                    for (size_t k = 0; k < dollar_count; k++) {
-                        out[oi++] = '$';
-                    }
-                    out[oi++] = '"';
-                    in_q = true;
-                }
-                i = j + 1;
-                continue;
-            }
-            /* otherwise not followed by a quote—treat literally */
-        }
+//         /* If we’re outside quotes, chefck for $…+" pattern */
+//         if (!in_q && c == '$') 
+//         {
+//             /* count consecutive $ */
+//             size_t j = i;
+//             while (j < len && input[j] == '$') j++;
+//             /* if next is a quote, handle per parity rule */
+//             if (j < len && input[j] == '"') {
+//                 size_t dollar_count = j - i;
+//                 if (dollar_count % 2 == 1) {
+//                     /* odd -> drop one $ */
+//                     if (oi + dollar_count - 1 + 1 >= cap) {
+//                         cap = cap + len;  /* enough room */
+//                         out = ft_realloc(out, ft_strlen(out),cap);// nn check
+//                     }
+//                     /* write (count-1) $ */
+//                     for (size_t k = 0; k < dollar_count - 1; k++) {
+//                         out[oi++] = '$';
+//                     }
+//                     /* write the quote, enter quote mode */
+//                     out[oi++] = '"';
+//                     in_q = true;
+//                 } else {
+//                     /* even -> leave as-is (all $ and the ") */
+//                     if (oi + dollar_count + 1 >= cap) {
+//                         cap = cap + len;
+//                         out = ft_realloc(out, ft_strlen(out),cap);// nn check
+//                     }
+//                     for (size_t k = 0; k < dollar_count; k++) {
+//                         out[oi++] = '$';
+//                     }
+//                     out[oi++] = '"';
+//                     in_q = true;
+//                 }
+//                 i = j + 1;
+//                 continue;
+//             }
+//             /* otherwise not followed by a quote—treat literally */
+//         }
 
-        /* Default: copy character */
-        if (oi + 1 >= cap) {
-            cap = cap * 2;
-            out = ft_realloc(out, ft_strlen(out),cap); // realloc
-        }
-        out[oi++] = c;
-        i++;
-    }
+//         /* Default: copy character */
+//         if (oi + 1 >= cap) {
+//             cap = cap * 2;
+//             out = ft_realloc(out, ft_strlen(out),cap); // realloc
+//         }
+//         out[oi++] = c;
+//         i++;
+//     }
 
-    out[oi] = '\0';
-    return out;
-}
+//     out[oi] = '\0';
+//     return out;
+// }
 static int ft_isspace(int c)
 {
     return (c == ' ' || c == '\t' || c == '\n' ||
@@ -386,6 +386,7 @@ int main(int ac, char **av, char **env)
         if (*shell->rl_input)
             add_history(shell->rl_input);
         char *str = handle_dollar_quotes(shell->rl_input);
+        // printf("str-->%s\n", str);
         free (shell->rl_input);
         shell->rl_input = str;
         shell->rl_input = replace_var_equals_var(shell->rl_input, shell);
