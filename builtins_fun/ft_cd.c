@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/06 17:26:15 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:20:42 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_environ_node	*ft_getenv(t_environ_list *env, char *key)
 	while (current)
 	{
 		if (current->key && !ft_strcmp(current->key, key))
-			return (current);
+			return (current);//samir
 		current = current->next;
 	}
 	return (NULL);
