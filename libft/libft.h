@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:01:39 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/08 15:40:23 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/08 22:22:54 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+
 
 char	*ft_strcat(char *dest, const char *src);
 int		ft_atoi(const char *str);
@@ -68,5 +69,6 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+char *ft_strjoin2(char *s1, char *s2, int to_free);
 
 #endif

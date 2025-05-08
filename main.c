@@ -111,16 +111,24 @@ int main(int ac, char **av, char **env)
 		}
         if (*shell->rl_input)
             add_history(shell->rl_input);
+        // printf("str-->%s\n", shell->rl_input);
         char *str = handle_dollar_quotes(shell->rl_input);
         // printf("str-->%s\n", str);
         free (shell->rl_input);
         shell->rl_input = str;
-        shell->rl_input = replace_var_equals_var(shell->rl_input, shell);
-        printf("str-->%s\n", shell->rl_input);
+        shell->rl_input = replace_var_equals_var(shell->rl_input, shell);// handle echo $PATH=''
+        // printf("str-->%s\n", shell->rl_input);
         shell->rl_copy = clean_rl_copy(shell->rl_input);
-        shell->rl_copy = replace_vars(shell->rl_input, shell);
+        // shell->rl_copy = replace_vars(shell->rl_input, shell);
         if (parser(shell) == false)
             continue ;
+        t_lexer_list *lexr = shell->lex_head;
+        while(lexr)
+        {
+            printf("str----->%s\n", lexr->str);
+            printf("type----->%u\n",lexr->type);
+            lexr = lexr->next;
+        }
         executor(shell);
     }
     ft_malloc(0,0);
