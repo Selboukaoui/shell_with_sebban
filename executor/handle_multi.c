@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:31:19 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 15:59:44 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/08 16:26:53 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ static	void	handle_fork(t_info *info, t_executor *current, int *fildes)
 	else if (info->pids[current->id] == 0)
 	{
 		ret = child_handler_multi(fildes, current, info);
-		// free_enviro(info->shell);
 		ft_malloc(0, 0);
 		exit(ret);
 	}

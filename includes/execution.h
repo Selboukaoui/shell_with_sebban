@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 17:32:10 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 18:04:26 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/08 17:35:51 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,9 @@ bool			handle_redirections_single_child(t_shell *shell);
 char			*get_env_value(t_environ_list *env_list, char *key);
 t_environ_node	*ft_getenv(t_environ_list *env, char *key);
 int				is_cmdline_empty(const char *cmdline);
-
+void			try_exec_with_fallback(char *path,
+					char **args, char **envp, t_shell *shell);
+char			*execute_other_helper(t_executor *current);
+void			err_for_norm(char *cmd);
+void			get_path_error(char *str);
 #endif

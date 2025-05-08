@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 17:31:21 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/07 19:49:40 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/08 17:36:47 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ char			*ft_strcpy(char *dest, const char *src);
 char			*ft_strncpy(char *dest, const char *src, size_t n);
 t_token			which_type(char *s, int inside);
 char			*replace_vars(char *input, t_shell *shell);
-int             herdoc_status(int action, int value);
-char            *handle_dollar_quotes(char *input);
-char *replace_var_equals_var(const char *input);
+int				herdoc_status(int action, int value);
+char			*handle_dollar_quotes(char *input);
+char			*replace_var_equals_var(char *input, t_shell *shell);
+int				all_value(char *seg, t_shell *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:38:38 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 16:21:42 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/08 16:20:52 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,140 +32,62 @@ static	int	handle_redirections_pipeline(int *pipefd,
 	return (OKAY);
 }
 
-static char	*path_join(const char *dir, const char *file)
+static void	err(int flag, t_executor *current, char *path)
 {
-	char	*tmp;
-	char	*full;
-
-	tmp = ft_strjoin(dir, "/");
-	if (!tmp)
-		return (NULL);
-	full = ft_strjoin(tmp, file);
-	return (full);
-}
-
-static	char	*execute_other_helper(t_executor *current)
-{
-	char		*candidate;
-	struct stat	st;
-	int			i;
-	size_t		len;
-	char		*dotcmd;
-
-	i = 0;
-	if (current->execs[0][0] == '/' || current->execs[0][0] == '.')
-	{
-		if (stat(current->execs[0], &st) == 0)
-			return (ft_strdup(current->execs[0]));
-		return (NULL);
-	}
-	if (current->path)
-	{
-		while (current->path[i])
-		{
-			candidate = path_join(current->path[i], current->execs[0]);
-			if (!candidate)
-				return (NULL);
-			if (stat(candidate, &st) == 0)
-				return (candidate);
-			i++;
-		}
-	}
-	if (!current->path)
-	{
-		len = 2 + ft_strlen(current->execs[0]) + 1;
-		dotcmd = ft_malloc(len, 1);
-		if (!dotcmd)
-			return (NULL);
-		ft_memcpy(dotcmd, "./", 2);
-		ft_memcpy(dotcmd + 2, current->execs[0],
-			ft_strlen(current->execs[0]) + 1);
-		if (stat(dotcmd, &st) == 0)
-			return (dotcmd);
-	}
-	return (NULL);
-}
-
-static	void	try_exec_with_fallback(char *path, char **args, char **envp, t_shell *shell)
-{
-	size_t	total_len;
-	int		i;
-
-	i = 0;
-	execve(path, args, envp);
-	(void)shell;
-	if (errno == ENOENT || errno == EACCES || errno == ENOEXEC)
-	{
-		total_len = 0;
-		while (args[i])
-			total_len += ft_strlen(args[i++]) + 1;
-		char *cmd = ft_malloc(total_len + 1, 1);
-		if (!cmd)
-			(ft_malloc(0,0), exit(1));
-		cmd[0] = '\0';
-		for (int i = 0; args[i]; i++)
-		{
-			strcat(cmd, args[i]);
-			if (args[i + 1])
-				strcat(cmd, " ");
-		}
-		char *sh_args[] = {"/bin/sh", "-c", cmd, NULL};
-		execve("/bin/sh", sh_args, envp);
-		perror("fallback execve failed");
-		ft_malloc(0,0);
-		exit(127);
-	}
-	ft_malloc(0,0);
-	exit(126);
-}
-
-int	execute_other(t_executor *current, t_info *info)
-{
-	char	*path;
-	char	**env_array;
-	struct	stat	st;
-
-	path = execute_other_helper(current);
-	if (!path)
+	if (flag == 1)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(current->execs[0], STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		ft_malloc(0,0);
+		ft_malloc(0, 0);
 		exit(127);
 	}
-	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
+	else if (flag == 2)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
-		ft_malloc(0,0);
+		ft_malloc(0, 0);
 		exit(126);
 	}
-
-	env_array = transform_environ_array(info->shell);
-	if (!env_array)
-		(ft_malloc(0, 0), exit(126));
-	execve(path, current->execs, env_array);
-	try_exec_with_fallback(path, current->execs,env_array, info->shell);
-	if (errno == EACCES)
+	else if (flag == 3)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(current->execs[0], STDERR_FILENO);
 		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 		(ft_malloc(0, 0), exit(126));
 	}
+}
+
+void	execute_other(t_executor *current, t_info *info)
+{
+	char		*path;
+	char		**env_array;
+	struct stat	st;
+
+	path = execute_other_helper(current);
+	if (!path)
+		err(1, current, path);
+	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
+		err(2, current, path);
+	env_array = transform_environ_array(info->shell);
+	if (!env_array)
+		(ft_malloc(0, 0), exit(126));
+	execve(path, current->execs, env_array);
+	try_exec_with_fallback(path, current->execs, env_array, info->shell);
+	if (errno == EACCES)
+		err(3, current, path);
 	else
 	{
 		perror("minishell");
-		(ft_malloc(0,0), exit(126));
+		(ft_malloc(0, 0), exit(126));
 	}
 }
 
 static	void	execute_builtin_child(t_info *info, t_executor *cur)
 {
-	int exit_code;
-	char **args;
+	int		exit_code;
+	char	**args;
 
 	args = cur->execs;
 	exit_code = 0;
@@ -187,7 +109,7 @@ static	void	execute_builtin_child(t_info *info, t_executor *cur)
 	exit(exit_code);
 }
 
-int child_handler_multi(int *fildes, t_executor *current, t_info *info)
+int	child_handler_multi(int *fildes, t_executor *current, t_info *info)
 {
 	if (handle_redirections_pipeline(fildes, current) == FAIL_SYSCALL)
 		(ft_malloc(0, 0), exit(FAIL_SYSCALL_CHILD));
