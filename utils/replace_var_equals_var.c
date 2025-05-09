@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_var_equals_var.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:52:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 18:47:49 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:51:01 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,29 +110,55 @@ static	char	*ft_check_segments(char *seg, t_shell *shell)
 	return (ft_replace_var(seg, shell));
 }
 
-char	*replace_var_equals_var(char *input, t_shell *shell)
+char *replace_var_equals_var(char *input, t_shell *shell)
 {
-	char	**tokens;
-	size_t	i;
-	char	*output;
-	char	*tmp;
-	char	*new_output;
+    char **tokens;
+    size_t i;
+    char *output;
+    char *tmp;
+    char *new_output;
+    bool skip_heredoc = false;   // ← new flag
 
-	if (!input || !shell)
-		return (NULL);
-	tokens = ft_split(input, ' ');
-	if (!tokens)
-		return (NULL);
-	output = ft_strdup("");
-	for (i = 0; tokens[i]; i++) {
-		tmp = ft_check_segments(tokens[i], shell);
-		new_output = ft_strjoin(output, tmp);
-		output = new_output;
-		if (tokens[i + 1])
-		{
-			new_output = ft_strjoin(output, " ");
-			output = new_output;
-		}
-	}
-	return (output);
+    if (!input || !shell)
+        return NULL;
+
+    tokens = ft_split(input, ' ');
+    if (!tokens)
+        return NULL;
+
+    output = ft_strdup("");
+    for (i = 0; tokens[i]; i++) {
+        if (skip_heredoc) {
+            // We’re right after a "<<", so copy the token literally
+            new_output = ft_strjoin(output, tokens[i]);
+            free(output);
+            output = new_output;
+            skip_heredoc = false;
+        }
+        else if (ft_strcmp(tokens[i], "<<") == 0) {
+            // Copy the heredoc operator itself
+            new_output = ft_strjoin(output, "<<");
+            free(output);
+            output = new_output;
+            // Next token must be raw, not substituted
+            skip_heredoc = true;
+        }
+        else {
+            // Normal behavior: do variable check/substitution
+            tmp = ft_check_segments(tokens[i], shell);
+            new_output = ft_strjoin(output, tmp);
+            free(output);
+            output = new_output;
+        }
+
+        // Re-add the space if there’s another token coming
+        if (tokens[i + 1]) {
+            new_output = ft_strjoin(output, " ");
+            free(output);
+            output = new_output;
+        }
+    }
+
+    /* tokens cleanup omitted */
+    return output;
 }

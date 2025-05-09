@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 17:32:10 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 18:03:45 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:20:53 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,5 @@ void			err_for_norm(char *cmd);
 void			get_path_error(char *str);
 char			*replace_vars1(const char *input, t_shell *shell);
 char			*export_hard(char *str, t_shell *shell);
+void			write_value(t_varctx *ctx, const char *val);
 #endif

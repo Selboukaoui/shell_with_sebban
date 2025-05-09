@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 17:32:07 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 18:03:25 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:23:21 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,16 @@ typedef struct garbage_c
 	void				*data;
 	struct garbage_c	*next;
 }	t_collect;
+
+typedef struct s_varctx
+{
+	const char	*in;
+	char		*out;
+	int			max;
+	size_t		pos[2];
+	bool		single;
+	bool		double_s;
+	t_shell		*sh;
+}	t_varctx;
 
 #endif

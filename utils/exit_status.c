@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 20:00:30 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 14:04:08 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:23:35 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,17 @@ void	get_path_error(char *str)
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+}
+
+void	write_value(t_varctx *ctx, const char *val)
+{
+	bool	wrap;
+
+	wrap = !(ctx->double_s);
+	if (wrap)
+		ctx->out[ctx->pos[1]++] = '"';
+	while (*val)
+		ctx->out[ctx->pos[1]++] = *val++;
+	if (wrap)
+		ctx->out[ctx->pos[1]++] = '"';
 }
