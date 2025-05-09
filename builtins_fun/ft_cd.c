@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/09 13:49:06 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/09 15:37:35 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	handle_getcwd_failure(t_shell *shell, char *arg, char *new_pwd, char **x)
 	{
 		env_var_update(shell->env, "PWD", new_pwd);
 		*x = NULL;
+		return (OK);
 	}
 	return (ft_putstr_fd("cd: error retrieving current directory: getcwd: \
 cannot access parent directories: No such file or directory\n", 2), FAIL);
