@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 17:32:07 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/08 22:41:14 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 18:03:25 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_lexer_list
 	t_token				type;
 	struct s_lexer_list	*prev;
 	struct s_lexer_list	*next;
-	int                  no_split;  /* 1 ⇒ skip splitting on spaces */
+	int					no_split;
 }	t_lexer_list;
 
 typedef struct s_executor
