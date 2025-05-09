@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:33:32 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 14:11:00 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/09 17:30:02 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,31 +90,45 @@ char	*get_env_value(t_environ_list *env_list, char *key)
 
 static	int	already_quoted(const char *s)
 {
-	size_t n = strlen(s);
+	size_t	n;
+
+	n = strlen(s);
 	if (n < 2) return 0;
-	if (s[0] == '\'' && s[n-1] == '\'') return 1;
-	if (s[0] == '"'  && s[n-1] == '"')  return 1;
+	if (s[0] == '\'' && s[n-1] == '\'')
+		return 1;
+	if (s[0] == '"'  && s[n-1] == '"')
+		return 1;
 	return 0;
 }
 
-
-static char *auto_quote_word(const char *word)
+static	char	*auto_quote_word(const char *word)
 {
-	int need = 0;
-	for (const char *p = word; *p; p++)
+	int 		need;
+	const char	*p;
+	size_t 		len;
+	char 		*out;
+
+	p = word;
+	need = 0;
+	while (*p)
+	{
 		if (*p == ' ' || *p == '\t' || *p == '\'')
-			{ need = 1; break; }
-
+		{
+			need = 1;
+			break ;
+		}
+		p++;	
+	}
 	if (!need)
-		return ft_strdup(word);
-
-	size_t len = ft_strlen(word);
-	char *out = ft_malloc(len + 3, 1);
-	if (!out) return NULL;
+		return (ft_strdup(word));
+	len = ft_strlen(word);
+	out = ft_malloc(len + 3, 1);
+	if (!out)
+		return NULL;
 	sprintf(out, "\"%s\"", word);
-	return out;
+	return (out);
 }
-		
+
 char *replace_vars(char *input, t_shell *shell)
 {
 	size_t i = 0, j = 0, L = ft_strlen(input);
