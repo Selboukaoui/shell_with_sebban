@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:27:05 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 10:33:57 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 17:36:10 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,19 @@ t_lexer_list    *lexer(t_shell *shell)
 int check_syntax(t_shell *input)
 {
 
-    if (!check_redirect_in(input->rl_copy) || !check_redirect_out(input->rl_copy))
+    if (!check_redirect_in(input->rl_input) || !check_redirect_out(input->rl_input))
     {
         exit_status(EXIT_SET, 2);
         return (0);
     }
-    if (!check_quote_syntax(input->rl_copy))
+    if (!check_quote_syntax(input->rl_input))
     {
         ft_putstr_fd("minishell:  syntax error !!\n", 2);
         exit_status(EXIT_SET, 2);
         return (0);
         
     }
-    if (!check_pipe(input->rl_copy))
+    if (!check_pipe(input->rl_input))
     {
         ft_putstr_fd("minishell:  syntax error near unexpected token `|'\n", 2);
         exit_status(EXIT_SET, 2);
@@ -64,8 +64,8 @@ bool    parser(t_shell *shell)
 {
 
     
-    if (!check_syntax(shell))
-        return (false);
+    // if (!check_syntax(shell))
+    //     return (false);
     
     // clean excutor list
     // if (shell->executor)

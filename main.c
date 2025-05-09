@@ -125,6 +125,8 @@ int main(int ac, char **av, char **env)
 		}
         if (*shell->rl_input)
             add_history(shell->rl_input);
+        if (!check_syntax(shell))
+            continue ;
         char *str = handle_dollar_quotes(shell->rl_input);
         free (shell->rl_input);
         shell->rl_input = str;

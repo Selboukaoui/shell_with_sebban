@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:49:40 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/07 13:43:19 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/09 17:38:21 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_redirect_out(char *input)
 				input++;
 				if (*input == '\0')
 					return (write(2, "minishell: syntax error near \
-							unexpected token `newline'\n", 57), 0);
+unexpected token `newline'\n", 57), 0);
 				j++;
 			}
 			if (j > 2)
