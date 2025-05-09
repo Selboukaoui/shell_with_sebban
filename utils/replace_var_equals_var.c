@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:52:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/08 14:53:47 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 14:11:52 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,11 @@ static	char	*ft_check_segments(char *seg, t_shell *shell)
 	if (has_equal && seg[i] != '$')
 		return (seg);
 	else
-		while (seg[i])
-			if (seg[i++] == '=')
-				return (ft_replace_var(seg, shell));
-	return (seg);
+		// while (seg[i])
+		// 	if (seg[i++] == '=')
+		// 		return (ft_replace_var(seg, shell));
+	// return (seg);
+		return (ft_replace_var(seg, shell));
 }
 
 char	*replace_var_equals_var(char *input, t_shell *shell)

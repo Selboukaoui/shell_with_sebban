@@ -43,38 +43,6 @@
 # define FAIL -1
 # define PARENT 1
 # define CHILD  3
-// # define IGNORE 3
 
-/* expansion/splitting */
-int             should_split_token(t_lexer_list *token);
-void            split_expanded(t_lexer_list *token);
-
-/* value lookup */
-char           *get_value(t_shell *obj, char *str);
-char           *get_special_value(t_shell *obj, char *str);
-
-/* token creation */
-t_lexer_list   *create_token(char *str);
-
-/* main expand pass */
-void            expand(t_shell *obj);
-
-/* quote processing */
-char           *no_quotes(t_shell *obj, char **argv, int *i, int *j);
-char           *do_quotes(t_shell *obj, char **argv, int *i, int *j);
-char           *si_quotes(char **argv, int *i);
-
-/* token parsing */
-void            process_quotes(t_shell *obj,
-                               t_lexer_list *token,
-                               char **argv,
-                               int *ij);
-void            process_token(t_shell *obj,
-                              t_lexer_list *token,
-                              int *j);
-
-/* here-doc / special tokens */
-void            handle_special_tokens(t_lexer_list **token_ptr);
-char *handle_special_chars(t_shell *obj, char *str);
 
 #endif

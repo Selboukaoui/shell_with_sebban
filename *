@@ -1,3 +1,5 @@
+*
+asebban
 builtins_fun
 executor
 file
@@ -12,4 +14,6 @@ minishell
 parsing
 t
 test_cases
+USER
+USER?
 utils

@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:27:05 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/08 22:51:15 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 10:33:57 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,15 @@ bool    parser(t_shell *shell)
     shell->lex_head = lexer(shell);
     if (!shell->lex_head)
         return (false);
-    t_lexer_list *lexr = shell->lex_head;
-    while(lexr)
-    {
-            printf("str----->%s\n", lexr->str);
-            printf("type----->%u\n",lexr->type);
-            printf("-----------------------\n");
-            lexr = lexr->next;
-    }
-    expand(shell);
+    // t_lexer_list *lexr = shell->lex_head;
+    // while(lexr)
+    // {
+    //         printf("str----->%s\n", lexr->str);
+    //         printf("type----->%u\n",lexr->type);
+    //         printf("-----------------------\n");
+    //         lexr = lexr->next;
+    // }
+    // expand(shell);
     shell->executor = prepare_executor(shell);
     return (true);
 }
