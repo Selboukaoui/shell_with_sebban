@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:31:19 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 19:14:26 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:25:24 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ void	wait_pipeline(t_info *info, int number)
 {
 	int	status;
 	int	i;
-	int j = 0;
+	int	j;
 
+	j = 0;
 	i = 0;
 	while (i < number)
 	{
@@ -42,25 +43,15 @@ void	wait_pipeline(t_info *info, int number)
 		else if (WIFSIGNALED(status))
 		{
 			if (status == 131 && j == 0)
-			{
-				(printf("Quit (core dumped)\n"));
-				j = 1;
-			}
+				(printf("Quit (core dumped)\n"), j = 1);
 			else if (j == 0)
-			{
-				printf("\n");
-				j = 1;
-			}
-			
+				(printf("\n"), j = 1);
 			exit_status(EXIT_SET, 128 + WTERMSIG(status));
 		}
 		i++;
 	}
 	if (info->stdin_copy != STDIN_FILENO)
-	{
-		dup2(info->stdin_copy, STDIN_FILENO);
-		close(info->stdin_copy);
-	}
+		(dup2(info->stdin_copy, STDIN_FILENO), close(info->stdin_copy));
 }
 
 static	void	handle_pipe(int *fildes, t_executor *current)
@@ -85,7 +76,6 @@ static	void	handle_fork(t_info *info, t_executor *current, int *fildes)
 {
 	int	ret;
 
-	// signal_setup(3);
 	info->pids[current->id] = fork();
 	if (info->pids[current->id] == -1)
 	{
