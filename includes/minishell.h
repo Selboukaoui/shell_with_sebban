@@ -44,4 +44,16 @@
 # define PARENT 1
 # define CHILD  3
 
+
+char    *get_next_token(const char *s, int *index);
+char    *parse_token(const char *s, int *i);
+int     parse_literal(const char *s, int *i, char **res);
+int     parse_quoted(const char *s, int *i, char **res);
+char    *append_segment(char *res, const char *seg, int len);
+int	count_tokens(const char *s);
+int	advance_token(const char *s, int idx);
+int	ft_operator_len(const char *s);
+char	*ft_dup_token(const char *str, int len);
+int	skip_spaces(const char *s, int i);
+
 #endif

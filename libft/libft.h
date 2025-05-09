@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:01:39 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/09 13:31:49 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 21:12:47 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 char *ft_strjoin2(char *s1, char *s2, int to_free);
 char	**ft_split1(char const *s, char c);
+char	*ft_strncat(char *dest, const char *src, size_t n);
 
 #endif

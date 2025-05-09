@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_newsplit.c                                      :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 14:20:59 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 21:15:34 by asebban          ###   ########.fr       */
+/*   Created: 2025/05/09 21:12:08 by asebban           #+#    #+#             */
+/*   Updated: 2025/05/09 21:12:31 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-char	**ft_newsplit(const char *s)
+char	*ft_strncat(char *dest, const char *src, size_t n)
 {
-	int		total;
-	char	**tokens;
-	int		i;
-	int		pos;
-	char	*tok;
+	size_t	i;
+	size_t	j;
 
-	if (!s)
-		return (NULL);
-	total = count_tokens(s);
-	tokens = ft_malloc(sizeof(char *) * (total + 1), 1);
-	if (!tokens)
-		return (NULL);
 	i = 0;
-	pos = 0;
-	while (1)
+	j = 0;
+	while (dest[i])
+		i++;
+	while (j < n && src[j])
 	{
-		tok = get_next_token(s, &i);
-		if (!tok)
-			break ;
-		tokens[pos++] = tok;
+		dest[i + j] = src[j];
+		j++;
 	}
-	tokens[pos] = NULL;
-	return (tokens);
+	dest[i + j] = '\0';
+	return (dest);
 }
