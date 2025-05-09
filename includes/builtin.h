@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 17:45:14 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 18:04:50 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:00:10 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,9 @@ int		exit_builtin(t_shell *shell, char **args, int in_pipe);
 int		env(t_shell *shell);
 int		export(t_shell *shell, char **args);
 int		exit_status(int action, int value);
+t_environ_node	*ft_getenv(t_environ_list *env, char *key);
+bool	is_valid_identifier(char *str);
+int	export_no_args(t_shell *shell);
+void	print_sorted_env(t_environ_list *env);
+
 #endif

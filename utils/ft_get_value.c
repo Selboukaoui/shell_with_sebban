@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_value.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:33:32 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/06 18:14:00 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 14:11:00 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,43 @@
 
 static	int	ft_isspace(int c)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || 
+	return (c == ' ' || c == '\t' || c == '\n' || \
 			c == '\v' || c == '\f' || c == '\r');
 }
 
-char *ft_strncpy(char *dest, const char *src, size_t n)
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
-	size_t i = 0;
+	size_t	i;
+
+	i = 0;
 	while (i < n && src[i] != '\0')
 	{
 		dest[i] = src[i];
 		i++;
 	}
-
 	while (i < n)
 	{
 		dest[i] = '\0';
 		i++;
 	}
-
-	return dest;
+	return (dest);
 }
 
-
-void int_to_str(int num, char *str)
+void	int_to_str(int num, char *str)
 {
-	int i = 0, j = 0, is_negative = 0;
+	int		i;
+	int		j;
+	int		is_negative;
+	char	tmp;
+
+	i = 0;
+	j = 0;
+	is_negative = 0;
 	if (num == 0)
 	{
 		str[i++] = '0';
-		str[i]   = '\0';
-		return;
+		str[i] = '\0';
+		return ;
 	}
 	if (num < 0)
 	{
@@ -59,29 +65,30 @@ void int_to_str(int num, char *str)
 	if (is_negative)
 		str[i++] = '-';
 	str[i] = '\0';
-
 	while (j < i / 2)
 	{
-		char tmp = str[j];
+		tmp = str[j];
 		str[j] = str[i - j - 1];
 		str[i - j - 1] = tmp;
 		j++;
 	}
 }
 
-char *get_env_value(t_environ_list *env_list, char *key)
+char	*get_env_value(t_environ_list *env_list, char *key)
 {
-	t_environ_node *cur = env_list->head;
+	t_environ_node	*cur;
+
+	cur = env_list->head;
 	while (cur)
 	{
 		if (ft_strcmp(cur->key, key) == 0)
-			return cur->value;
+			return (cur->value);
 		cur = cur->next;
 	}
-	return NULL;
-}		
-		
-static int already_quoted(const char *s)
+	return (NULL);
+}
+
+static	int	already_quoted(const char *s)
 {
 	size_t n = strlen(s);
 	if (n < 2) return 0;

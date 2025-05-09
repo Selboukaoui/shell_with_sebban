@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:32:39 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/08 15:42:42 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:01:42 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static bool	is_valid_identifier(char *arg)
+static	bool	is_valid_identifier1(char *arg)
 {
 	if (!arg || !*arg || (!ft_isalpha(*arg) && *arg != '_'))
 		return (false);
@@ -40,9 +40,6 @@ static	void	delete_variable(t_shell *shell, char *arg)
 				prev->next = current->next;
 			else
 				shell->env->head = current->next;
-			// free(current->key);
-			// free(current->value);
-			// free(current);
 			shell->env->size--;
 			return ;
 		}
@@ -53,7 +50,7 @@ static	void	delete_variable(t_shell *shell, char *arg)
 
 static	void	unset_arg(t_shell *shell, char *arg, int *c)
 {
-	if (!is_valid_identifier(arg))
+	if (!is_valid_identifier1(arg))
 	{
 		ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
 		ft_putstr_fd(arg, STDERR_FILENO);

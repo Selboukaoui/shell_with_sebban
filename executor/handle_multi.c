@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_multi.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:31:19 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/08 16:26:53 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 13:56:08 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ void	wait_pipeline(t_info *info, int number)
 		if (WIFEXITED(status))
 			exit_status(EXIT_SET, WEXITSTATUS(status));
 		else if (WIFSIGNALED(status))
+		{
+				printf ("\n");
 			exit_status(EXIT_SET, 128 + WTERMSIG(status));
+		}
 		i++;
 	}
 	if (info->stdin_copy != STDIN_FILENO)

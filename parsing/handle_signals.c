@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:34:48 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/07 15:47:01 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/08 22:44:49 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	parent_handler(int signum)
 	(void)signum;
 	if (g_signals == 0)
 	{
-		write(STDOUT_FILENO, "^Cx\n", 5);
+		write(STDOUT_FILENO, "^C\n", 3);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

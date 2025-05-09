@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 10:28:53 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/08 15:26:36 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:00:06 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static	void	print_sorted_env(t_environ_list *env)
+void	print_sorted_env(t_environ_list *env)
 {
 	t_environ_node	*tmp;
 	t_environ_node	*sorted;
@@ -59,30 +59,6 @@ static	void	print_sorted_env(t_environ_list *env)
 		current = sorted;
 		sorted = sorted->next;
 	}
-}
-
-static	int	export_no_args(t_shell *shell)
-{
-	print_sorted_env(shell->env);
-	return (EXIT_SUCCESS);
-}
-
-static	bool	is_valid_identifier(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str || !*str || ft_isdigit(str[0]) || str[0] == '=')
-		return (false);
-	while (str[i] && str[i] != '=')
-	{
-		if (str[i] == '+' && str[i + 1] == '=')
-			return (true);
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (false);
-		i++;
-	}
-	return (true);
 }
 
 void	exporting(t_shell *shell, char *str)
