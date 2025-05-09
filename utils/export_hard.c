@@ -6,27 +6,23 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:26:18 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 14:03:19 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 16:16:04 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static bool	check_if_first_is_export(char *str)
+static bool check_if_first_is_export(char *str)
 {
-	int	i = 0;
-
-	if (!str)
-		return (false);
-	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-		i++;
-	if (ft_strncmp(str + i, "export", 6) != 0)
-		return (false);
-	i += 6;
-	if (str[i] == '\0' || str[i] == ' ' || str[i] == '\t')
-		return (true);
-
-	return (false);
+    int i = 0;
+    if (!str)
+        return false;
+    while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+        i++;
+    if (strncmp(str + i, "export", 6) != 0)
+        return false;
+    i += 6;
+    return (str[i] == '\0' || str[i] == ' ' || str[i] == '\t');
 }
 
 
@@ -34,90 +30,89 @@ static int calculate_max_len(const char *str, t_shell *shell)
 {
     int i = 0;
     int len = 0;
+    bool in_single = false;
+    bool in_double = false;
 
-    if (!str)
-        return 0;
-
-    while (str[i])
-    {
-        if (str[i] == '$' && str[i + 1] && (isalnum(str[i + 1]) || str[i + 1] == '_'))
-        {
-            i++; // Skip the '$'
+    while (str && str[i]) {
+        if (str[i] == '\'' && !in_double) {
+            in_single = !in_single;
+            len++; i++;
+        }
+        else if (str[i] == '"' && !in_single) {
+            in_double = !in_double;
+            len++; i++;
+        }
+        else if (str[i] == '$' && !in_single && str[i + 1] && (isalnum(str[i+1]) || str[i+1] == '_')) {
+            i++; // skip $
             char var_name[256];
             int k = 0;
-
-            // Extract variable name
             while ((isalnum(str[i]) || str[i] == '_') && k < 255)
                 var_name[k++] = str[i++];
             var_name[k] = '\0';
-
-            // Get environment variable value
             char *value = get_env_value(shell->env, var_name);
             if (value)
-                len += strlen(value) + 2; // Add 2 for the surrounding quotes
+                len += strlen(value);
         }
-        else
-        {
+        else {
             len++;
             i++;
         }
     }
-
     return len;
 }
 
 
-char *change_all_var(char *str, t_shell *shell)
+char *change_all_var(const char *str, t_shell *shell)
 {
     int i = 0, j = 0;
     char *output;
     int len;
     char var_name[256];
     char *value;
-    bool first_var = true; // Flag to track the first variable
+    bool in_single = false;
+    bool in_double = false;
 
     if (!str)
-        return (NULL);
+        return NULL;
 
-    len = calculate_max_len(str, shell); // Estimate the required space
-    output = ft_malloc(len + 1, 1); // Allocate memory
+    len = calculate_max_len(str, shell);
+    output = ft_malloc(len + 1, 1);
     if (!output)
-        return (NULL);
+        return NULL;
 
-    while (str[i])
-    {
-        if (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i + 1] == '_'))
-        {
+    while (str[i]) {
+        if (str[i] == '\'' && !in_double) {
+            in_single = !in_single;
+            output[j++] = str[i++];
+        }
+        else if (str[i] == '"' && !in_single) {
+            in_double = !in_double;
+            output[j++] = str[i++];
+        }
+        else if (str[i] == '$' && !in_single && str[i+1] && (ft_isalnum(str[i+1]) || str[i+1] == '_')) {
+            i++; // skip $
             int k = 0;
-            i++; // Skip the $
             while ((ft_isalnum(str[i]) || str[i] == '_') && k < 255)
                 var_name[k++] = str[i++];
             var_name[k] = '\0';
-
-            value = get_env_value(shell->env, var_name); // Get environment variable value
-            if (value)
-            {
-                if (!first_var)
-                {
-                    output[j++] = '"'; // Add opening quote
-                }
-
-                while (*value)
-                    output[j++] = *value++;
-
-                if (!first_var)
-                {
-                    output[j++] = '"'; // Add closing quote
-                }
+            value = get_env_value(shell->env, var_name);
+            if (value) {
+                // Only wrap quotes if output is currently not inside any quote context
+                bool wrap = !in_double;
+                if (wrap)
+                    output[j++] = '"';
+                for (char *p = value; *p; ++p)
+                    output[j++] = *p;
+                if (wrap)
+                    output[j++] = '"';
             }
         }
-        else
+        else {
             output[j++] = str[i++];
-        
-        first_var = false; // After the first variable, set the flag to false
+        }
     }
     output[j] = '\0';
-    return (output);
+    return output;
 }
 
 // char *change_all_var(char *str, t_shell *shell)
@@ -208,32 +203,26 @@ char *join_strings(char **strings, char delimiter) {
 
 char *export_hard(char *str, t_shell *shell)
 {
-    char    **arr;
-    int     i;
-    char    *result;
+    char **arr = ft_split1(str, '|');
+    int i = 0;
+    char *result;
 
-    i = 0;
-    arr = ft_split1(str, '|');
     if (!arr)
-        return (NULL);
+        return NULL;
 
-    while (arr[i])
-    {
-        if (check_if_first_is_export(arr[i]))
-        {
+    while (arr[i]) {
+        if (check_if_first_is_export(arr[i])) {
             char *expanded = change_all_var(arr[i], shell);
-            if (expanded)
-            {
-                // free(arr[i]); // Free old string
+            if (expanded) {
                 arr[i] = expanded;
             }
         }
         i++;
     }
 
-    // Combine arr back into a single string
-    result = join_strings(arr, '|'); // Implement join_array to concatenate strings with '|'
-    // free_array(arr); // Implement free_array to free the array
-
+    // Rejoin with '|'
+    // (Implement join_strings as before or inline concatenation)
+    result = join_strings(arr, '|');
     return result;
 }
+

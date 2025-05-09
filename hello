@@ -1,0 +1,8 @@
+test
+
+
+ls > hello test
+
+export a"'''"
+
+$a
