@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 12:31:19 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 13:56:08 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:14:26 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	wait_pipeline(t_info *info, int number)
 {
 	int	status;
 	int	i;
+	int j = 0;
 
 	i = 0;
 	while (i < number)
@@ -40,7 +41,17 @@ void	wait_pipeline(t_info *info, int number)
 			exit_status(EXIT_SET, WEXITSTATUS(status));
 		else if (WIFSIGNALED(status))
 		{
-				printf ("\n");
+			if (status == 131 && j == 0)
+			{
+				(printf("Quit (core dumped)\n"));
+				j = 1;
+			}
+			else if (j == 0)
+			{
+				printf("\n");
+				j = 1;
+			}
+			
 			exit_status(EXIT_SET, 128 + WTERMSIG(status));
 		}
 		i++;
@@ -74,6 +85,7 @@ static	void	handle_fork(t_info *info, t_executor *current, int *fildes)
 {
 	int	ret;
 
+	// signal_setup(3);
 	info->pids[current->id] = fork();
 	if (info->pids[current->id] == -1)
 	{
@@ -83,6 +95,7 @@ static	void	handle_fork(t_info *info, t_executor *current, int *fildes)
 	}
 	else if (info->pids[current->id] == 0)
 	{
+		signal_setup(3);
 		ret = child_handler_multi(fildes, current, info);
 		ft_malloc(0, 0);
 		exit(ret);

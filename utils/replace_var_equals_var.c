@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_var_equals_var.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:52:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 18:51:01 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 18:52:39 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,15 +150,11 @@ char *replace_var_equals_var(char *input, t_shell *shell)
             free(output);
             output = new_output;
         }
-
-        // Re-add the space if there’s another token coming
         if (tokens[i + 1]) {
             new_output = ft_strjoin(output, " ");
             free(output);
             output = new_output;
         }
     }
-
-    /* tokens cleanup omitted */
     return output;
 }
