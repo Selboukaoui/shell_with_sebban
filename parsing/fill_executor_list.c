@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_executor_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/08 18:04:04 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:38:25 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ int create_heredoc(char *delimiter, t_shell *shell)
 				exit(0);
 			}
 			if (ft_strcmp(line, delimiter) == 0) {
-				free(line);
+				// free(line);
 				exit(0);
 			}
 			if (!quoted) {
@@ -265,12 +265,12 @@ int create_heredoc(char *delimiter, t_shell *shell)
 				char *expanded = replace_vars_heredoc(line, shell);
 				write(pipefd[1], expanded, ft_strlen(expanded));
 				write(pipefd[1], "\n", 1);
-				free(expanded);
+				// free(expanded);
 			} else {
 				write(pipefd[1], line, ft_strlen(line));
 				write(pipefd[1], "\n", 1);
 			}
-			free(line);
+			// free(line);
 		}
 	}
 	else{

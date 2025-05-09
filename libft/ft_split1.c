@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 12:15:09 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/09 13:49:46 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:44:31 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,8 @@ static int	counter(const char *s, char sep)
 // 	return (s);
 // }
 
-static char	*myfree(char **array, int i)
-{
-	int	j;
 
-	j = 0;
-	while (*array[j])
-	{
-		// //free(array[j]);
-		i++;
-	}
-	// //free (array);
-	return (NULL);
-}
+
 
 static char	**loop(const char *s, char **array, char sep)
 {
@@ -112,7 +101,7 @@ static char	**loop(const char *s, char **array, char sep)
 		{
 			tmp = ft_strndup(s + start, s[j]);
 			if (!tmp)
-				return ((char **)myfree(array, i));
+				return (NULL);
 			array[i++] = tmp;
 		}
 	}

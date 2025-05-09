@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:52:22 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 18:52:39 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:38:38 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,14 +131,14 @@ char *replace_var_equals_var(char *input, t_shell *shell)
         if (skip_heredoc) {
             // We’re right after a "<<", so copy the token literally
             new_output = ft_strjoin(output, tokens[i]);
-            free(output);
+            // free(output);
             output = new_output;
             skip_heredoc = false;
         }
         else if (ft_strcmp(tokens[i], "<<") == 0) {
             // Copy the heredoc operator itself
             new_output = ft_strjoin(output, "<<");
-            free(output);
+            // free(output);
             output = new_output;
             // Next token must be raw, not substituted
             skip_heredoc = true;
@@ -147,12 +147,12 @@ char *replace_var_equals_var(char *input, t_shell *shell)
             // Normal behavior: do variable check/substitution
             tmp = ft_check_segments(tokens[i], shell);
             new_output = ft_strjoin(output, tmp);
-            free(output);
+            // free(output);
             output = new_output;
         }
         if (tokens[i + 1]) {
             new_output = ft_strjoin(output, " ");
-            free(output);
+            // free(output);
             output = new_output;
         }
     }

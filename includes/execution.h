@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 17:32:10 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 18:20:53 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:44:10 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,5 @@ void			get_path_error(char *str);
 char			*replace_vars1(const char *input, t_shell *shell);
 char			*export_hard(char *str, t_shell *shell);
 void			write_value(t_varctx *ctx, const char *val);
+char			**ft_split1(char const *s, char c);
 #endif

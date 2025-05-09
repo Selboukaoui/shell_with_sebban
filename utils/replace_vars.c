@@ -6,7 +6,7 @@
 /*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:08:16 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 18:30:03 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:38:54 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ char	*expand_variables(const char *input, t_shell *shell)
 		}
 		else
 			joined = ft_strdup(tmp);
-		free(tmp);
+		// free(tmp);
 		i++;
 	}
 	return (joined);
@@ -220,7 +220,7 @@ char	*replace_vars1(const char *input, t_shell *shell)
 		{
 			in_assignment = 1;
 			tmp = ft_strjoin(result, "=");
-			free(result);
+			// free(result);
 			result = tmp;
 			i++;
 			continue ;
@@ -228,20 +228,20 @@ char	*replace_vars1(const char *input, t_shell *shell)
 		if (in_assignment && input[i] == '"')
 		{
 			tmp = ft_strjoin(result, "\"");
-			free(result);
+			// free(result);
 			result = tmp;
 			i++;
 			while (input[i] && input[i] != '"')
 			{
 				tmp = ft_strjoin(result, ft_substr(input, i, 1));
-				free(result);
+				// free(result);
 				result = tmp;
 				i++;
 			}
 			if (input[i] == '"')
 			{
 				tmp = ft_strjoin(result, "\"");
-				free(result);
+				// free(result);
 				result = tmp;
 				i++;
 			}
@@ -256,7 +256,7 @@ char	*replace_vars1(const char *input, t_shell *shell)
 			if (ft_isspace(input[i]))
 				skip_word = 0;
 			tmp = ft_strjoin(result, ft_substr(input, i, 1));
-			free(result);
+			// free(result);
 			result = tmp;
 			i++;
 		}
@@ -268,7 +268,7 @@ char	*replace_vars1(const char *input, t_shell *shell)
 		else if (!in_squote && input[i] == '$')
 		{
 			tmp = ft_strjoin(result, "$");
-			free(result);
+			// free(result);
 			result = tmp;
 			i++;
 		}
@@ -278,7 +278,7 @@ char	*replace_vars1(const char *input, t_shell *shell)
 		else
 		{
 			tmp = ft_strjoin(result, ft_substr(input, i, 1));
-			free(result);
+			// free(result);
 			result = tmp;
 			i++;
 		}

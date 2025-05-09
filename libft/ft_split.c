@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 20:55:45 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/06 18:05:59 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:39:54 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,6 @@ char	*ft_strndup(const char *str, char n)
 	return (s);
 }
 
-static char	*myfree(char **array, int i)
-{
-	int	j;
-
-	j = 0;
-	while (*array[j])
-		i++;
-	return (NULL);
-}
 
 static char	**loop(const char *s, char **array, int c)
 {
@@ -83,7 +74,7 @@ static char	**loop(const char *s, char **array, int c)
 		{
 			tmp = ft_strndup(s + j, c);
 			if (!tmp)
-				return (myfree(array, i), NULL);
+				return (NULL);
 			else
 				array[i++] = tmp;
 		}
