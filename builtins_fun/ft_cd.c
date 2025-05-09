@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:03:20 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/08 15:13:34 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 13:49:06 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-t_environ_node	*ft_getenv(t_environ_list *env, char *key)
-{
-	t_environ_node	*current;
-
-	current = env->head;
-	while (current)
-	{
-		if (current->key && !ft_strcmp(current->key, key))
-			return (current);
-		current = current->next;
-	}
-	return (NULL);
-}
 
 int	env_var_update(t_environ_list *env, char *key, const char *value)
 {
@@ -70,62 +56,66 @@ int	cd_no_args(t_shell *shell)
 	return (OK);
 }
 
-int	cd(t_shell *shell, char **arg)
+int	handle_getcwd_failure(t_shell *shell, char *arg, char *new_pwd, char **x)
 {
-	static char		old_pwd[PATH_MAX];
-	static char		new_pwd[PATH_MAX];
-	static char		*x;
-
-	if (arg[2])
-		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), FAIL);
-	if (!getcwd(old_pwd, sizeof(old_pwd)))
+	if (!ft_strcmp("..", arg))
 	{
-		if (!ft_strcmp("..", arg[1]))
-		{
-			if (!env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x)))
-				return (FAIL);
-			x = ft_strjoin(x, "/..");
-			if (!env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x)))
-				return (FAIL);
-		}
-		else if (!ft_strcmp(".", arg[1]))
-		{
-			if (!env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x)))
-				return (FAIL);
-			x = ft_strjoin(x, "/.");
-			if (!env_var_update(shell->env, "PWD", ft_strjoin(old_pwd, x)))
-				return (FAIL);
-		}
-		chdir(arg[1]);
-		if (getcwd(old_pwd, sizeof(old_pwd)))
-		{
-			if (!env_var_update(shell->env, "PWD", old_pwd))
-				return (FAIL);
-			if (!env_var_update(shell->env, "OLDPWD", ft_strjoin(old_pwd, x)))
-				return (FAIL);
-			x = NULL;
-		}
-		return (ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot \
-access parent directories: No such file or directory\n", 2), FAIL);
-	}
-	if (!arg[1])
-	{
-		if (cd_no_args(shell) == FAIL)
+		if (!env_var_update(shell->env, "OLDPWD", ft_strjoin(new_pwd, *x)))
 			return (FAIL);
-		return (OK);
+		*x = ft_strjoin(*x, "/..");
+		if (!env_var_update(shell->env, "PWD", ft_strjoin(new_pwd, *x)))
+			return (FAIL);
 	}
-	else if (chdir(arg[1]) != 0)
+	else if (!ft_strcmp(".", arg))
+	{
+		if (!env_var_update(shell->env, "OLDPWD", ft_strjoin(new_pwd, *x)))
+			return (FAIL);
+		*x = ft_strjoin(*x, "/.");
+		if (!env_var_update(shell->env, "PWD", ft_strjoin(new_pwd, *x)))
+			return (FAIL);
+	}
+	chdir(arg);
+	if (getcwd(new_pwd, PATH_MAX))
+	{
+		env_var_update(shell->env, "PWD", new_pwd);
+		*x = NULL;
+	}
+	return (ft_putstr_fd("cd: error retrieving current directory: getcwd: \
+cannot access parent directories: No such file or directory\n", 2), FAIL);
+}
+
+int	handle_normal_cd(t_shell *shell, char *arg, char *old_pwd, char *new_pwd)
+{
+	if (chdir(arg) != 0)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(arg[1], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (FAIL);
+		ft_putstr_fd(arg, 2);
+		return (ft_putstr_fd(": No such file or directory\n", 2), FAIL);
 	}
-	if (!getcwd(new_pwd, sizeof(new_pwd)))
+	if (!getcwd(new_pwd, PATH_MAX))
 		return (ft_putstr_fd("cd: error retrieving new directory\n", 2), FAIL);
 	if (!env_var_update(shell->env, "PWD", new_pwd))
 		return (FAIL);
 	if (!env_var_update(shell->env, "OLDPWD", old_pwd))
 		return (FAIL);
 	return (OK);
+}
+
+int	cd(t_shell *shell, char **arg)
+{
+	static char	old_pwd[PATH_MAX];
+	static char	new_pwd[PATH_MAX];
+	static char	*x;
+
+	if (arg[2])
+		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), FAIL);
+	if (!getcwd(old_pwd, PATH_MAX))
+		return (handle_getcwd_failure(shell, arg[1], new_pwd, &x));
+	if (!arg[1])
+	{
+		if (cd_no_args(shell) == FAIL)
+			return (FAIL);
+		return (OK);
+	}
+	return (handle_normal_cd(shell, arg[1], old_pwd, new_pwd));
 }
