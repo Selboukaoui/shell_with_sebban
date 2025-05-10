@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:06:26 by selbouka          #+#    #+#             */
-/*   Updated: 2025/05/06 18:27:42 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/10 11:34:50 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,12 @@ int	ft_strcmp(const char *s1, const char *s2)
 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 	}
 	return (0);
+}
+
+void	handle_no_file_error(char *path)
+{
+    ft_putstr_fd("minishell: ", STDERR_FILENO);
+    ft_putstr_fd(path, STDERR_FILENO);
+    ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+    exit(127);
 }

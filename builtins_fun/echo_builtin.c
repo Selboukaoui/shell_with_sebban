@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:50:49 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 21:57:56 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/10 11:05:50 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void full_buff(char *arg, char *buff, int *j)
 	i = 0;
 	while (arg[i])
 	{
-		buff[*j] = arg[i];
+		buff[*j] = arg[i];//check
 		i++;
 		(*j)++;
 	}
@@ -59,7 +59,7 @@ int	echo(char **args)
 	static int j;
 
 	len = total_len(args);
-	buff = ft_malloc (len + 1, 1);
+	buff = ft_malloc (len + 1, 1);//check
 	i = 1;
 	newline = 1;
 	while (args[i] && is_n_option(args[i]))

@@ -144,7 +144,7 @@ int main(int ac, char **av, char **env)
         // t_lexer_list *lexr = shell->lex_head;
         // while(lexr)
         // {
-        //     printf("str----->%s\n", lexr->str);
+        //     printf("cmd----->%s\n", lexr->str);
         //     printf("type----->%u\n",lexr->type);
         //     lexr = lexr->next;
         // }
