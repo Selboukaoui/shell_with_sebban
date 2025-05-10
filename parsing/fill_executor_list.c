@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:18:37 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/10 14:18:26 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/10 19:19:54 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,7 +396,7 @@ t_executor	*fill_executor_list(t_shell *shell, t_executor *list)
 	t_lexer_list	*lexer;
 
 	current = list;
-	lexer = shell->lex_head;
+	lexer = shell->lex_head; 
 	while (current)
 	{
 		list = process_lexemes(list, current, &lexer, shell);

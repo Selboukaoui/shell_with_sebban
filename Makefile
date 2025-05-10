@@ -19,7 +19,7 @@ OBJS = $(SRCM:.c=.o)
 
 MAKEFLAGS += --no-print-directory
 CYAN = \033[1;36m
-RESET = \033[0m
+RESET = \033[0m 
 
 all: $(LIBFT) $(NAME)
 	@echo "$(CYAN) __  __  __  _  _  __  ___  _  _  ___  __    __   $(RESET)"

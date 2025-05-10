@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:35:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/10 16:23:39 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/10 19:19:57 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int	assign_lexer_data(t_lexer_list *cur, char **input_array, const char *rl_copy
 			return (0);
 		idx = find_token_pos(rl_copy, cur->str, last_pos);
 		if (idx < 0)
-			idx = last_pos;
+			idx = last_pos; 
 		last_pos = idx + ft_strlen(cur->str);
 		len = ft_strlen(cur->str);
 		if (idx > 0 && ((rl_copy[idx - 1] == '\'' && rl_copy[idx + len] == '\'')

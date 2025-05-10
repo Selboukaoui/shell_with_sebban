@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 17:21:28 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/10 19:02:45 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/10 19:20:02 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,9 +148,9 @@ static char *expand_vars_in(const char *src, t_shell *shell)
         printf("the value before : %s\n", result);
         app_result(&result);
         return result;
-    }
+    } 
     else
-    {
+    { 
         // Skip this $var and check for next one
         const char *next = skip_leading_spaces(trimmed + j);
         if (*next == '$')
