@@ -1,1 +1,23 @@
--->cmd : test
+aa
+a.out
+builtins_fun
+executor
+hello
+hey
+hja
+in
+includes
+info
+libft
+ls
+main.c
+main.o
+Makefile
+minishell
+out
+parsing
+test
+test.c
+test_cases
+u
+utils

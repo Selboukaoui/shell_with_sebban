@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:50:49 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/10 15:10:59 by selbouka         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:16:52 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	total_len(char **args)
 	len = 0;
 	while (*args)
 	{
-		len += ft_strlen(*args);
-		args++;
+		len += ft_strlen(*args); // + ' '
+		args++; //check
 	}
 	return (len);
 }
@@ -59,7 +59,7 @@ int	echo(char **args)
 	static int	j;
 
 	len = total_len(args);
-	buff = ft_malloc (len + 1, 1);
+	buff = ft_malloc (len + 1, 1); // check
 	i = 1;
 	newline = 1;
 	while (args[i] && is_n_option(args[i]))
