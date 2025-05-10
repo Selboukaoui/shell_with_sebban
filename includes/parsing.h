@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 17:31:21 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/09 18:24:38 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/09 21:50:23 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,6 @@ char			*replace_var_equals_var(char *input, t_shell *shell);
 int				all_value(char *seg, t_shell *shell);
 char    *change_all_var(const char *str, t_shell *sh);
 int calculate_max_len(const char *str, t_shell *shell);
+char	*process_tokens(char **tokens, t_shell *shell);
+int	var_name_len1(const char *seg, int pos);
 #endif

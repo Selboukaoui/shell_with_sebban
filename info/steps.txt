@@ -113,3 +113,6 @@ minishell-1.0$~ cat << $USER
 env ls
 
 exit | ls
+
+
+export $a=$b | << $PATH
