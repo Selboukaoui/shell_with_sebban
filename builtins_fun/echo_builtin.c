@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
+/*   By: selbouka <selbouka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:50:49 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/10 11:05:50 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/10 15:10:59 by selbouka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,24 @@ static	int	is_n_option(const char *str)
 int	total_len(char **args)
 {
 	int	len;
-	
+
 	len = 0;
 	while (*args)
 	{
-		len+= ft_strlen(*args);
+		len += ft_strlen(*args);
 		args++;
 	}
 	return (len);
 }
 
-void full_buff(char *arg, char *buff, int *j)
+void	full_buff(char *arg, char *buff, int *j)
 {
 	int		i;
 
 	i = 0;
 	while (arg[i])
 	{
-		buff[*j] = arg[i];//check
+		buff[*j] = arg[i];
 		i++;
 		(*j)++;
 	}
@@ -52,21 +52,18 @@ void full_buff(char *arg, char *buff, int *j)
 
 int	echo(char **args)
 {
-	int		i;
-	int		newline;
-	char	*buff;
-	size_t	len;
-	static int j;
+	int			i;
+	int			newline;
+	char		*buff;
+	size_t		len;
+	static int	j;
 
 	len = total_len(args);
-	buff = ft_malloc (len + 1, 1);//check
+	buff = ft_malloc (len + 1, 1);
 	i = 1;
 	newline = 1;
 	while (args[i] && is_n_option(args[i]))
-	{
-		newline = 0;
-		i++;
-	}
+		1 && (newline = 0, i++);
 	while (args[i])
 	{
 		full_buff(args[i], buff, &j);
@@ -75,12 +72,9 @@ int	echo(char **args)
 		i++;
 	}
 	buff[j] = '\0';
-	printf ("=%p= %d\n", &buff[5], j); 
 	printf ("%s", buff);
 	if (newline)
 		printf ("\n");
 	j = 0;
-	ft_bzero(buff, ft_strlen (buff));
-	// buff = NULL;
-	return (EXIT_SUCCESS);
+	return (ft_bzero(buff, ft_strlen (buff)), EXIT_SUCCESS);
 }
